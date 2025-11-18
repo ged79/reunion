@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="has-sidemenu" lang="ko-KR" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="민족통일청년회 영동군 지부 - 뉴스 상세">
+
+    <title>뉴스 상세 | 민족통일청년회 영동군</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico">
+    <link rel="manifest" href="assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="vendors/loaders.css/loaders.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=PT+Mono%7cPT+Serif:400,400i%7cLato:100,300,400,700,800,900" rel="stylesheet">
+    <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/user.css" rel="stylesheet" />
+
+    <style>
+      .news-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #333;
+      }
+      .news-content p {
+        margin-bottom: 1.5rem;
+      }
+    </style>
+  </head>
+
+  <body class="overflow-hidden-x">
+
+    <nav class="fancynavbar fancynavbar-expand-lg">
+      <div class="fancynavbar-togglerbar"><a class="fancynavbar-brand" href="index.html"><img class="fancynavbar-brand-img" src="assets/img/logo-sparrow-invert.svg" alt="" width="30" height="30" /></a>
+        <div class="fancynavbar-toggler">
+          <svg class="fancynavbar-toggler-icon" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
+            <path id="path-top" d="M20,25c0,0,22,0,30,0c16,0,18.89,40.71-.15,21.75C38.7,35.65,19.9,16.8,19.9,16.8"></path>
+            <path id="path-middle" d="M20,32h30"></path>
+            <path id="path-bottom" d="M19.9,46.98c0,0,18.8-18.85,29.95-29.95C68.89-1.92,66,38.78,50,38.78c-8,0-30,0-30,0"></path>
+          </svg>
+        </div>
+        <div class="fancynavbar-addon fancynavbar-addon-height"><a class="fancynavbar-addon-item" href="#!"><span class="fab fa-twitter"></span></a><a class="fancynavbar-addon-item" href="#!"><span class="fab fa-facebook"></span></a>
+        </div>
+      </div>
+      <div class="fancynavbar-collapse">
+        <ul class="fancynavbar-nav">
+          <li class="fancynav-item"><a class="fancynav-link" href="index.html"><span class="fancynav-link-content">홈</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">사업 안내</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link active" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="portfolio.html"><span class="fancynav-link-content">활동 갤러리</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사 안내</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="main min-vh-100" id="top">
+
+      <div class="preloader" id="preloader">
+        <div class="loader">
+          <div class="line-scale-pulse-out-rapid">
+            <div> </div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div> </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="py-9 py-lg-10">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-9">
+
+              <!-- 뉴스 상세 내용이 여기에 동적으로 로드됩니다 -->
+              <div id="newsDetail">
+                <div class="text-center py-5">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">로딩중...</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer bg-black text-body-secondary py-4 font-secondary text-center overflow-hidden">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-4 order-lg-2 position-relative"><a class="indicator indicator-up" href="#top"><span class="indicator-arrow indicator-arrow-one"></span><span class="indicator-arrow indicator-arrow-two"></span></a></div>
+          <div class="col-lg-4 text-lg-start mt-4 mt-lg-0">
+            <p class="fs-10 ls fw-bold mb-0">Copyright &copy; 2025 민족통일청년회 영동군</p>
+            <p class="fs-10 mb-0 mt-2"><a href="http://www.mintong.or.kr/mt/main" target="_blank" class="text-body-secondary">민족통일협의회</a></p>
+          </div>
+          <div class="col-lg-4 text-lg-end order-lg-2 mt-2 mt-lg-0">
+            <p class="fs-10 mb-0">충청북도 영동군 | 문의: conexus25@conexus.co.kr</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="vendors/popper/popper.min.js"></script>
+    <script src="vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="vendors/anchorjs/anchor.min.js"></script>
+    <script src="vendors/is/is.min.js"></script>
+    <script src="vendors/fontawesome/all.min.js"></script>
+    <script src="vendors/lodash/lodash.min.js"></script>
+    <script src="vendors/imagesloaded/imagesloaded.pkgd.js"></script>
+    <script src="vendors/gsap/gsap.js"></script>
+    <script src="vendors/gsap/customEase.js"></script>
+    <script src="vendors/gsap/drawSVGPlugin.js"></script>
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+    <script src="assets/js/news.js"></script>
+
+  </body>
+
+</html>

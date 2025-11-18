@@ -137,72 +137,22 @@
             <div class="col-lg-6 mb-6 mb-lg-0">
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="mb-0"><span class="fas fa-bullhorn text-primary me-2"></span>공지사항</h3>
-                <a href="#!" class="btn btn-sm btn-outline-dark">전체보기</a>
+                <a href="news-write.html" class="btn btn-sm btn-primary">
+                  <span class="fas fa-plus me-1"></span>글쓰기
+                </a>
               </div>
 
-              <!-- 공지사항 리스트 -->
-              <div class="list-group">
+              <!-- 공지사항 리스트 (DB에서 동적으로 로드됨) -->
+              <div class="list-group" id="newsContainer">
 
-                <a href="#!" class="list-group-item list-group-item-action border mb-3 hover-shadow transition-base">
-                  <div class="d-flex w-100 justify-content-between align-items-start mb-2">
-                    <h5 class="mb-1 fw-bold">2025년 신년 워크숍 개최 안내</h5>
-                    <small class="text-body-secondary">2025.01.15</small>
-                  </div>
-                  <p class="mb-2 text-body-secondary">민족통일청년회 영동군 지부 회원들이 모여 2025년 사업 계획을 논의하고 비전을 공유하는 시간을 가집니다...</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="badge bg-primary">중요</span>
-                    <small class="text-body-tertiary"><span class="fas fa-eye me-1"></span>124</small>
-                  </div>
-                </a>
+                <!-- 뉴스 항목들이 여기에 동적으로 로드됩니다 -->
 
-                <a href="#!" class="list-group-item list-group-item-action border mb-3 hover-shadow transition-base">
-                  <div class="d-flex w-100 justify-content-between align-items-start mb-2">
-                    <h5 class="mb-1 fw-bold">2월 정기모임 일정 변경 안내</h5>
-                    <small class="text-body-secondary">2025.01.10</small>
-                  </div>
-                  <p class="mb-2 text-body-secondary">2월 정기모임이 2월 10일(금)에서 2월 17일(금)로 변경되었습니다. 회원 여러분의 양해 부탁드립니다...</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="badge bg-warning text-dark">공지</span>
-                    <small class="text-body-tertiary"><span class="fas fa-eye me-1"></span>89</small>
-                  </div>
-                </a>
+              </div>
 
-                <a href="#!" class="list-group-item list-group-item-action border mb-3 hover-shadow transition-base">
-                  <div class="d-flex w-100 justify-content-between align-items-start mb-2">
-                    <h5 class="mb-1 fw-bold">청소년 통일문화 제전 참가자 모집</h5>
-                    <small class="text-body-secondary">2024.12.20</small>
-                  </div>
-                  <p class="mb-2 text-body-secondary">3월에 개최될 청소년 통일문화 제전의 참가자를 모집합니다. 많은 관심과 참여 부탁드립니다...</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="badge bg-success">모집</span>
-                    <small class="text-body-tertiary"><span class="fas fa-eye me-1"></span>156</small>
-                  </div>
-                </a>
-
-                <a href="#!" class="list-group-item list-group-item-action border mb-3 hover-shadow transition-base">
-                  <div class="d-flex w-100 justify-content-between align-items-start mb-2">
-                    <h5 class="mb-1 fw-bold">통일교육 프로그램 안내</h5>
-                    <small class="text-body-secondary">2024.12.10</small>
-                  </div>
-                  <p class="mb-2 text-body-secondary">2025년 상반기 통일교육 프로그램이 개설됩니다. 회원 및 관심 있는 분들의 신청 바랍니다...</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="badge bg-info">교육</span>
-                    <small class="text-body-tertiary"><span class="fas fa-eye me-1"></span>98</small>
-                  </div>
-                </a>
-
-                <a href="#!" class="list-group-item list-group-item-action border mb-3 hover-shadow transition-base">
-                  <div class="d-flex w-100 justify-content-between align-items-start mb-2">
-                    <h5 class="mb-1 fw-bold">회비 납부 안내</h5>
-                    <small class="text-body-secondary">2024.12.01</small>
-                  </div>
-                  <p class="mb-2 text-body-secondary">2025년 연회비 납부 기간입니다. 아래 계좌로 납부해 주시기 바랍니다...</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <span class="badge bg-secondary">안내</span>
-                    <small class="text-body-tertiary"><span class="fas fa-eye me-1"></span>203</small>
-                  </div>
-                </a>
-
+              <div class="text-center mt-4" id="newsLoading">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">로딩중...</span>
+                </div>
               </div>
 
             </div>
@@ -417,6 +367,11 @@
       gtag('config', 'UA-122907869-1');
     </script>
     <script src="assets/js/theme.js"></script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+    <script src="assets/js/news.js"></script>
 
     <!-- 스케줄 필터 스크립트 -->
     <script>
