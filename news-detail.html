@@ -91,12 +91,67 @@
                 </div>
               </div>
 
+              <!-- 댓글 섹션 -->
+              <div class="mt-5 pt-5 border-top" id="commentsSection" style="display:none;">
+                <h4 class="mb-4"><span class="fas fa-comments me-2"></span>댓글</h4>
+
+                <!-- 댓글 작성 폼 -->
+                <div class="card p-4 mb-4 bg-light">
+                  <form id="commentForm">
+                    <div class="mb-3">
+                      <label for="author_name" class="form-label fw-bold">이름</label>
+                      <input type="text" class="form-control" id="author_name" name="author_name" placeholder="이름을 입력하세요" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="content" class="form-label fw-bold">댓글</label>
+                      <textarea class="form-control" id="content" name="content" rows="3" placeholder="댓글을 입력하세요" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                      <span class="fas fa-paper-plane me-2"></span>댓글 작성
+                    </button>
+                  </form>
+                </div>
+
+                <!-- 댓글 목록 -->
+                <div id="commentsContainer">
+                  <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">로딩중...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
 
     </main>
+
+    <!-- 전체 댓글 모달 -->
+    <div class="modal fade" id="allCommentsModal" tabindex="-1" aria-labelledby="allCommentsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="allCommentsModalLabel">
+              <span class="fas fa-comments me-2"></span>전체 댓글
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="allCommentsModalBody">
+            <div class="text-center py-4">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">로딩중...</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer class="footer bg-black text-body-secondary py-4 font-secondary text-center overflow-hidden">
       <div class="container">
@@ -129,6 +184,30 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/supabase-config.js"></script>
     <script src="assets/js/news.js"></script>
+    <script src="assets/js/comments.js"></script>
+
+    <script>
+      // 페이지 로드 시 댓글 초기화
+      document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const newsId = urlParams.get('id');
+
+        if (newsId) {
+          // 뉴스 로드 완료 후 댓글 섹션 표시 및 로드
+          setTimeout(() => {
+            const commentsSection = document.getElementById('commentsSection');
+            if (commentsSection) {
+              commentsSection.style.display = 'block';
+              loadComments(newsId);
+              setupCommentForm(newsId);
+
+              // 답글 로드
+              setTimeout(() => loadAllReplies(newsId), 500);
+            }
+          }, 1000);
+        }
+      });
+    </script>
 
   </body>
 
