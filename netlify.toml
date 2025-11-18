@@ -11,6 +11,12 @@
   # Publish directory (root contains all HTML files)
   publish = "."
 
+# Image optimization settings
+[images]
+  # Enable automatic image optimization
+  # Images will be automatically optimized and converted to WebP when supported
+  remote_images = []
+
 # Redirect rules for clean URLs (optional)
 [[redirects]]
   from = "/*"
@@ -31,6 +37,14 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache images with optimization
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    # Enable AVIF and WebP conversion
+    Accept = "image/avif,image/webp,image/apng,image/*,*/*;q=0.8"
 
 # Cache vendor files for 1 year
 [[headers]]
