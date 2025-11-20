@@ -183,9 +183,10 @@
 
       .post-images {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         gap: 0.5rem;
         margin-top: 0.75rem;
+        max-width: 400px;
       }
 
       .post-image {
@@ -211,11 +212,11 @@
 
       .post-images.single-image {
         grid-template-columns: 1fr;
-        max-width: 500px;
+        max-width: 300px;
       }
 
       .post-images.single-image .post-image {
-        aspect-ratio: 16 / 9;
+        aspect-ratio: 4 / 3;
       }
 
       @media (max-width: 768px) {
