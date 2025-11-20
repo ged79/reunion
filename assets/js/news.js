@@ -60,7 +60,7 @@ function displayNews(newsItems) {
     const formattedDate = new Date(item.created_at).toLocaleDateString('ko-KR');
 
     const newsHTML = `
-      <div class="list-group-item border mb-3">
+      <div class="list-group-item border mb-3" id="news-${item.id}">
         <div class="news-header" style="cursor:pointer;" onclick="toggleNewsComments('${item.id}')">
           <div class="d-flex w-100 justify-content-between align-items-start mb-2">
             <h5 class="mb-1 fw-bold">${escapeHtml(item.title)}</h5>
@@ -380,7 +380,24 @@ async function submitNewsComment(event, newsId) {
 document.addEventListener('DOMContentLoaded', () => {
   // 뉴스 목록 페이지
   if (document.getElementById('newsContainer')) {
-    loadNews();
+    loadNews().then(() => {
+      // URL 해시가 있으면 해당 뉴스 자동으로 펼치기
+      const hash = window.location.hash;
+      if (hash && hash.startsWith('#news-')) {
+        const newsId = hash.replace('#news-', '');
+        setTimeout(() => {
+          toggleNewsComments(newsId);
+          // 해당 뉴스로 스크롤
+          const newsElement = document.getElementById(hash.substring(1));
+          if (newsElement) {
+            newsElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }
+        }, 500); // 뉴스 로드 후 약간의 지연
+      }
+    });
   }
 
   // 뉴스 상세 페이지

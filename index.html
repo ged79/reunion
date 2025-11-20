@@ -1028,7 +1028,7 @@
             : item.content;
 
           const newsHTML = `
-            <a href="news-detail.html?id=${item.id}" class="list-group-item list-group-item-action border mb-3 hover-shadow transition-base" data-zanim-xs='{"delay":${0.1 + index * 0.1}}' data-zanim-trigger="scroll">
+            <a href="news.html#news-${item.id}" class="list-group-item list-group-item-action border mb-3 hover-shadow transition-base" data-zanim-xs='{"delay":${0.1 + index * 0.1}}' data-zanim-trigger="scroll">
               <div class="d-flex w-100 justify-content-between align-items-start mb-2">
                 <h5 class="mb-1 fw-bold">${escapeHtml(item.title)}</h5>
                 <small class="text-body-secondary">${formattedDate}</small>
