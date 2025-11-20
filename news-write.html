@@ -44,8 +44,8 @@
           <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">사업 안내</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="board.html"><span class="fancynav-link-content">회원게시판</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link active" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
-          <li class="fancynav-item"><a class="fancynav-link" href="portfolio.html"><span class="fancynav-link-content">활동 갤러리</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사 안내</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
         </ul>
@@ -83,34 +83,27 @@
                   <input type="text" class="form-control" id="title" name="title" required placeholder="뉴스 제목을 입력하세요">
                 </div>
 
-                <div class="row mb-4">
-                  <div class="col-md-6">
-                    <label for="category" class="form-label fw-bold">카테고리 <span class="text-danger">*</span></label>
-                    <select class="form-select" id="category" name="category" required>
-                      <option value="">선택하세요</option>
-                      <option value="공지사항">공지사항</option>
-                      <option value="활동">활동</option>
-                      <option value="행사">행사</option>
-                      <option value="교육">교육</option>
-                      <option value="기타">기타</option>
-                    </select>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="badge_text" class="form-label fw-bold">뱃지 텍스트</label>
-                    <input type="text" class="form-control" id="badge_text" name="badge_text" placeholder="예: 중요, 공지, 모집">
-                  </div>
+                <div class="mb-4">
+                  <label for="category" class="form-label fw-bold">카테고리 <span class="text-danger">*</span></label>
+                  <select class="form-select" id="category" name="category" required>
+                    <option value="">선택하세요</option>
+                    <option value="공지사항">공지사항</option>
+                    <option value="행사안내">행사안내</option>
+                    <option value="기타">기타</option>
+                  </select>
                 </div>
 
-                <div class="mb-4">
-                  <label for="badge_color" class="form-label fw-bold">뱃지 색상</label>
-                  <select class="form-select" id="badge_color" name="badge_color">
-                    <option value="primary">파란색 (Primary)</option>
-                    <option value="warning">노란색 (Warning)</option>
-                    <option value="success">초록색 (Success)</option>
-                    <option value="info">하늘색 (Info)</option>
-                    <option value="secondary">회색 (Secondary)</option>
-                    <option value="danger">빨간색 (Danger)</option>
-                  </select>
+                <!-- 행사안내 선택 시에만 표시되는 필드 -->
+                <div id="eventFields" style="display: none;">
+                  <div class="mb-4">
+                    <label for="event_date" class="form-label fw-bold">행사 날짜 <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="event_date" name="event_date">
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="location" class="form-label fw-bold">장소</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="행사 장소를 입력하세요">
+                  </div>
                 </div>
 
                 <div class="mb-4">
@@ -120,8 +113,26 @@
                 </div>
 
                 <div class="mb-4">
+                  <label for="image" class="form-label fw-bold">이미지</label>
+                  <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                  <small class="text-body-secondary">JPG, PNG, GIF 형식 (최대 5MB)</small>
+                  <div id="imagePreview" class="mt-2" style="display:none;">
+                    <img id="previewImg" src="" alt="미리보기" class="img-thumbnail" style="max-height: 200px;">
+                    <button type="button" class="btn btn-sm btn-outline-danger ms-2" onclick="clearImagePreview()">
+                      <span class="fas fa-times"></span> 제거
+                    </button>
+                  </div>
+                </div>
+
+                <div class="mb-4">
                   <label for="author_name" class="form-label fw-bold">작성자</label>
                   <input type="text" class="form-control" id="author_name" name="author_name" placeholder="작성자 이름 (비어있으면 '관리자')">
+                </div>
+
+                <div class="mb-4">
+                  <label for="password" class="form-label fw-bold">비밀번호 <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="password" name="password" autocomplete="new-password" required placeholder="수정 시 필요한 비밀번호를 입력하세요" minlength="4">
+                  <small class="text-body-secondary">이 비밀번호로 나중에 글을 수정할 수 있습니다. (최소 4자)</small>
                 </div>
 
                 <div class="d-flex gap-2">
@@ -173,6 +184,51 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/supabase-config.js"></script>
     <script src="assets/js/news.js"></script>
+
+    <script>
+      // 카테고리 선택 시 행사 필드 표시/숨김
+      document.getElementById('category').addEventListener('change', function() {
+        const eventFields = document.getElementById('eventFields');
+        const eventDateInput = document.getElementById('event_date');
+
+        if (this.value === '행사안내') {
+          eventFields.style.display = 'block';
+          eventDateInput.setAttribute('required', 'required');
+        } else {
+          eventFields.style.display = 'none';
+          eventDateInput.removeAttribute('required');
+          eventDateInput.value = '';
+          document.getElementById('location').value = '';
+        }
+      });
+
+      // 이미지 미리보기
+      document.getElementById('image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          // 파일 크기 체크 (5MB)
+          if (file.size > 5 * 1024 * 1024) {
+            alert('이미지 크기는 5MB 이하여야 합니다.');
+            this.value = '';
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById('previewImg').src = e.target.result;
+            document.getElementById('imagePreview').style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // 이미지 미리보기 제거
+      function clearImagePreview() {
+        document.getElementById('image').value = '';
+        document.getElementById('imagePreview').style.display = 'none';
+        document.getElementById('previewImg').src = '';
+      }
+    </script>
 
   </body>
 

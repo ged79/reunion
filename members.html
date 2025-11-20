@@ -141,8 +141,8 @@
           <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">사업 안내</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="board.html"><span class="fancynav-link-content">회원게시판</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
-          <li class="fancynav-item"><a class="fancynav-link" href="portfolio.html"><span class="fancynav-link-content">활동 갤러리</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사 안내</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
         </ul>
@@ -186,24 +186,50 @@
             </div>
           </div>
 
+          <!-- 게시판 바로가기 -->
+          <div class="row flex-center mb-4">
+            <div class="col-lg-10 text-end">
+              <a href="board.html" class="btn btn-dark">
+                <span class="fas fa-comments me-2"></span>회원 게시판
+              </a>
+            </div>
+          </div>
+
           <!-- 검색 기능 -->
+          <div class="row flex-center mb-3">
+            <div class="col-lg-10">
+              <input type="text" class="form-control form-control-lg" id="searchName" placeholder="회원명 또는 업종 검색...">
+            </div>
+          </div>
+
+          <!-- 업종별 빠른 필터 버튼 -->
           <div class="row flex-center mb-4">
             <div class="col-lg-10">
-              <div class="row g-3" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
-                <div class="col-md-6">
-                  <input type="text" class="form-control" id="searchName" placeholder="회원명 검색...">
-                </div>
-                <div class="col-md-6">
-                  <select class="form-select" id="searchCategory">
-                    <option value="">전체 카테고리</option>
-                    <option value="leadership">지도부</option>
-                    <option value="service">서비스업</option>
-                    <option value="finance">금융업</option>
-                    <option value="manufacturing">제조/인쇄</option>
-                    <option value="construction">건설/부동산</option>
-                    <option value="other">기타 회원</option>
-                  </select>
-                </div>
+              <div class="d-flex flex-wrap gap-2 justify-content-center" id="categoryFilters">
+                <button type="button" class="btn btn-dark btn-sm category-filter-btn active" data-category="">
+                  전체 <span class="badge bg-light text-dark ms-1" id="count-all">25</span>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="leadership">
+                  지도부 <span class="badge bg-secondary ms-1" id="count-leadership">2</span>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="construction">
+                  건설/부동산 <span class="badge bg-secondary ms-1" id="count-construction">6</span>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="it">
+                  IT/기술 <span class="badge bg-secondary ms-1" id="count-it">1</span>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="service">
+                  서비스업 <span class="badge bg-secondary ms-1" id="count-service">3</span>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="finance">
+                  금융업 <span class="badge bg-secondary ms-1" id="count-finance">1</span>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="manufacturing">
+                  제조/인쇄 <span class="badge bg-secondary ms-1" id="count-manufacturing">1</span>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="other">
+                  기타 <span class="badge bg-secondary ms-1" id="count-other">11</span>
+                </button>
               </div>
             </div>
           </div>
@@ -219,9 +245,10 @@
               </div>
             </div>
 
-            <!-- Member 1: 김종원 -->
             <div class="col-12 member-item" data-category="leadership" data-name="김종원">
-              <div class="member-compact-card" data-zanim-xs='{"delay":0.15}' data-zanim-trigger="scroll">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="김종원" data-role="청년회장" data-company="(주)범증" data-field="건설업"
+                   data-phone="010-1234-0001" data-email="kim@example.com" data-img="assets/img/team/0.jpg">
                 <img src="assets/img/team/0.jpg" alt="김종원" />
                 <div class="member-compact-info">
                   <h5>김종원 <span class="badge bg-primary">청년회장</span></h5>
@@ -231,9 +258,10 @@
               </div>
             </div>
 
-            <!-- Member 2: 임진석 -->
             <div class="col-12 member-item" data-category="leadership" data-name="임진석">
-              <div class="member-compact-card" data-zanim-xs='{"delay":0.2}' data-zanim-trigger="scroll">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="임진석" data-role="총무" data-company="레인보우꽃집 / (주)코넥서스 이사" data-field="서비스업"
+                   data-phone="010-1234-0002" data-email="lim@example.com" data-img="assets/img/team/1.jpg">
                 <img src="assets/img/team/1.jpg" alt="임진석" />
                 <div class="member-compact-info">
                   <h5>임진석 <span class="badge bg-info">총무</span></h5>
@@ -243,62 +271,148 @@
               </div>
             </div>
 
-            <!-- 서비스업 카테고리 -->
-            <div class="col-12 category-header" data-category="service">
+            <!-- 건설/부동산 카테고리 -->
+            <div class="col-12 category-header" data-category="construction">
               <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
-                <h3>서비스업</h3>
+                <h3>건설/부동산</h3>
+                <span class="category-count">6명</span>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="construction" data-name="박수용">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="박수용" data-role="회원" data-company="" data-field="건설업"
+                   data-phone="010-1234-0003" data-email="park@example.com" data-img="assets/img/team/8.jpg">
+                <img src="assets/img/team/8.jpg" alt="박수용" />
+                <div class="member-compact-info">
+                  <h5>박수용</h5>
+                  <p><strong>분야:</strong> 건설업</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="construction" data-name="연규영">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="연규영" data-role="회원" data-company="" data-field="건설업"
+                   data-phone="010-1234-0004" data-email="yeon@example.com" data-img="assets/img/team/2.jpg">
+                <img src="assets/img/team/2.jpg" alt="연규영" />
+                <div class="member-compact-info">
+                  <h5>연규영</h5>
+                  <p><strong>분야:</strong> 건설업 CEO</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="construction" data-name="최원호">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="최원호" data-role="회원" data-company="" data-field="건설업"
+                   data-phone="010-1234-0005" data-email="choi@example.com" data-img="assets/img/team/3.jpg">
+                <img src="assets/img/team/3.jpg" alt="최원호" />
+                <div class="member-compact-info">
+                  <h5>최원호</h5>
+                  <p><strong>분야:</strong> 건설업 CEO</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="construction" data-name="채흥열">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="채흥열" data-role="회원" data-company="" data-field="건설장비사업"
+                   data-phone="010-1234-0006" data-email="chae@example.com" data-img="assets/img/team/1.jpg">
+                <img src="assets/img/team/1.jpg" alt="채흥열" />
+                <div class="member-compact-info">
+                  <h5>채흥열</h5>
+                  <p><strong>분야:</strong> 건설장비사업 CEO</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="construction" data-name="조훈희">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="조훈희" data-role="회원" data-company="" data-field="인테리어 사업"
+                   data-phone="010-1234-0007" data-email="jo@example.com" data-img="assets/img/team/0.jpg">
+                <img src="assets/img/team/0.jpg" alt="조훈희" />
+                <div class="member-compact-info">
+                  <h5>조훈희</h5>
+                  <p><strong>분야:</strong> 인테리어 사업 CEO</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="construction" data-name="김영균">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="김영균" data-role="회원" data-company="" data-field="전력설비"
+                   data-phone="010-1234-0008" data-email="kimy@example.com" data-img="assets/img/team/4.jpg">
+                <img src="assets/img/team/4.jpg" alt="김영균" />
+                <div class="member-compact-info">
+                  <h5>김영균</h5>
+                  <p><strong>분야:</strong> 전력설비 회사 CEO</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- IT/기술 카테고리 -->
+            <div class="col-12 category-header" data-category="it">
+              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
+                <h3>IT/기술</h3>
                 <span class="category-count">1명</span>
               </div>
             </div>
 
-            <!-- Member 3: 김용국 -->
+            <div class="col-12 member-item" data-category="it" data-name="이경환">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="이경환" data-role="회원" data-company="코넥서스 CTO" data-field="IT 기업"
+                   data-phone="010-1234-0009" data-email="lee@example.com" data-img="assets/img/team/4.jpg">
+                <img src="assets/img/team/4.jpg" alt="이경환" />
+                <div class="member-compact-info">
+                  <h5>이경환</h5>
+                  <p><strong>회사:</strong> 코넥서스 CTO</p>
+                  <p><strong>분야:</strong> IT 기업</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 서비스업 카테고리 -->
+            <div class="col-12 category-header" data-category="service">
+              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
+                <h3>서비스업</h3>
+                <span class="category-count">3명</span>
+              </div>
+            </div>
+
             <div class="col-12 member-item" data-category="service" data-name="김용국">
-              <div class="member-compact-card" data-zanim-xs='{"delay":0.15}' data-zanim-trigger="scroll">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="김용국" data-role="회원" data-company="" data-field="사다리차 사업"
+                   data-phone="010-1234-0010" data-email="kimyg@example.com" data-img="assets/img/team/2.jpg">
                 <img src="assets/img/team/2.jpg" alt="김용국" />
                 <div class="member-compact-info">
                   <h5>김용국</h5>
-                  <p><strong>분야:</strong> 장비임대업 (사다리차)</p>
+                  <p><strong>분야:</strong> 사다리차 사업 CEO</p>
                 </div>
               </div>
             </div>
 
-            <!-- 기타 회원 카테고리 -->
-            <div class="col-12 category-header" data-category="other">
-              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
-                <h3>기타 회원</h3>
-                <span class="category-count">17명</span>
-              </div>
-            </div>
-
-            <!-- Member 4: 다니엘 -->
-            <div class="col-12 member-item" data-category="other" data-name="다니엘">
-              <div class="member-compact-card">
-                <img src="assets/img/team/3.jpg" alt="다니엘" />
+            <div class="col-12 member-item" data-category="service" data-name="윤용수">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="윤용수" data-role="회원" data-company="성우렌탈" data-field="렌탈 사업"
+                   data-phone="010-1234-0011" data-email="yoon@example.com" data-img="assets/img/team/5.jpg">
+                <img src="assets/img/team/5.jpg" alt="윤용수" />
                 <div class="member-compact-info">
-                  <h5>다니엘</h5>
-                  <p>청년회 회원</p>
+                  <h5>윤용수</h5>
+                  <p><strong>회사:</strong> 성우렌탈 CEO</p>
+                  <p><strong>분야:</strong> 렌탈 사업</p>
                 </div>
               </div>
             </div>
 
-            <!-- Member 5: 돈이 -->
-            <div class="col-12 member-item" data-category="other" data-name="돈이">
-              <div class="member-compact-card">
-                <img src="assets/img/team/4.jpg" alt="돈이" />
+            <div class="col-12 member-item" data-category="service" data-name="정성용">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="정성용" data-role="회원" data-company="" data-field="지게차 사업"
+                   data-phone="010-1234-0012" data-email="jung@example.com" data-img="assets/img/team/9.jpg">
+                <img src="assets/img/team/9.jpg" alt="정성용" />
                 <div class="member-compact-info">
-                  <h5>돈이</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Member 6: 모티베이션 -->
-            <div class="col-12 member-item" data-category="other" data-name="모티베이션">
-              <div class="member-compact-card">
-                <img src="assets/img/team/5.jpg" alt="모티베이션" />
-                <div class="member-compact-info">
-                  <h5>모티베이션</h5>
-                  <p>청년회 회원</p>
+                  <h5>정성용</h5>
+                  <p><strong>분야:</strong> 지게차 사업 CEO</p>
                 </div>
               </div>
             </div>
@@ -311,9 +425,10 @@
               </div>
             </div>
 
-            <!-- Member 7: 한성욱 -->
             <div class="col-12 member-item" data-category="finance" data-name="한성욱">
-              <div class="member-compact-card">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="한성욱" data-role="회원" data-company="신협" data-field="금융업"
+                   data-phone="010-1234-0013" data-email="han@example.com" data-img="assets/img/team/6.jpg">
                 <img src="assets/img/team/6.jpg" alt="한성욱" />
                 <div class="member-compact-info">
                   <h5>한성욱</h5>
@@ -331,40 +446,67 @@
               </div>
             </div>
 
-            <!-- Member 8: 박성현 -->
             <div class="col-12 member-item" data-category="manufacturing" data-name="박성현">
-              <div class="member-compact-card">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="박성현" data-role="회원" data-company="길인당" data-field="인쇄 및 판촉물 제작"
+                   data-phone="010-1234-0014" data-email="parksh@example.com" data-img="assets/img/team/7.jpg">
                 <img src="assets/img/team/7.jpg" alt="박성현" />
                 <div class="member-compact-info">
                   <h5>박성현</h5>
                   <p><strong>회사:</strong> 길인당 CEO</p>
-                  <p><strong>분야:</strong> 인쇄업</p>
+                  <p><strong>분야:</strong> 인쇄 및 판촉물 제작</p>
                 </div>
               </div>
             </div>
 
-            <!-- 건설/부동산 카테고리 -->
-            <div class="col-12 category-header" data-category="construction">
+            <!-- 기타 회원 카테고리 -->
+            <div class="col-12 category-header" data-category="other">
               <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
-                <h3>건설/부동산</h3>
-                <span class="category-count">2명</span>
+                <h3>기타 회원</h3>
+                <span class="category-count">11명</span>
               </div>
             </div>
 
-            <!-- Member 9: 박수용 -->
-            <div class="col-12 member-item" data-category="construction" data-name="박수용">
-              <div class="member-compact-card">
-                <img src="assets/img/team/8.jpg" alt="박수용" />
+            <div class="col-12 member-item" data-category="other" data-name="다니엘">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="다니엘" data-role="회원" data-company="" data-field=""
+                   data-phone="010-1234-0015" data-email="daniel@example.com" data-img="assets/img/team/3.jpg">
+                <img src="assets/img/team/3.jpg" alt="다니엘" />
                 <div class="member-compact-info">
-                  <h5>박수용</h5>
-                  <p><strong>분야:</strong> 건설업</p>
+                  <h5>다니엘</h5>
+                  <p>청년회 회원</p>
                 </div>
               </div>
             </div>
 
-            <!-- Member 10: 배명호 -->
+            <div class="col-12 member-item" data-category="other" data-name="돈이">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="돈이" data-role="회원" data-company="" data-field=""
+                   data-phone="010-1234-0016" data-email="doni@example.com" data-img="assets/img/team/4.jpg">
+                <img src="assets/img/team/4.jpg" alt="돈이" />
+                <div class="member-compact-info">
+                  <h5>돈이</h5>
+                  <p>청년회 회원</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="other" data-name="모티베이션">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="모티베이션" data-role="회원" data-company="" data-field=""
+                   data-phone="010-1234-0017" data-email="moti@example.com" data-img="assets/img/team/5.jpg">
+                <img src="assets/img/team/5.jpg" alt="모티베이션" />
+                <div class="member-compact-info">
+                  <h5>모티베이션</h5>
+                  <p>청년회 회원</p>
+                </div>
+              </div>
+            </div>
+
             <div class="col-12 member-item" data-category="other" data-name="배명호">
-              <div class="member-compact-card">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="배명호" data-role="회원" data-company="" data-field=""
+                   data-phone="010-1234-0018" data-email="bae@example.com" data-img="assets/img/team/9.jpg">
                 <img src="assets/img/team/9.jpg" alt="배명호" />
                 <div class="member-compact-info">
                   <h5>배명호</h5>
@@ -373,9 +515,10 @@
               </div>
             </div>
 
-            <!-- Member 11: 셔니 -->
             <div class="col-12 member-item" data-category="other" data-name="셔니">
-              <div class="member-compact-card">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="셔니" data-role="회원" data-company="" data-field=""
+                   data-phone="010-1234-0019" data-email="sunny@example.com" data-img="assets/img/team/0.jpg">
                 <img src="assets/img/team/0.jpg" alt="셔니" />
                 <div class="member-compact-info">
                   <h5>셔니</h5>
@@ -384,9 +527,10 @@
               </div>
             </div>
 
-            <!-- Member 12: 여형구 -->
             <div class="col-12 member-item" data-category="other" data-name="여형구">
-              <div class="member-compact-card">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="여형구" data-role="회원" data-company="" data-field=""
+                   data-phone="010-1234-0020" data-email="yeo@example.com" data-img="assets/img/team/1.jpg">
                 <img src="assets/img/team/1.jpg" alt="여형구" />
                 <div class="member-compact-info">
                   <h5>여형구</h5>
@@ -395,20 +539,10 @@
               </div>
             </div>
 
-            <!-- Member 13: 연규영 -->
-            <div class="col-12 member-item" data-category="other" data-name="연규영">
-              <div class="member-compact-card">
-                <img src="assets/img/team/2.jpg" alt="연규영" />
-                <div class="member-compact-info">
-                  <h5>연규영</h5>
-                  <p><strong>분야:</strong> 건설업</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Member 14: 열심히살자 -->
             <div class="col-12 member-item" data-category="other" data-name="열심히살자">
-              <div class="member-compact-card">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="열심히살자" data-role="회원" data-company="" data-field=""
+                   data-phone="010-1234-0021" data-email="work@example.com" data-img="assets/img/team/3.jpg">
                 <img src="assets/img/team/3.jpg" alt="열심히살자" />
                 <div class="member-compact-info">
                   <h5>열심히살자</h5>
@@ -417,31 +551,10 @@
               </div>
             </div>
 
-            <!-- Member 15: 김영균 -->
-            <div class="col-12 member-item" data-category="other" data-name="김영균">
-              <div class="member-compact-card">
-                <img src="assets/img/team/4.jpg" alt="김영균" />
-                <div class="member-compact-info">
-                  <h5>김영균</h5>
-                  <p><strong>분야:</strong> 전력설비 회사</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Member 16: 윤용수 -->
-            <div class="col-12 member-item" data-category="other" data-name="윤용수">
-              <div class="member-compact-card">
-                <img src="assets/img/team/5.jpg" alt="윤용수" />
-                <div class="member-compact-info">
-                  <h5>윤용수</h5>
-                  <p><strong>회사:</strong> 성우렌탈</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Member 17: 윤진한 -->
             <div class="col-12 member-item" data-category="other" data-name="윤진한">
-              <div class="member-compact-card">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="윤진한" data-role="회원" data-company="" data-field=""
+                   data-phone="010-1234-0022" data-email="yoonjh@example.com" data-img="assets/img/team/6.jpg">
                 <img src="assets/img/team/6.jpg" alt="윤진한" />
                 <div class="member-compact-info">
                   <h5>윤진한</h5>
@@ -450,9 +563,10 @@
               </div>
             </div>
 
-            <!-- Member 18: 이정희 -->
             <div class="col-12 member-item" data-category="other" data-name="이정희">
-              <div class="member-compact-card">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="이정희" data-role="회원" data-company="" data-field=""
+                   data-phone="010-1234-0023" data-email="leejh@example.com" data-img="assets/img/team/7.jpg">
                 <img src="assets/img/team/7.jpg" alt="이정희" />
                 <div class="member-compact-info">
                   <h5>이정희</h5>
@@ -461,9 +575,10 @@
               </div>
             </div>
 
-            <!-- Member 19: 이종만 -->
             <div class="col-12 member-item" data-category="other" data-name="이종만">
-              <div class="member-compact-card">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="이종만" data-role="회원" data-company="" data-field=""
+                   data-phone="010-1234-0024" data-email="leejm@example.com" data-img="assets/img/team/8.jpg">
                 <img src="assets/img/team/8.jpg" alt="이종만" />
                 <div class="member-compact-info">
                   <h5>이종만</h5>
@@ -472,69 +587,14 @@
               </div>
             </div>
 
-            <!-- Member 20: 정성용 -->
-            <div class="col-12 member-item" data-category="other" data-name="정성용">
-              <div class="member-compact-card">
-                <img src="assets/img/team/9.jpg" alt="정성용" />
-                <div class="member-compact-info">
-                  <h5>정성용</h5>
-                  <p><strong>분야:</strong> 지게차 사업</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Member 21: 조훈희 -->
-            <div class="col-12 member-item" data-category="other" data-name="조훈희">
-              <div class="member-compact-card">
-                <img src="assets/img/team/0.jpg" alt="조훈희" />
-                <div class="member-compact-info">
-                  <h5>조훈희</h5>
-                  <p><strong>분야:</strong> 인테리어 사업</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Member 22: 채흥열 -->
-            <div class="col-12 member-item" data-category="other" data-name="채흥열">
-              <div class="member-compact-card">
-                <img src="assets/img/team/1.jpg" alt="채흥열" />
-                <div class="member-compact-info">
-                  <h5>채흥열</h5>
-                  <p><strong>분야:</strong> 건설장비사업</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Member 23: 최두호 -->
             <div class="col-12 member-item" data-category="other" data-name="최두호">
-              <div class="member-compact-card">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="최두호" data-role="회원" data-company="해병대" data-field=""
+                   data-phone="010-1234-0025" data-email="choidh@example.com" data-img="assets/img/team/2.jpg">
                 <img src="assets/img/team/2.jpg" alt="최두호" />
                 <div class="member-compact-info">
                   <h5>최두호</h5>
                   <p><strong>소속:</strong> 해병대</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Member 24: 최원호 -->
-            <div class="col-12 member-item" data-category="construction" data-name="최원호">
-              <div class="member-compact-card">
-                <img src="assets/img/team/3.jpg" alt="최원호" />
-                <div class="member-compact-info">
-                  <h5>최원호</h5>
-                  <p><strong>분야:</strong> 건설업</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Member 25: 이경환 -->
-            <div class="col-12 member-item" data-category="other" data-name="이경환">
-              <div class="member-compact-card">
-                <img src="assets/img/team/4.jpg" alt="이경환" />
-                <div class="member-compact-info">
-                  <h5>이경환</h5>
-                  <p><strong>회사:</strong> 코넥서스 CTO</p>
-                  <p><strong>분야:</strong> IT 기업</p>
                 </div>
               </div>
             </div>
@@ -576,481 +636,55 @@
 
 
     <!-- ===============================================-->
-    <!--    Member Modals-->
+    <!--    동적 회원 모달-->
     <!-- ===============================================-->
-
-    <!-- Modal 1: 김종원 -->
-    <div class="modal fade" id="member1Modal" tabindex="-1" aria-labelledby="member1ModalLabel" aria-hidden="true">
+    <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="member1ModalLabel">김종원 청년회장</h5>
+            <h5 class="modal-title" id="memberModalLabel">회원 정보</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/0.jpg" alt="김종원" width="120" />
-            <h6 class="fw-bold">김종원</h6>
-            <p class="text-body-secondary mb-2">청년회장</p>
-            <p class="mb-2"><strong>회사명:</strong> (주)범증</p>
-            <p class="mb-2"><strong>전문분야:</strong> 건설업 CEO</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부를 이끌며 지역 건설업계 발전에 앞장서고 있습니다.</p>
+          <div class="modal-body">
+            <div class="text-center mb-3">
+              <img class="rounded-circle mb-3" id="modalImg" src="" alt="" width="100" />
+              <h6 class="fw-bold mb-1" id="modalName"></h6>
+              <p class="text-body-secondary mb-0" id="modalRole"></p>
+            </div>
+
+            <!-- 상세 정보 -->
+            <div class="border-top pt-3">
+              <div class="mb-2" id="modalCompanyRow">
+                <small class="text-body-secondary">회사/소속</small>
+                <p class="mb-0 fw-medium" id="modalCompany"></p>
+              </div>
+              <div class="mb-2" id="modalFieldRow">
+                <small class="text-body-secondary">업종/분야</small>
+                <p class="mb-0 fw-medium" id="modalField"></p>
+              </div>
+              <div class="mb-2" id="modalServicesRow">
+                <small class="text-body-secondary">제공 서비스</small>
+                <div class="d-flex flex-wrap gap-1 mt-1" id="modalServices"></div>
+              </div>
+              <div class="mb-3">
+                <small class="text-body-secondary">연락처</small>
+                <p class="mb-0">
+                  <a href="#" id="modalPhone" class="text-decoration-none fw-medium"></a>
+                </p>
+              </div>
+            </div>
+
+            <!-- 문의 버튼 -->
+            <div class="d-grid">
+              <a href="#" id="modalCallBtn" class="btn btn-primary">
+                <span class="fas fa-phone me-2"></span>전화 문의하기
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal 2: 임진석 -->
-    <div class="modal fade" id="member2Modal" tabindex="-1" aria-labelledby="member2ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member2ModalLabel">임진석 총무</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/1.jpg" alt="임진석" width="120" />
-            <h6 class="fw-bold">임진석</h6>
-            <p class="text-body-secondary mb-2">총무</p>
-            <p class="mb-2"><strong>회사명:</strong> 레인보우꽃집 CEO / (주)코넥서스 이사</p>
-            <p class="mb-2"><strong>전문분야:</strong> 화훼업·유통</p>
-            <p class="text-body-tertiary fst-italic">청년회 총무로서 조직 운영과 회원 소통을 담당하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 3: 김용국 -->
-    <div class="modal fade" id="member3Modal" tabindex="-1" aria-labelledby="member3ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member3ModalLabel">김용국 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/2.jpg" alt="김용국" width="120" />
-            <h6 class="fw-bold">김용국</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>전문분야:</strong> 사다리차 사업 CEO</p>
-            <p class="text-body-tertiary fst-italic">특수 장비 사업을 통해 지역 산업 발전에 기여하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 4: 다니엘 -->
-    <div class="modal fade" id="member4Modal" tabindex="-1" aria-labelledby="member4ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member4ModalLabel">다니엘 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/3.jpg" alt="다니엘" width="120" />
-            <h6 class="fw-bold">다니엘</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부 회원으로 활동하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 5: 돈이 -->
-    <div class="modal fade" id="member5Modal" tabindex="-1" aria-labelledby="member5ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member5ModalLabel">돈이 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/4.jpg" alt="돈이" width="120" />
-            <h6 class="fw-bold">돈이</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부 회원으로 활동하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 6: 모티베이션 -->
-    <div class="modal fade" id="member6Modal" tabindex="-1" aria-labelledby="member6ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member6ModalLabel">모티베이션 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/5.jpg" alt="모티베이션" width="120" />
-            <h6 class="fw-bold">모티베이션</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부 회원으로 활동하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 7: 한성욱 -->
-    <div class="modal fade" id="member7Modal" tabindex="-1" aria-labelledby="member7ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member7ModalLabel">한성욱 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/6.jpg" alt="한성욱" width="120" />
-            <h6 class="fw-bold">한성욱</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>근무처:</strong> 신협</p>
-            <p class="mb-2"><strong>전문분야:</strong> 금융업</p>
-            <p class="text-body-tertiary fst-italic">지역 금융 발전과 주민 재무 관리를 지원하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 8: 박성현 -->
-    <div class="modal fade" id="member8Modal" tabindex="-1" aria-labelledby="member8ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member8ModalLabel">박성현 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/7.jpg" alt="박성현" width="120" />
-            <h6 class="fw-bold">박성현</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>회사명:</strong> 길인당 CEO</p>
-            <p class="mb-2"><strong>전문분야:</strong> 인쇄 및 판촉물 제작</p>
-            <p class="text-body-tertiary fst-italic">인쇄 및 판촉물 제작으로 지역 기업 홍보를 지원하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 9: 박수용 -->
-    <div class="modal fade" id="member9Modal" tabindex="-1" aria-labelledby="member9ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member9ModalLabel">박수용 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/8.jpg" alt="박수용" width="120" />
-            <h6 class="fw-bold">박수용</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>전문분야:</strong> 건설업</p>
-            <p class="text-body-tertiary fst-italic">지역 건설 사업을 통해 인프라 구축에 기여하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 10: 배명호 -->
-    <div class="modal fade" id="member10Modal" tabindex="-1" aria-labelledby="member10ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member10ModalLabel">배명호 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/9.jpg" alt="배명호" width="120" />
-            <h6 class="fw-bold">배명호</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부 회원으로 활동하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 11: 셔니 -->
-    <div class="modal fade" id="member11Modal" tabindex="-1" aria-labelledby="member11ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member11ModalLabel">셔니 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/0.jpg" alt="셔니" width="120" />
-            <h6 class="fw-bold">셔니</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부 회원으로 활동하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 12: 여형구 -->
-    <div class="modal fade" id="member12Modal" tabindex="-1" aria-labelledby="member12ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member12ModalLabel">여형구 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/1.jpg" alt="여형구" width="120" />
-            <h6 class="fw-bold">여형구</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부 회원으로 활동하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 13: 연규영 -->
-    <div class="modal fade" id="member13Modal" tabindex="-1" aria-labelledby="member13ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member13ModalLabel">연규영 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/2.jpg" alt="연규영" width="120" />
-            <h6 class="fw-bold">연규영</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>전문분야:</strong> 건설업 CEO</p>
-            <p class="text-body-tertiary fst-italic">건설업을 경영하며 지역 건설 발전에 앞장서고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 14: 열심히살자 -->
-    <div class="modal fade" id="member14Modal" tabindex="-1" aria-labelledby="member14ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member14ModalLabel">열심히살자 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/3.jpg" alt="열심히살자" width="120" />
-            <h6 class="fw-bold">열심히살자</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부 회원으로 활동하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 15: 김영균 -->
-    <div class="modal fade" id="member15Modal" tabindex="-1" aria-labelledby="member15ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member15ModalLabel">김영균 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/4.jpg" alt="김영균" width="120" />
-            <h6 class="fw-bold">김영균</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>전문분야:</strong> 전력설비 회사 CEO</p>
-            <p class="text-body-tertiary fst-italic">전력설비 사업으로 지역 인프라 구축에 기여하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 16: 윤용수 -->
-    <div class="modal fade" id="member16Modal" tabindex="-1" aria-labelledby="member16ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member16ModalLabel">윤용수 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/5.jpg" alt="윤용수" width="120" />
-            <h6 class="fw-bold">윤용수</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>회사명:</strong> 성우렌탈 CEO</p>
-            <p class="mb-2"><strong>전문분야:</strong> 렌탈 사업</p>
-            <p class="text-body-tertiary fst-italic">렌탈 사업을 통해 지역 경제 활성화에 기여하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 17: 윤진한 -->
-    <div class="modal fade" id="member17Modal" tabindex="-1" aria-labelledby="member17ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member17ModalLabel">윤진한 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/6.jpg" alt="윤진한" width="120" />
-            <h6 class="fw-bold">윤진한</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부 회원으로 활동하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 18: 이정희 -->
-    <div class="modal fade" id="member18Modal" tabindex="-1" aria-labelledby="member18ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member18ModalLabel">이정희 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle img-fluid mb-3" src="assets/img/team/7.jpg" alt="이정희" width="120" />
-            <h6 class="fw-bold">이정희</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부 회원으로 활동하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 19: 이종만 -->
-    <div class="modal fade" id="member19Modal" tabindex="-1" aria-labelledby="member19ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member19ModalLabel">이종만 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/8.jpg" alt="이종만" width="120" />
-            <h6 class="fw-bold">이종만</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="text-body-tertiary fst-italic">민족통일청년회 영동군 지부 회원으로 활동하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 20: 정성용 -->
-    <div class="modal fade" id="member20Modal" tabindex="-1" aria-labelledby="member20ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member20ModalLabel">정성용 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/9.jpg" alt="정성용" width="120" />
-            <h6 class="fw-bold">정성용</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>전문분야:</strong> 지게차 사업 CEO</p>
-            <p class="text-body-tertiary fst-italic">지게차 사업으로 물류 및 건설 지원에 기여하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 21: 조훈희 -->
-    <div class="modal fade" id="member21Modal" tabindex="-1" aria-labelledby="member21ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member21ModalLabel">조훈희 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/0.jpg" alt="조훈희" width="120" />
-            <h6 class="fw-bold">조훈희</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>전문분야:</strong> 인테리어 사업 CEO</p>
-            <p class="text-body-tertiary fst-italic">인테리어 사업으로 지역 주거 환경 개선에 기여하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 22: 채흥열 -->
-    <div class="modal fade" id="member22Modal" tabindex="-1" aria-labelledby="member22ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member22ModalLabel">채흥열 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/1.jpg" alt="채흥열" width="120" />
-            <h6 class="fw-bold">채흥열</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>전문분야:</strong> 건설장비사업 CEO</p>
-            <p class="text-body-tertiary fst-italic">건설장비 사업으로 지역 건설 산업을 지원하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 23: 최두호 -->
-    <div class="modal fade" id="member23Modal" tabindex="-1" aria-labelledby="member23ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member23ModalLabel">최두호 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/2.jpg" alt="최두호" width="120" />
-            <h6 class="fw-bold">최두호</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>소속:</strong> 해병대</p>
-            <p class="text-body-tertiary fst-italic">군 복무를 통해 국가에 헌신하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal 24: 최원호 -->
-    <div class="modal fade" id="member24Modal" tabindex="-1" aria-labelledby="member24ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member24ModalLabel">최원호 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/3.jpg" alt="최원호" width="120" />
-            <h6 class="fw-bold">최원호</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>전문분야:</strong> 건설업 CEO</p>
-            <p class="text-body-tertiary fst-italic">건설업을 경영하며 지역 인프라 발전에 기여하고 있습니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <!-- Modal 25: 이경환 -->
-    <div class="modal fade" id="member25Modal" tabindex="-1" aria-labelledby="member25ModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="member25ModalLabel">이경환 회원</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <img class="rounded-circle mb-3" src="assets/img/team/4.jpg" alt="이경환" width="120" />
-            <h6 class="fw-bold">이경환</h6>
-            <p class="text-body-secondary mb-2">회원</p>
-            <p class="mb-2"><strong>회사명:</strong> 코넥서스 CTO</p>
-            <p class="mb-2"><strong>전문분야:</strong> IT 기업</p>
-            <p class="text-body-tertiary fst-italic">홈페이지, 앱, 시스템 구축 및 유지보수를 전문으로 하는 IT 전문가입니다.</p>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
@@ -1080,38 +714,112 @@
     <!-- 회원 검색 기능 -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // 모든 회원 카드에 애니메이션 속성 추가
-        const allMemberCards = document.querySelectorAll('.member-compact-card');
-        allMemberCards.forEach((card, index) => {
-          if (!card.hasAttribute('data-zanim-xs')) {
-            const delay = 0.15 + (index % 5) * 0.05; // 순차적으로 딜레이 증가
-            card.setAttribute('data-zanim-xs', JSON.stringify({delay: delay}));
-            card.setAttribute('data-zanim-trigger', 'scroll');
+
+        // 회원별 서비스 데이터
+        const servicesData = {
+          '김종원': ['건축 시공', '리모델링', '인테리어'],
+          '임진석': ['꽃배달', '화환', 'IT 컨설팅'],
+          '박수용': ['건축', '토목'],
+          '연규영': ['건설 시공'],
+          '최원호': ['건설'],
+          '채흥열': ['건설장비 대여', '중장비'],
+          '조훈희': ['인테리어', '리모델링', '시공'],
+          '김영균': ['전기 공사', '전력설비'],
+          '이경환': ['웹 개발', '앱 개발', 'IT 컨설팅'],
+          '김용국': ['사다리차', '이사 운송'],
+          '윤용수': ['장비 렌탈', '기계 대여'],
+          '정성용': ['지게차', '물류'],
+          '한성욱': ['대출 상담', '금융 서비스'],
+          '박성현': ['인쇄', '판촉물', '명함']
+        };
+
+        // 동적 모달 처리
+        const memberModal = document.getElementById('memberModal');
+        memberModal.addEventListener('show.bs.modal', function(event) {
+          const card = event.relatedTarget;
+
+          // 데이터 추출
+          const name = card.getAttribute('data-name');
+          const role = card.getAttribute('data-role');
+          const company = card.getAttribute('data-company');
+          const field = card.getAttribute('data-field');
+          const phone = card.getAttribute('data-phone');
+          const img = card.getAttribute('data-img');
+
+          // 모달에 데이터 설정
+          document.getElementById('memberModalLabel').textContent = name;
+          document.getElementById('modalImg').src = img;
+          document.getElementById('modalImg').alt = name;
+          document.getElementById('modalName').textContent = name;
+          document.getElementById('modalRole').textContent = role;
+
+          // 회사 정보
+          if (company) {
+            document.getElementById('modalCompany').textContent = company;
+            document.getElementById('modalCompanyRow').style.display = 'block';
+          } else {
+            document.getElementById('modalCompanyRow').style.display = 'none';
           }
+
+          // 분야 정보
+          if (field) {
+            document.getElementById('modalField').textContent = field;
+            document.getElementById('modalFieldRow').style.display = 'block';
+          } else {
+            document.getElementById('modalFieldRow').style.display = 'none';
+          }
+
+          // 서비스 태그
+          const services = servicesData[name] || [];
+          const servicesContainer = document.getElementById('modalServices');
+          if (services.length > 0) {
+            servicesContainer.innerHTML = services.map(s =>
+              '<span class="badge bg-light text-dark">' + s + '</span>'
+            ).join('');
+            document.getElementById('modalServicesRow').style.display = 'block';
+          } else {
+            document.getElementById('modalServicesRow').style.display = 'none';
+          }
+
+          // 연락처 정보
+          document.getElementById('modalPhone').textContent = phone;
+          document.getElementById('modalPhone').href = 'tel:' + phone.replace(/-/g, '');
+
+          // 버튼 링크 설정
+          document.getElementById('modalCallBtn').href = 'tel:' + phone.replace(/-/g, '');
         });
 
         const searchName = document.getElementById('searchName');
-        const searchCategory = document.getElementById('searchCategory');
         const memberItems = document.querySelectorAll('.member-item');
         const categoryHeaders = document.querySelectorAll('.category-header');
+        const filterButtons = document.querySelectorAll('.category-filter-btn');
+
+        let selectedCategory = '';
 
         function filterMembers() {
-          const nameQuery = searchName.value.toLowerCase().trim();
-          const categoryQuery = searchCategory.value;
+          const searchQuery = searchName.value.toLowerCase().trim();
 
           // 각 카테고리별로 보이는 회원 수를 세기 위한 객체
           const categoryVisibleCounts = {};
+          let totalVisible = 0;
 
           memberItems.forEach(function(item) {
             const memberName = item.getAttribute('data-name').toLowerCase();
             const memberCategory = item.getAttribute('data-category');
+            const card = item.querySelector('.member-compact-card');
+            const memberField = card ? card.getAttribute('data-field').toLowerCase() : '';
+            const memberCompany = card ? card.getAttribute('data-company').toLowerCase() : '';
 
-            // 이름과 카테고리 필터링
-            const nameMatch = nameQuery === '' || memberName.includes(nameQuery);
-            const categoryMatch = categoryQuery === '' || memberCategory === categoryQuery;
+            // 이름, 업종, 회사명 검색
+            const searchMatch = searchQuery === '' ||
+                                memberName.includes(searchQuery) ||
+                                memberField.includes(searchQuery) ||
+                                memberCompany.includes(searchQuery);
+            const categoryMatch = selectedCategory === '' || memberCategory === selectedCategory;
 
-            if (nameMatch && categoryMatch) {
+            if (searchMatch && categoryMatch) {
               item.style.display = '';
+              totalVisible++;
               // 보이는 회원 수 카운트
               if (!categoryVisibleCounts[memberCategory]) {
                 categoryVisibleCounts[memberCategory] = 0;
@@ -1138,11 +846,30 @@
               header.style.display = 'none';
             }
           });
+
+          // 버튼 뱃지 카운트 업데이트
+          document.getElementById('count-all').textContent = totalVisible;
         }
 
-        // 이벤트 리스너 등록
+        // 카테고리 필터 버튼 클릭
+        filterButtons.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            // 활성화 상태 변경
+            filterButtons.forEach(function(b) {
+              b.classList.remove('active', 'btn-dark');
+              b.classList.add('btn-outline-dark');
+            });
+            this.classList.remove('btn-outline-dark');
+            this.classList.add('active', 'btn-dark');
+
+            // 선택된 카테고리 설정
+            selectedCategory = this.getAttribute('data-category');
+            filterMembers();
+          });
+        });
+
+        // 검색 입력 이벤트
         searchName.addEventListener('input', filterMembers);
-        searchCategory.addEventListener('change', filterMembers);
       });
     </script>
 

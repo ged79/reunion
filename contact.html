@@ -64,8 +64,8 @@
           <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">사업 안내</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="board.html"><span class="fancynav-link-content">회원게시판</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
-          <li class="fancynav-item"><a class="fancynav-link" href="portfolio.html"><span class="fancynav-link-content">활동 갤러리</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사 안내</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
         </ul>
@@ -110,7 +110,7 @@
 
                   <div class="mb-5">
                     <p class="fw-bold mb-2">주소:<span class="ms-2 fw-normal">충청북도 영동군</span></p>
-                    <p class="fw-bold mb-2">전화:<span class="ms-2 fw-normal"><a class="text-body" href="tel:+821012345678">010-1234-5678</a></span></p>
+                    <p class="fw-bold mb-2">전화:<span class="ms-2 fw-normal"><a class="text-body" href="tel:+821045331333">010-4533-1333</a></span></p>
                     <p class="fw-bold mb-4">이메일:<span class="ms-2 fw-normal fst-italic"><a class="text-body" href="mailto:conexus25@conexus.co.kr">conexus25@conexus.co.kr</a></span></p>
                   </div>
 
@@ -122,23 +122,23 @@
                   <h4 class="mt-7 mb-4">문의하기</h4>
                   <p class="text-body-secondary mb-4">민족통일청년회 영동군 지부에 대한 문의사항이나 참여 의사가 있으시면 아래 양식을 작성해 주세요.</p>
 
-                  <form class="mt-4" method="POST">
-                    <input class="form-control" type="hidden" name="to" value="conexus25@conexus.co.kr" />
+                  <form class="mt-4" action="https://formspree.io/f/mvglkzkj" method="POST">
+                    <input type="hidden" name="_subject" value="민족통일청년회 영동군 홈페이지 문의" />
                     <div class="mb-3">
                       <label class="form-label" for="contactName">이름 *</label>
-                      <input class="form-control" id="contactName" type="text" placeholder="이름을 입력하세요" required />
+                      <input class="form-control" id="contactName" name="name" type="text" placeholder="이름을 입력하세요" required />
                     </div>
                     <div class="mb-3">
                       <label class="form-label" for="contactPhone">전화번호 *</label>
-                      <input class="form-control" id="contactPhone" type="tel" placeholder="010-0000-0000" required />
+                      <input class="form-control" id="contactPhone" name="phone" type="tel" placeholder="010-0000-0000" required />
                     </div>
                     <div class="mb-3">
                       <label class="form-label" for="contactEmail">이메일</label>
-                      <input class="form-control" id="contactEmail" type="email" placeholder="example@email.com" />
+                      <input class="form-control" id="contactEmail" name="email" type="email" placeholder="example@email.com" />
                     </div>
                     <div class="mb-3">
                       <label class="form-label" for="contactMessage">문의 내용 *</label>
-                      <textarea class="form-control" id="contactMessage" rows="8" placeholder="문의하실 내용을 입력하세요" required></textarea>
+                      <textarea class="form-control" id="contactMessage" name="message" rows="8" placeholder="문의하실 내용을 입력하세요" required></textarea>
                     </div>
                     <div class="d-grid">
                       <button class="btn btn-block btn-dark mt-3" type="submit">보내기<span class="fa fa-paper-plane ms-2"></span></button>

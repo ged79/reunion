@@ -1,9 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(xargs:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(cat:*)",
+      "Bash(\"C:/yd/MintongYeongdong/events_backup.html\")",
+      "Bash(wmic process where \"name=''node.exe'' or name=''code.exe'' or name=''notepad.exe''\" get processid,commandline)",
+      "Bash(python -m http.server:*)",
+      "Bash(start http://localhost:8000/portfolio.html)",
+      "Bash(wmic process where name=''python.exe'' get processid,commandline 2)",
+      "Bash(nul)",
+      "Bash(findstr:*)",
+      "Bash(tasklist:*)",
+      "Bash(taskkill:*)",
+      "Bash(del \"C:\\yd\\MintongYeongdong\\member-detail.html\")"
     ],
     "deny": [],
     "ask": []

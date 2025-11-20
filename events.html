@@ -5,19 +5,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="민족통일청년회 영동군 지부 - 활동 갤러리, 행사 목록">
-    <meta name="keywords" content="민족통일청년회, 영동군, 활동사진, 행사갤러리, 사진첩">
+    <meta name="description" content="민족통일청년회 영동군 지부 - 연간 행사 일정">
+    <meta name="keywords" content="민족통일청년회, 영동군, 행사일정, 행사안내">
 
+    <title>행사 안내 | 민족통일청년회 영동군</title>
 
-    <!-- ===============================================-->
-    <!--    Document Title-->
-    <!-- ===============================================-->
-    <title>활동 갤러리 | 민족통일청년회 영동군</title>
-
-
-    <!-- ===============================================-->
-    <!--    Favicons-->
-    <!-- ===============================================-->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
@@ -26,28 +18,38 @@
     <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
 
-
-    <!-- ===============================================-->
-    <!--    Stylesheets-->
-    <!-- ===============================================-->
     <link href="vendors/loaders.css/loaders.min.css" rel="stylesheet" type="text/css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=PT+Mono%7cPT+Serif:400,400i%7cLato:100,300,400,700,800,900" rel="stylesheet">
     <link href="assets/css/theme.css" rel="stylesheet" />
     <link href="assets/css/user.css" rel="stylesheet" />
 
-  </head>
+    <style>
+      .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+      }
+      .event-card:hover img {
+        transform: scale(1.05);
+      }
+      .event-card .card-body {
+        background: #fff;
+      }
+      .photo-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+      }
+      .photo-card:hover img {
+        transform: scale(1.05);
+      }
+    </style>
 
+  </head>
 
   <body class="overflow-hidden-x">
 
-
     <nav class="fancynavbar fancynavbar-expand-lg" data-zanim-lg='{"from":{"opacity":1,"x":70},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.3}' data-zanim-xs='{"from":{"opacity":1,"y":-37},"to":{"opacity":1,"y":0},"ease":"CubicBezier","duration":0.8,"delay":0.3}' data-zanim-trigger="scroll" data-exclusive="true">
-      <div class="fancynavbar-togglerbar"><a class="fancynavbar-brand" href="index.html"><img class="fancynavbar-brand-img" src="assets/img/logo-sparrow-invert.svg" alt="" width="30" height="30" data-zanim-lg='{"from":{"opacity":0,"x":45},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.4}' data-zanim-trigger="scroll" />
-
-          <!--You can use icon or text logo as well-->
-          <!--<span class='fab fa-superpowers fs-6'></span>-->
-          <!--<span class='logo-sparrow'>S</span>--></a>
+      <div class="fancynavbar-togglerbar"><a class="fancynavbar-brand" href="index.html"><img class="fancynavbar-brand-img" src="assets/img/logo-sparrow-invert.svg" alt="" width="30" height="30" data-zanim-lg='{"from":{"opacity":0,"x":45},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.4}' data-zanim-trigger="scroll" /></a>
         <div class="fancynavbar-toggler">
           <svg class="fancynavbar-toggler-icon" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg" data-zanim-lg='{"from":{"opacity":0,"x":45},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.5}' data-zanim-trigger="scroll">
             <path id="path-top" d="M20,25c0,0,22,0,30,0c16,0,18.89,40.71-.15,21.75C38.7,35.65,19.9,16.8,19.9,16.8"></path>
@@ -64,24 +66,16 @@
           <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">사업 안내</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="board.html"><span class="fancynav-link-content">회원게시판</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
-          <li class="fancynav-item"><a class="fancynav-link" href="portfolio.html"><span class="fancynav-link-content">활동 갤러리</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link active" href="events.html"><span class="fancynav-link-content">행사 안내</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
         </ul>
       </div>
     </nav>
 
-
-
-    <!-- ===============================================-->
-    <!--    Main Content-->
-    <!-- ===============================================-->
     <main class="main min-vh-100" id="top">
 
-
-      <!-- ============================================-->
-      <!-- Preloader ==================================-->
       <div class="preloader" id="preloader">
         <div class="loader">
           <div class="line-scale-pulse-out-rapid">
@@ -93,259 +87,78 @@
           </div>
         </div>
       </div>
-      <!-- ============================================-->
-      <!-- End of Preloader ===========================-->
 
-
-      <!-- ============================================-->
-      <!-- <section> begin ============================-->
-      <section class="text-center py-7 py-md-9" id="page-events">
+      <section class="py-7 py-md-9" id="page-events">
 
         <div class="container">
-          <div class="row">
-            <div class="col">
-              <h1 class="fs-5 fs-md-4 mb-3"><span class="text-decoration-underline d-inline-block">행사 안내</span></h1>
-              <p class="text-body-tertiary mt-3 mb-5">민족통일청년회 영동군 지부의 주요 행사를 확인하세요</p>
+          <div class="row flex-center">
+            <div class="col-12 text-center mb-2">
+              <h1 class="fs-5 fs-md-4 text-decoration-underline d-inline-block mb-2">행사 안내</h1>
             </div>
           </div>
 
-          <!-- 연도별 필터 -->
-          <div class="row mb-5">
-            <div class="col">
-              <div class="btn-group flex-wrap" role="group" aria-label="연도 필터">
-                <button type="button" class="btn btn-outline-dark active" data-year="all">전체</button>
-                <button type="button" class="btn btn-outline-dark" data-year="2025">2025</button>
-                <button type="button" class="btn btn-outline-dark" data-year="2024">2024</button>
-                <button type="button" class="btn btn-outline-dark" data-year="2023">2023</button>
+          <!-- 필터 버튼 -->
+          <div class="row">
+            <div class="col-12">
+              <ul class="nav font-secondary mb-3 justify-content-center" data-filter-nav="data-filter-nav">
+                <li class="nav-item"><a class="nav-link isotope-nav active" href="#!" data-filter="*">전체</a></li>
+                <li class="nav-item"><a class="nav-link isotope-nav" href="#!" data-filter=".q1">1분기</a></li>
+                <li class="nav-item"><a class="nav-link isotope-nav" href="#!" data-filter=".q2">2분기</a></li>
+                <li class="nav-item"><a class="nav-link isotope-nav" href="#!" data-filter=".q3">3분기</a></li>
+                <li class="nav-item"><a class="nav-link isotope-nav" href="#!" data-filter=".q4">4분기</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 행사 목록 (로딩) -->
+          <div id="eventsLoading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">로딩중...</span>
+            </div>
+          </div>
+
+          <!-- 행사 목록 (그리드) -->
+          <div class="row g-3" id="eventsContainer">
+          </div>
+
+          <!-- 행사 사진 갤러리 섹션 -->
+          <div class="mt-6 pt-5 border-top">
+            <div class="text-center mb-2">
+              <h2 class="fs-5 fs-md-4 text-decoration-underline d-inline-block mb-2">행사 사진</h2>
+            </div>
+
+            <!-- 년도 필터 탭 -->
+            <div class="text-center mb-1">
+              <ul class="nav font-secondary justify-content-center" id="yearTabs">
+                <!-- 동적으로 생성됨 -->
+              </ul>
+            </div>
+
+            <!-- 행사별 필터 탭 -->
+            <div class="text-center mb-3">
+              <ul class="nav font-secondary justify-content-center" id="eventTabs">
+                <!-- 동적으로 생성됨 -->
+              </ul>
+            </div>
+
+            <!-- 사진 로딩 -->
+            <div id="photosLoading" class="text-center py-4">
+              <div class="spinner-border spinner-border-sm text-primary" role="status">
+                <span class="visually-hidden">로딩중...</span>
               </div>
             </div>
-          </div>
 
-          <!-- 행사 카드 그리드 -->
-          <div class="row gy-4" id="eventsGrid">
-
-            <!-- 2025년 행사들 -->
-            <div class="col-md-6 col-lg-4 event-card" data-year="2025">
-              <a href="event-detail.html?id=1" class="text-decoration-none">
-                <div class="card border h-100 hover-shadow transition-base">
-                  <div class="position-relative overflow-hidden">
-                    <img class="card-img-top hover-zoom" src="assets/img/gallery/13.jpg" alt="2025년 신년 워크숍" />
-                    <div class="event-overlay">
-                      <span class="badge bg-primary">2025</span>
-                    </div>
-                  </div>
-                  <div class="card-body text-start">
-                    <h4 class="card-title text-dark mb-2">2025년 신년 워크숍</h4>
-                    <p class="text-body-secondary mb-3"><span class="fas fa-calendar-alt me-2"></span>2025.01.15</p>
-                    <p class="card-text text-body-tertiary mb-3">2025년 사업 계획 수립 및 비전 공유를 위한 신년 워크숍이 성공적으로 개최되었습니다.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-body-tertiary fs-10"><span class="fas fa-images me-1"></span>24장</span>
-                      <span class="btn btn-sm btn-outline-dark">사진 보기 <span class="fas fa-arrow-right ms-1"></span></span>
-                    </div>
-                  </div>
-                </div>
-              </a>
+            <!-- 사진 갤러리 -->
+            <div class="row g-3" id="photosGallery">
             </div>
-
-            <div class="col-md-6 col-lg-4 event-card" data-year="2025">
-              <a href="event-detail.html?id=2" class="text-decoration-none">
-                <div class="card border h-100 hover-shadow transition-base">
-                  <div class="position-relative overflow-hidden">
-                    <img class="card-img-top hover-zoom" src="assets/img/gallery/14.jpg" alt="정기모임" />
-                    <div class="event-overlay">
-                      <span class="badge bg-primary">2025</span>
-                    </div>
-                  </div>
-                  <div class="card-body text-start">
-                    <h4 class="card-title text-dark mb-2">1월 정기모임</h4>
-                    <p class="text-body-secondary mb-3"><span class="fas fa-calendar-alt me-2"></span>2025.01.20</p>
-                    <p class="card-text text-body-tertiary mb-3">월간 활동 보고 및 주요 안건에 대한 논의가 이루어졌습니다.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-body-tertiary fs-10"><span class="fas fa-images me-1"></span>12장</span>
-                      <span class="btn btn-sm btn-outline-dark">사진 보기 <span class="fas fa-arrow-right ms-1"></span></span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <!-- 2024년 행사들 -->
-            <div class="col-md-6 col-lg-4 event-card" data-year="2024">
-              <a href="event-detail.html?id=3" class="text-decoration-none">
-                <div class="card border h-100 hover-shadow transition-base">
-                  <div class="position-relative overflow-hidden">
-                    <img class="card-img-top hover-zoom" src="assets/img/gallery/15.jpg" alt="청소년 통일문화 제전" />
-                    <div class="event-overlay">
-                      <span class="badge bg-success">2024</span>
-                    </div>
-                  </div>
-                  <div class="card-body text-start">
-                    <h4 class="card-title text-dark mb-2">청소년 통일문화 제전</h4>
-                    <p class="text-body-secondary mb-3"><span class="fas fa-calendar-alt me-2"></span>2024.12.20</p>
-                    <p class="card-text text-body-tertiary mb-3">영동군 청소년들이 참여한 통일문화 제전이 성황리에 마무리되었습니다.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-body-tertiary fs-10"><span class="fas fa-images me-1"></span>36장</span>
-                      <span class="btn btn-sm btn-outline-dark">사진 보기 <span class="fas fa-arrow-right ms-1"></span></span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div class="col-md-6 col-lg-4 event-card" data-year="2024">
-              <a href="event-detail.html?id=4" class="text-decoration-none">
-                <div class="card border h-100 hover-shadow transition-base">
-                  <div class="position-relative overflow-hidden">
-                    <img class="card-img-top hover-zoom" src="assets/img/gallery/16.jpg" alt="군민통합 간담회" />
-                    <div class="event-overlay">
-                      <span class="badge bg-success">2024</span>
-                    </div>
-                  </div>
-                  <div class="card-body text-start">
-                    <h4 class="card-title text-dark mb-2">군민통합 간담회</h4>
-                    <p class="text-body-secondary mb-3"><span class="fas fa-calendar-alt me-2"></span>2024.12.10</p>
-                    <p class="card-text text-body-tertiary mb-3">지역 주민과 함께하는 군민통합 간담회가 개최되었습니다.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-body-tertiary fs-10"><span class="fas fa-images me-1"></span>18장</span>
-                      <span class="btn btn-sm btn-outline-dark">사진 보기 <span class="fas fa-arrow-right ms-1"></span></span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div class="col-md-6 col-lg-4 event-card" data-year="2024">
-              <a href="event-detail.html?id=5" class="text-decoration-none">
-                <div class="card border h-100 hover-shadow transition-base">
-                  <div class="position-relative overflow-hidden">
-                    <img class="card-img-top hover-zoom" src="assets/img/gallery/17.jpg" alt="통일교육 세미나" />
-                    <div class="event-overlay">
-                      <span class="badge bg-success">2024</span>
-                    </div>
-                  </div>
-                  <div class="card-body text-start">
-                    <h4 class="card-title text-dark mb-2">통일교육 세미나</h4>
-                    <p class="text-body-secondary mb-3"><span class="fas fa-calendar-alt me-2"></span>2024.11.15</p>
-                    <p class="card-text text-body-tertiary mb-3">평화통일 시대를 대비한 교육 세미나가 진행되었습니다.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-body-tertiary fs-10"><span class="fas fa-images me-1"></span>15장</span>
-                      <span class="btn btn-sm btn-outline-dark">사진 보기 <span class="fas fa-arrow-right ms-1"></span></span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div class="col-md-6 col-lg-4 event-card" data-year="2024">
-              <a href="event-detail.html?id=6" class="text-decoration-none">
-                <div class="card border h-100 hover-shadow transition-base">
-                  <div class="position-relative overflow-hidden">
-                    <img class="card-img-top hover-zoom" src="assets/img/gallery/18.jpg" alt="봉사활동" />
-                    <div class="event-overlay">
-                      <span class="badge bg-success">2024</span>
-                    </div>
-                  </div>
-                  <div class="card-body text-start">
-                    <h4 class="card-title text-dark mb-2">지역사회 봉사활동</h4>
-                    <p class="text-body-secondary mb-3"><span class="fas fa-calendar-alt me-2"></span>2024.10.20</p>
-                    <p class="card-text text-body-tertiary mb-3">영동군 지역사회를 위한 회원들의 봉사활동이 진행되었습니다.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-body-tertiary fs-10"><span class="fas fa-images me-1"></span>22장</span>
-                      <span class="btn btn-sm btn-outline-dark">사진 보기 <span class="fas fa-arrow-right ms-1"></span></span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <!-- 2023년 행사들 -->
-            <div class="col-md-6 col-lg-4 event-card" data-year="2023">
-              <a href="event-detail.html?id=7" class="text-decoration-none">
-                <div class="card border h-100 hover-shadow transition-base">
-                  <div class="position-relative overflow-hidden">
-                    <img class="card-img-top hover-zoom" src="assets/img/gallery/19.jpg" alt="창립총회" />
-                    <div class="event-overlay">
-                      <span class="badge bg-info">2023</span>
-                    </div>
-                  </div>
-                  <div class="card-body text-start">
-                    <h4 class="card-title text-dark mb-2">창립총회</h4>
-                    <p class="text-body-secondary mb-3"><span class="fas fa-calendar-alt me-2"></span>2023.03.15</p>
-                    <p class="card-text text-body-tertiary mb-3">민족통일청년회 영동군 지부 창립총회가 개최되었습니다.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-body-tertiary fs-10"><span class="fas fa-images me-1"></span>42장</span>
-                      <span class="btn btn-sm btn-outline-dark">사진 보기 <span class="fas fa-arrow-right ms-1"></span></span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div class="col-md-6 col-lg-4 event-card" data-year="2023">
-              <a href="event-detail.html?id=8" class="text-decoration-none">
-                <div class="card border h-100 hover-shadow transition-base">
-                  <div class="position-relative overflow-hidden">
-                    <img class="card-img-top hover-zoom" src="assets/img/gallery/20.jpg" alt="체육대회" />
-                    <div class="event-overlay">
-                      <span class="badge bg-info">2023</span>
-                    </div>
-                  </div>
-                  <div class="card-body text-start">
-                    <h4 class="card-title text-dark mb-2">회원 체육대회</h4>
-                    <p class="text-body-secondary mb-3"><span class="fas fa-calendar-alt me-2"></span>2023.05.20</p>
-                    <p class="card-text text-body-tertiary mb-3">회원 간 친목 도모를 위한 체육대회가 열렸습니다.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-body-tertiary fs-10"><span class="fas fa-images me-1"></span>28장</span>
-                      <span class="btn btn-sm btn-outline-dark">사진 보기 <span class="fas fa-arrow-right ms-1"></span></span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div class="col-md-6 col-lg-4 event-card" data-year="2023">
-              <a href="event-detail.html?id=9" class="text-decoration-none">
-                <div class="card border h-100 hover-shadow transition-base">
-                  <div class="position-relative overflow-hidden">
-                    <img class="card-img-top hover-zoom" src="assets/img/gallery/21.jpg" alt="야유회" />
-                    <div class="event-overlay">
-                      <span class="badge bg-info">2023</span>
-                    </div>
-                  </div>
-                  <div class="card-body text-start">
-                    <h4 class="card-title text-dark mb-2">가을 야유회</h4>
-                    <p class="text-body-secondary mb-3"><span class="fas fa-calendar-alt me-2"></span>2023.09.10</p>
-                    <p class="card-text text-body-tertiary mb-3">회원들과 가족이 함께한 가을 야유회 현장입니다.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="text-body-tertiary fs-10"><span class="fas fa-images me-1"></span>31장</span>
-                      <span class="btn btn-sm btn-outline-dark">사진 보기 <span class="fas fa-arrow-right ms-1"></span></span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
           </div>
 
         </div>
-        <!-- end of .container-->
 
       </section>
-      <!-- <section> close ============================-->
-      <!-- ============================================-->
-
 
     </main>
-    <!-- ===============================================-->
-    <!--    End of Main Content-->
-    <!-- ===============================================-->
 
-
-
-
-    <!--===============================================-->
-    <!--    Footer-->
-    <!--===============================================-->
     <footer class="footer bg-black text-body-secondary py-4 font-secondary text-center overflow-hidden">
       <div class="container">
         <div class="row align-items-center">
@@ -361,84 +174,396 @@
       </div>
     </footer>
 
-
-    <!-- ===============================================-->
-    <!--    JavaScripts-->
-    <!-- ===============================================-->
     <script src="vendors/popper/popper.min.js"></script>
     <script src="vendors/bootstrap/bootstrap.min.js"></script>
     <script src="vendors/anchorjs/anchor.min.js"></script>
     <script src="vendors/is/is.min.js"></script>
+    <script src="vendors/isotope-layout/isotope.pkgd.min.js"> </script>
+    <script src="vendors/isotope-packery/packery-mode.pkgd.min.js"> </script>
     <script src="vendors/fontawesome/all.min.js"></script>
     <script src="vendors/lodash/lodash.min.js"></script>
     <script src="vendors/imagesloaded/imagesloaded.pkgd.js"></script>
     <script src="vendors/gsap/gsap.js"></script>
     <script src="vendors/gsap/customEase.js"></script>
     <script src="vendors/gsap/drawSVGPlugin.js"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics-->
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-122907869-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'UA-122907869-1');
-    </script>
     <script src="assets/js/theme.js"></script>
 
-    <!-- 연도 필터 스크립트 -->
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const filterButtons = document.querySelectorAll('[data-year]');
-        const eventCards = document.querySelectorAll('.event-card');
+      // 행사 목록 불러오기
+      async function loadEvents() {
+        const loadingEl = document.getElementById('eventsLoading');
+        const eventsContainer = document.getElementById('eventsContainer');
 
-        filterButtons.forEach(button => {
-          button.addEventListener('click', function() {
-            const year = this.getAttribute('data-year');
+        try {
+          console.log('행사 로딩 시작...');
 
-            // 버튼 active 상태 변경
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
+          const { data: events, error } = await supabase
+            .from('news')
+            .select('*')
+            .eq('category', '행사안내')
+            .eq('is_published', true)
+            .order('created_at', { ascending: false });
 
-            // 이벤트 카드 필터링
-            eventCards.forEach(card => {
-              if (year === 'all' || card.getAttribute('data-year') === year) {
-                card.style.display = 'block';
+          if (error) {
+            console.error('Supabase 에러:', error);
+            throw error;
+          }
+
+          console.log('로드된 행사:', events);
+
+          // 로딩 숨기기
+          if (loadingEl) loadingEl.style.display = 'none';
+
+          displayEvents(events);
+        } catch (error) {
+          console.error('행사 불러오기 오류:', error);
+
+          // 로딩 숨기기
+          if (loadingEl) loadingEl.style.display = 'none';
+
+          // 에러 메시지 표시
+          if (eventsContainer) {
+            eventsContainer.innerHTML = `
+              <div class="col-12 text-center py-5 text-danger">
+                <p class="fs-4"><span class="fas fa-exclamation-triangle me-2"></span>행사를 불러오는데 실패했습니다.</p>
+                <p class="text-body-secondary">${error.message}</p>
+              </div>
+            `;
+          }
+        }
+      }
+
+      // 행사 표시
+      function displayEvents(events) {
+        const eventsContainer = document.getElementById('eventsContainer');
+        const loadingEl = document.getElementById('eventsLoading');
+
+        if (!eventsContainer) return;
+
+        // 로딩 숨기기
+        if (loadingEl) loadingEl.style.display = 'none';
+
+        eventsContainer.innerHTML = '';
+
+        if (events.length === 0) {
+          eventsContainer.innerHTML = `
+            <div class="col-12 text-center py-5 text-body-secondary">
+              <p class="fs-4"><span class="fas fa-calendar-alt me-2"></span>등록된 행사가 없습니다.</p>
+              <a href="news-write.html" class="btn btn-primary mt-3">
+                <span class="fas fa-plus me-2"></span>첫 행사 등록하기
+              </a>
+            </div>
+          `;
+          return;
+        }
+
+        // 행사 카드 생성
+        events.forEach((event, index) => {
+          console.log('행사 처리:', index, event.title, event.event_date);
+          const eventDate = event.event_date ? new Date(event.event_date) : new Date(event.created_at);
+          const year = eventDate.getFullYear();
+          const month = eventDate.getMonth() + 1;
+          const day = eventDate.getDate();
+          const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'][eventDate.getDay()];
+          const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+
+          // 분기 결정
+          let quarter = 'q1';
+          if (month >= 4 && month <= 6) quarter = 'q2';
+          else if (month >= 7 && month <= 9) quarter = 'q3';
+          else if (month >= 10) quarter = 'q4';
+
+          // 내용 미리보기 (100자)
+          const contentPreview = event.content ?
+            (event.content.length > 100 ? event.content.substring(0, 100) + '...' : event.content) : '';
+
+          const eventHTML = `
+            <div class="col-12 col-md-6 mb-3 event-item ${quarter}" data-quarter="${quarter}">
+              <a href="event-detail.html?id=${event.id}" class="text-decoration-none">
+                <div class="card h-100 border-0 shadow-sm event-card" style="cursor: pointer; transition: all 0.3s ease;">
+                  <div class="card-body p-3">
+                    <div class="d-flex align-items-start">
+                      <div class="bg-primary text-white rounded text-center me-2 flex-shrink-0" style="width: 45px; padding: 6px;">
+                        <div class="fw-bold lh-1" style="font-size: 1.1rem;">${day}</div>
+                        <div style="font-size: 0.6rem;">${monthNames[month - 1]}</div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="card-title mb-1 text-dark fw-bold" style="font-size: 0.9rem;">${escapeHtml(event.title)}</h6>
+                        <p class="mb-0 text-body-secondary" style="font-size: 0.75rem;">
+                          <span class="fas fa-calendar-day me-1"></span>${year}.${String(month).padStart(2, '0')}.${String(day).padStart(2, '0')} (${dayOfWeek})
+                          ${event.location ? `<span class="ms-2"><span class="fas fa-map-marker-alt me-1"></span>${escapeHtml(event.location)}</span>` : ''}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          `;
+
+          eventsContainer.insertAdjacentHTML('beforeend', eventHTML);
+        });
+
+        console.log('카드 생성 완료, 총:', events.length);
+      }
+
+      // 유틸리티 함수
+      function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // 전역 변수로 사진 데이터 저장
+      let allPhotos = [];
+      let currentYearFilter = 'all';
+      let currentEventFilter = 'all';
+
+      // 행사 사진 로드
+      async function loadEventPhotos() {
+        const loadingEl = document.getElementById('photosLoading');
+        const galleryContainer = document.getElementById('photosGallery');
+        const yearTabsContainer = document.getElementById('yearTabs');
+        const eventTabsContainer = document.getElementById('eventTabs');
+
+        try {
+          const { data: photos, error } = await supabase
+            .from('event_photos')
+            .select(`
+              *,
+              news:event_id (title)
+            `)
+            .order('created_at', { ascending: false });
+
+          if (error) throw error;
+
+          if (loadingEl) loadingEl.style.display = 'none';
+
+          if (!photos || photos.length === 0) {
+            yearTabsContainer.innerHTML = '';
+            eventTabsContainer.innerHTML = '';
+            galleryContainer.innerHTML = `
+              <div class="col-12 text-center py-4 text-body-secondary">
+                <p><span class="fas fa-camera me-2"></span>등록된 사진이 없습니다.</p>
+              </div>
+            `;
+            return;
+          }
+
+          // 전역 변수에 저장
+          allPhotos = photos;
+
+          // 년도 추출 및 정렬
+          const years = [...new Set(photos.map(photo => {
+            return new Date(photo.created_at).getFullYear();
+          }))].sort((a, b) => b - a); // 최신년도 먼저
+
+          // 년도 탭 생성
+          yearTabsContainer.innerHTML = `
+            <li class="nav-item">
+              <a class="nav-link year-tab active" href="#!" data-year="all">전체</a>
+            </li>
+          `;
+
+          years.forEach(year => {
+            yearTabsContainer.insertAdjacentHTML('beforeend', `
+              <li class="nav-item">
+                <a class="nav-link year-tab" href="#!" data-year="${year}">${year}년</a>
+              </li>
+            `);
+          });
+
+          // 행사명 추출 및 탭 생성
+          generateEventTabs(photos);
+
+          // 탭 클릭 이벤트
+          initYearTabs();
+          initEventTabs();
+
+          // 전체 사진 표시
+          applyFilters();
+
+        } catch (error) {
+          console.error('사진 로드 오류:', error);
+          if (loadingEl) loadingEl.style.display = 'none';
+          galleryContainer.innerHTML = `
+            <div class="col-12 text-center py-4 text-danger">
+              <p>사진을 불러오는데 실패했습니다.</p>
+            </div>
+          `;
+        }
+      }
+
+      // 행사별 탭 생성
+      function generateEventTabs(photos) {
+        const eventTabsContainer = document.getElementById('eventTabs');
+
+        // 행사명 추출 (중복 제거)
+        const events = [...new Set(photos.map(photo => {
+          return photo.news ? photo.news.title : null;
+        }).filter(title => title !== null))];
+
+        // 행사 탭 생성
+        eventTabsContainer.innerHTML = `
+          <li class="nav-item">
+            <a class="nav-link event-tab active" href="#!" data-event="all">전체</a>
+          </li>
+        `;
+
+        events.forEach(eventTitle => {
+          eventTabsContainer.insertAdjacentHTML('beforeend', `
+            <li class="nav-item">
+              <a class="nav-link event-tab" href="#!" data-event="${escapeHtml(eventTitle)}">${escapeHtml(eventTitle)}</a>
+            </li>
+          `);
+        });
+      }
+
+      // 행사 탭 이벤트 초기화
+      function initEventTabs() {
+        const tabs = document.querySelectorAll('.event-tab');
+
+        tabs.forEach(tab => {
+          tab.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // 활성 탭 변경
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            currentEventFilter = tab.getAttribute('data-event');
+            applyFilters();
+          });
+        });
+      }
+
+      // 년도 탭 이벤트 초기화
+      function initYearTabs() {
+        const tabs = document.querySelectorAll('.year-tab');
+
+        tabs.forEach(tab => {
+          tab.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // 활성 탭 변경
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            currentYearFilter = tab.getAttribute('data-year');
+            applyFilters();
+          });
+        });
+      }
+
+      // 필터 적용
+      function applyFilters() {
+        let filteredPhotos = allPhotos;
+
+        // 년도 필터
+        if (currentYearFilter !== 'all') {
+          filteredPhotos = filteredPhotos.filter(photo => {
+            return new Date(photo.created_at).getFullYear() === parseInt(currentYearFilter);
+          });
+        }
+
+        // 행사 필터
+        if (currentEventFilter !== 'all') {
+          filteredPhotos = filteredPhotos.filter(photo => {
+            return photo.news && photo.news.title === currentEventFilter;
+          });
+        }
+
+        displayPhotos(filteredPhotos);
+      }
+
+      // 사진 표시 함수
+      function displayPhotos(photos) {
+        const galleryContainer = document.getElementById('photosGallery');
+        galleryContainer.innerHTML = '';
+
+        if (photos.length === 0) {
+          galleryContainer.innerHTML = `
+            <div class="col-12 text-center py-4 text-body-secondary">
+              <p><span class="fas fa-camera me-2"></span>해당 년도의 사진이 없습니다.</p>
+            </div>
+          `;
+          return;
+        }
+
+        photos.forEach((photo, index) => {
+          const caption = photo.caption || (photo.news ? photo.news.title : '행사 사진');
+          const photoHTML = `
+            <div class="col-6 col-md-4 col-lg-3 mb-3">
+              <div class="card border-0 shadow-sm overflow-hidden photo-card" style="cursor: pointer;">
+                <img src="${photo.image_url}" alt="${escapeHtml(caption)}"
+                     class="w-100" style="height: 200px; object-fit: cover; transition: transform 0.3s ease;"
+                     onclick="openPhotoModal('${photo.image_url}', '${escapeHtml(caption)}')">
+                <div class="card-body p-2">
+                  <p class="mb-0 text-body-secondary" style="font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(caption)}</p>
+                </div>
+              </div>
+            </div>
+          `;
+          galleryContainer.insertAdjacentHTML('beforeend', photoHTML);
+        });
+      }
+
+      // 사진 모달 열기
+      function openPhotoModal(imageUrl, caption) {
+        // 간단한 이미지 뷰어
+        const modal = document.createElement('div');
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:pointer;';
+        modal.innerHTML = `
+          <div style="max-width:90%;max-height:90%;text-align:center;">
+            <img src="${imageUrl}" style="max-width:100%;max-height:85vh;object-fit:contain;">
+            <p style="color:white;margin-top:10px;">${caption}</p>
+          </div>
+        `;
+        modal.onclick = () => modal.remove();
+        document.body.appendChild(modal);
+      }
+
+      // 분기 필터 기능
+      function initFilterButtons() {
+        const filterButtons = document.querySelectorAll('.isotope-nav');
+
+        filterButtons.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // 활성 버튼 변경
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.getAttribute('data-filter');
+            const items = document.querySelectorAll('.event-item');
+
+            items.forEach(item => {
+              if (filter === '*') {
+                item.style.display = '';
               } else {
-                card.style.display = 'none';
+                const quarter = item.getAttribute('data-quarter');
+                item.style.display = (filter === '.' + quarter) ? '' : 'none';
               }
             });
           });
         });
+      }
+
+      // 페이지 로드 시 초기화
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM 로드 완료');
+        loadEvents().then(() => {
+          initFilterButtons();
+        });
+        loadEventPhotos();
       });
     </script>
-
-    <style>
-      .hover-zoom {
-        transition: transform 0.3s ease;
-      }
-
-      .event-card:hover .hover-zoom {
-        transform: scale(1.05);
-      }
-
-      .event-overlay {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-      }
-
-      .event-card .card {
-        cursor: pointer;
-      }
-
-      .card-img-top {
-        height: 250px;
-        object-fit: cover;
-      }
-    </style>
 
   </body>
 
