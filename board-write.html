@@ -193,6 +193,17 @@
                 <div class="mb-4">
                   <label class="form-label fw-bold">이미지 첨부 <span class="text-body-secondary">(선택, 최대 5개)</span></label>
                   <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
+                  <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
+
+                  <div class="d-flex gap-2 mb-2">
+                    <button type="button" class="btn btn-outline-primary flex-fill" id="galleryBtn">
+                      <i class="fas fa-images me-2"></i>갤러리
+                    </button>
+                    <button type="button" class="btn btn-outline-primary flex-fill" id="cameraBtn">
+                      <i class="fas fa-camera me-2"></i>카메라
+                    </button>
+                  </div>
+
                   <div class="image-upload-container" id="imageUploadArea">
                     <div class="image-upload-icon">
                       <i class="fas fa-cloud-upload-alt"></i>
@@ -310,11 +321,32 @@
       const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
       const imageInput = document.getElementById('imageInput');
+      const cameraInput = document.getElementById('cameraInput');
       const imageUploadArea = document.getElementById('imageUploadArea');
       const imagePreviewContainer = document.getElementById('imagePreviewContainer');
       const uploadProgress = document.getElementById('uploadProgress');
+      const galleryBtn = document.getElementById('galleryBtn');
+      const cameraBtn = document.getElementById('cameraBtn');
 
-      // 클릭하여 파일 선택
+      // 갤러리 버튼 클릭
+      galleryBtn.addEventListener('click', () => {
+        if (uploadedImages.length < MAX_IMAGES) {
+          imageInput.click();
+        } else {
+          alert('이미지는 최대 5개까지 업로드할 수 있습니다.');
+        }
+      });
+
+      // 카메라 버튼 클릭 (모바일에서 카메라 직접 실행)
+      cameraBtn.addEventListener('click', () => {
+        if (uploadedImages.length < MAX_IMAGES) {
+          cameraInput.click();
+        } else {
+          alert('이미지는 최대 5개까지 업로드할 수 있습니다.');
+        }
+      });
+
+      // 드래그 앤 드롭 영역 클릭 (기본 갤러리)
       imageUploadArea.addEventListener('click', () => {
         if (uploadedImages.length < MAX_IMAGES) {
           imageInput.click();
@@ -323,8 +355,13 @@
         }
       });
 
-      // 파일 선택 시
+      // 파일 선택 시 (갤러리)
       imageInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+      });
+
+      // 파일 선택 시 (카메라)
+      cameraInput.addEventListener('change', (e) => {
         handleFiles(e.target.files);
       });
 
@@ -377,6 +414,7 @@
         });
 
         imageInput.value = '';
+        cameraInput.value = '';
       }
 
       // 이미지 미리보기 렌더링
