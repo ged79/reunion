@@ -450,37 +450,13 @@
             continue;
           }
 
-          try {
-            // Supabase Storage 사용 (없으면 Base64 저장)
-            if (typeof supabase !== 'undefined' && supabase.storage) {
-              const fileName = `${Date.now()}_${i}_${img.file.name}`;
-              const { data, error } = await supabase.storage
-                .from('board-images')
-                .upload(fileName, img.file);
+          // 기본적으로 Data URL 사용 (브라우저 저장)
+          imageUrls.push(img.dataUrl);
+          img.uploaded = true;
+          img.url = img.dataUrl;
 
-              if (error) throw error;
-
-              const { data: { publicUrl } } = supabase.storage
-                .from('board-images')
-                .getPublicUrl(fileName);
-
-              imageUrls.push(publicUrl);
-              img.uploaded = true;
-              img.url = publicUrl;
-            } else {
-              // Supabase Storage가 없으면 Data URL 사용
-              imageUrls.push(img.dataUrl);
-              img.uploaded = true;
-              img.url = img.dataUrl;
-            }
-
-            const progressBar = uploadProgress.querySelector('.progress-bar');
-            progressBar.style.width = `${((i + 1) / uploadedImages.length) * 100}%`;
-          } catch (error) {
-            console.error('이미지 업로드 오류:', error);
-            // 오류 시 Data URL 사용
-            imageUrls.push(img.dataUrl);
-          }
+          const progressBar = uploadProgress.querySelector('.progress-bar');
+          progressBar.style.width = `${((i + 1) / uploadedImages.length) * 100}%`;
         }
 
         uploadProgress.classList.remove('active');
@@ -501,23 +477,39 @@
           author_name: document.getElementById('author_name').value,
           author_img: authorImages[document.getElementById('author_name').value] || 'assets/img/team/0.jpg',
           password: document.getElementById('password').value,
-          images: imageUrls.length > 0 ? imageUrls : null,
           views: 0,
           comments: 0
         };
+
+        // images 컬럼이 있는 경우에만 추가
+        if (imageUrls.length > 0) {
+          formData.images = imageUrls;
+        }
 
         try {
           const { data, error } = await supabase
             .from('board_posts')
             .insert([formData]);
 
-          if (error) throw error;
+          if (error) {
+            // images 컬럼 에러인 경우 images 없이 재시도
+            if (error.message && error.message.includes('images')) {
+              delete formData.images;
+              const { data: retryData, error: retryError } = await supabase
+                .from('board_posts')
+                .insert([formData]);
+
+              if (retryError) throw retryError;
+            } else {
+              throw error;
+            }
+          }
 
           alert('게시글이 등록되었습니다.');
           window.location.href = 'board.html';
         } catch (error) {
           console.error('등록 오류:', error);
-          alert('게시글 등록 중 오류가 발생했습니다.');
+          alert('게시글 등록 중 오류가 발생했습니다.\n' + error.message);
         }
       });
     </script>
