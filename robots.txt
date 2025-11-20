@@ -1,0 +1,18 @@
+# 민족통일청년회 영동군 - Robots.txt
+# 모든 검색 엔진 크롤러 허용
+
+User-agent: *
+Allow: /
+
+# Sitemap 위치
+Sitemap: https://your-domain.com/sitemap.xml
+
+# 크롤링 제외 디렉토리
+Disallow: /vendors/
+Disallow: /.git/
+Disallow: /.claude/
+Disallow: /node_modules/
+
+# 임시 파일 제외
+Disallow: *_backup.html
+Disallow: /nul
