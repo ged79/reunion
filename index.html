@@ -7,6 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="민족통일청년회 영동군 지부 - 평화통일과 민족화합을 위한 지역 통일운동 단체">
     <meta name="keywords" content="민족통일청년회, 영동군, 통일운동, 민족화합, 평화통일, 통일교육">
+    <meta name="author" content="민족통일청년회 영동군">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://your-domain.com/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com/">
+    <meta property="og:title" content="민족통일청년회 영동군 | 평화통일과 민족화합">
+    <meta property="og:description" content="회원 간 소통과 협력으로 지역사회 발전에 기여하는 민족통일청년회 영동군 지부입니다.">
+    <meta property="og:image" content="https://your-domain.com/assets/img/headers/header-3.jpg">
+    <meta property="og:site_name" content="민족통일청년회 영동군">
+    <meta property="og:locale" content="ko_KR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://your-domain.com/">
+    <meta name="twitter:title" content="민족통일청년회 영동군 | 평화통일과 민족화합">
+    <meta name="twitter:description" content="회원 간 소통과 협력으로 지역사회 발전에 기여하는 민족통일청년회 영동군 지부입니다.">
+    <meta name="twitter:image" content="https://your-domain.com/assets/img/headers/header-3.jpg">
 
     <!-- ===============================================-->
     <!--    Preload Critical Images-->
@@ -42,6 +61,7 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Mono%7cPT+Serif:400,400i%7cLato:100,300,400,700,800,900" rel="stylesheet">
     <link href="assets/css/theme.css" rel="stylesheet" />
     <link href="assets/css/user.css" rel="stylesheet" />
+    <link href="assets/css/floating-board.css" rel="stylesheet" />
 
   </head>
 
@@ -71,8 +91,8 @@
           <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">사업 안내</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="board.html"><span class="fancynav-link-content">회원게시판</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
-          <li class="fancynav-item"><a class="fancynav-link" href="portfolio.html"><span class="fancynav-link-content">활동 갤러리</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사 안내</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
         </ul>
@@ -365,6 +385,27 @@
       <!-- ============================================-->
 
 
+      <!-- ============================================-->
+      <!-- 회원 게시판 퀵링크 배너 =====================-->
+      <!-- ============================================-->
+      <section class="py-5 bg-light">
+        <div class="container">
+          <div class="row flex-center">
+            <div class="col-lg-8">
+              <div class="d-md-flex align-items-center justify-content-between text-center text-md-start">
+                <div class="mb-3 mb-md-0">
+                  <h4 class="mb-1"><span class="fas fa-comments me-2"></span>회원 게시판</h4>
+                  <p class="text-body-secondary mb-0">회원간 정보 공유, 업무 요청, 나눔 등 소통 공간</p>
+                </div>
+                <a href="board.html" class="btn btn-dark">
+                  게시판 바로가기 <span class="fas fa-arrow-right ms-2"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ============================================-->
 
 
       <!-- ============================================-->
@@ -396,26 +437,18 @@
         <div class="container">
           <div class="row gy-4" id="home-gallery">
             <div class="col-12 mb-3 mb-lg-5">
-              <h2 class="fs-6 fs-sm-5"><span class="text-decoration-underline">활동 갤러리</span></h2>
+              <h2 class="fs-6 fs-sm-5"><span class="text-decoration-underline">행사 사진</span></h2>
             </div>
-            <div class="col-6 col-lg-4"><a href="events.html"><img class="rounded img-fluid" src="assets/img/gallery/13.jpg" alt="활동 갤러리" loading="lazy" data-zanim-xs='{"animation":"zoom-in","delay":0.1}' data-zanim-trigger="scroll" /></a>
+            <!-- 사진 로딩 -->
+            <div id="homeGalleryLoading" class="col-12 text-center py-4">
+              <div class="spinner-border spinner-border-sm text-primary" role="status">
+                <span class="visually-hidden">로딩중...</span>
+              </div>
             </div>
-            <div class="col-6 col-lg-4"><a href="events.html"><img class="rounded img-fluid" src="assets/img/gallery/14.jpg" alt="활동 갤러리" loading="lazy" data-zanim-xs='{"animation":"zoom-in","delay":0.1}' data-zanim-trigger="scroll" /></a>
-            </div>
-            <div class="col-6 col-lg-4"><a href="events.html"><img class="rounded img-fluid" src="assets/img/gallery/15.jpg" alt="활동 갤러리" loading="lazy" data-zanim-xs='{"animation":"zoom-in","delay":0.1}' data-zanim-trigger="scroll" /></a>
-            </div>
-            <div class="col-6 col-lg-4"><a href="events.html"><img class="rounded img-fluid" src="assets/img/gallery/16.jpg" alt="활동 갤러리" loading="lazy" data-zanim-xs='{"animation":"zoom-in","delay":0.1}' data-zanim-trigger="scroll" /></a>
-            </div>
-            <div class="col-6 col-lg-4"><a href="events.html"><img class="rounded img-fluid" src="assets/img/gallery/17.jpg" alt="활동 갤러리" loading="lazy" data-zanim-xs='{"animation":"zoom-in","delay":0.1}' data-zanim-trigger="scroll" /></a>
-            </div>
-            <div class="col-6 col-lg-4"><a href="events.html"><img class="rounded img-fluid" src="assets/img/gallery/18.jpg" alt="활동 갤러리" loading="lazy" data-zanim-xs='{"animation":"zoom-in","delay":0.1}' data-zanim-trigger="scroll" /></a>
-            </div>
-            <div class="col-6 col-lg-4"><a href="events.html"><img class="rounded img-fluid" src="assets/img/gallery/19.jpg" alt="활동 갤러리" loading="lazy" data-zanim-xs='{"animation":"zoom-in","delay":0.1}' data-zanim-trigger="scroll" /></a>
-            </div>
-            <div class="col-6 col-lg-4"><a href="events.html"><img class="rounded img-fluid" src="assets/img/gallery/20.jpg" alt="활동 갤러리" loading="lazy" data-zanim-xs='{"animation":"zoom-in","delay":0.1}' data-zanim-trigger="scroll" /></a>
-            </div>
-            <div class="col-6 col-lg-4"><a href="events.html"><img class="rounded img-fluid" src="assets/img/gallery/21.jpg" alt="활동 갤러리" loading="lazy" data-zanim-xs='{"animation":"zoom-in","delay":0.1}' data-zanim-trigger="scroll" /></a>
-            </div>
+          </div>
+          <!-- 더보기 버튼 -->
+          <div class="text-center mt-5" id="galleryMoreBtn" style="display:none;">
+            <a class="btn btn-outline-dark" href="events.html">사진 더보기 <span class="fas fa-arrow-right ms-2"></span></a>
           </div>
         </div>
         <!-- end of .container-->
@@ -932,6 +965,30 @@
       </div>
     </div>
 
+    <!-- 게시판 안내 팝업 -->
+    <div class="modal fade" id="boardPopup" tabindex="-1" aria-labelledby="boardPopupLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header border-0 pb-0">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center pt-0 pb-4">
+            <span class="fas fa-comments fa-3x text-primary mb-3"></span>
+            <h4 class="mb-2">회원 게시판 오픈!</h4>
+            <p class="text-body-secondary mb-4">회원간 정보 공유, 업무 요청, 나눔 등<br>자유롭게 소통하세요.</p>
+            <div class="d-grid gap-2">
+              <a href="board.html" class="btn btn-primary">
+                게시판 바로가기 <span class="fas fa-arrow-right ms-2"></span>
+              </a>
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal" onclick="hidePopupToday()">
+                오늘 하루 보지 않기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- ===============================================-->
     <!--    JavaScripts-->
@@ -1004,19 +1061,16 @@
           return;
         }
 
-        const badgeColorMap = {
-          'primary': 'bg-primary',
-          'warning': 'bg-warning text-dark',
-          'success': 'bg-success',
-          'info': 'bg-info',
-          'secondary': 'bg-secondary',
-          'danger': 'bg-danger'
+        const badgeCategoryMap = {
+          '공지사항': 'bg-primary',
+          '행사안내': 'bg-warning text-dark',
+          '기타': 'bg-secondary'
         };
 
         container.innerHTML = '<div class="col-12"><div class="list-group">';
 
         newsItems.forEach((item, index) => {
-          const badgeClass = badgeColorMap[item.badge_color] || 'bg-primary';
+          const badgeClass = badgeCategoryMap[item.category] || 'bg-primary';
           const formattedDate = new Date(item.created_at).toLocaleDateString('ko-KR', {
             year: 'numeric',
             month: '2-digit',
@@ -1035,7 +1089,7 @@
               </div>
               <p class="mb-2 text-body-secondary">${escapeHtml(truncatedContent)}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <span class="badge ${badgeClass}">${escapeHtml(item.badge_text || item.category)}</span>
+                <span class="badge ${badgeClass}">${escapeHtml(item.category)}</span>
                 <small class="text-body-tertiary"><span class="fas fa-eye me-1"></span>${item.view_count}</small>
               </div>
             </a>
@@ -1053,11 +1107,95 @@
         return div.innerHTML;
       }
 
-      // 페이지 로드 시 최신 소식 불러오기
+      // 홈페이지 갤러리 사진 로드
+      async function loadHomeGallery() {
+        try {
+          const { data: photos, error } = await supabase
+            .from('event_photos')
+            .select('*, news(title)')
+            .order('created_at', { ascending: false })
+            .limit(6);
+
+          if (error) throw error;
+
+          displayHomeGallery(photos);
+        } catch (error) {
+          console.error('갤러리 사진 불러오기 오류:', error);
+          document.getElementById('homeGalleryLoading').innerHTML = `
+            <p class="text-body-secondary">사진을 불러올 수 없습니다.</p>
+          `;
+        }
+      }
+
+      function displayHomeGallery(photos) {
+        const container = document.getElementById('home-gallery');
+        const loading = document.getElementById('homeGalleryLoading');
+        const moreBtn = document.getElementById('galleryMoreBtn');
+
+        if (!container) return;
+
+        if (loading) loading.style.display = 'none';
+
+        if (!photos || photos.length === 0) {
+          container.innerHTML += `
+            <div class="col-12 text-center text-body-secondary py-4">
+              <p>등록된 행사 사진이 없습니다.</p>
+            </div>
+          `;
+          return;
+        }
+
+        photos.forEach((photo, index) => {
+          const eventTitle = photo.news ? photo.news.title : '행사 사진';
+          const photoHTML = `
+            <div class="col-6 col-md-4" data-zanim-xs='{"delay":${0.1 + index * 0.1}}' data-zanim-trigger="scroll">
+              <a href="${photo.image_url}" data-bigpicture='{"type":"image"}' class="d-block overflow-hidden rounded">
+                <img class="img-fluid hover-zoom-in" src="${photo.image_url}" alt="${escapeHtml(photo.caption || eventTitle)}" style="aspect-ratio: 1; object-fit: cover; width: 100%;" />
+              </a>
+              <p class="mt-2 mb-0 text-body-secondary fs-10">${escapeHtml(photo.caption || eventTitle)}</p>
+            </div>
+          `;
+          container.insertAdjacentHTML('beforeend', photoHTML);
+        });
+
+        // 더보기 버튼 표시
+        if (moreBtn) moreBtn.style.display = 'block';
+      }
+
+      // 페이지 로드 시 최신 소식 및 갤러리 불러오기
       document.addEventListener('DOMContentLoaded', () => {
         loadLatestNews();
+        loadHomeGallery();
+
+        // 게시판 팝업 표시 (오늘 하루 보지 않기 체크)
+        const hideUntil = localStorage.getItem('boardPopupHideUntil');
+        const now = new Date().getTime();
+
+        if (!hideUntil || now > parseInt(hideUntil)) {
+          setTimeout(() => {
+            const popup = new bootstrap.Modal(document.getElementById('boardPopup'));
+            popup.show();
+          }, 1000);
+        }
       });
+
+      // 오늘 하루 보지 않기
+      function hidePopupToday() {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        localStorage.setItem('boardPopupHideUntil', tomorrow.getTime().toString());
+      }
     </script>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Supabase 설정 -->
+    <script src="assets/js/supabase-config.js"></script>
+
+    <!-- 플로팅 게시판 -->
+    <script src="assets/js/floating-board.js"></script>
 
   </body>
 
