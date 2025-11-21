@@ -6,9 +6,12 @@
 class FloatingBoard {
   constructor() {
     this.isOpen = false;
+    this.currentTab = 'board'; // 'board' or 'news'
     this.currentFilter = 'all';
     this.posts = [];
+    this.news = [];
     this.newPostCount = 0;
+    this.newNewsCount = 0;
     this.lastCheckTime = new Date();
 
     this.init();
@@ -24,14 +27,17 @@ class FloatingBoard {
     // 이벤트 리스너 등록
     this.attachEventListeners();
 
-    // 게시글 로드
-    await this.loadPosts();
+    // 게시글과 뉴스 로드
+    await Promise.all([
+      this.loadPosts(),
+      this.loadNews()
+    ]);
 
     // 실시간 업데이트 구독
     this.subscribeToRealtime();
 
     // 주기적으로 새 글 확인 (5분마다)
-    setInterval(() => this.checkNewPosts(), 5 * 60 * 1000);
+    setInterval(() => this.checkNewContent(), 5 * 60 * 1000);
   }
 
   /**
@@ -55,26 +61,51 @@ class FloatingBoard {
         <div class="floating-board-header">
           <h3 class="floating-board-title">
             <span>📋</span>
-            <span>회원 게시판</span>
+            <span>알림</span>
           </h3>
           <button class="floating-board-close" id="floatingBoardClose" aria-label="닫기">
             ✕
           </button>
         </div>
 
-        <!-- 카테고리 필터 -->
-        <div class="floating-board-filters">
-          <button class="filter-chip category-all active" data-filter="all">전체</button>
-          <button class="filter-chip category-request" data-filter="request">🟠 요청</button>
-          <button class="filter-chip category-info" data-filter="info">🔵 정보</button>
-          <button class="filter-chip category-share" data-filter="share">🟢 나눔</button>
-          <button class="filter-chip category-etc" data-filter="etc">🟣 기타</button>
+        <!-- 탭 네비게이션 -->
+        <div class="floating-board-tabs">
+          <button class="floating-board-tab active" data-tab="board" id="tabBoard">
+            게시판
+            <span class="floating-board-tab-badge" id="boardBadge" style="display:none;">0</span>
+          </button>
+          <button class="floating-board-tab" data-tab="news" id="tabNews">
+            뉴스
+            <span class="floating-board-tab-badge" id="newsBadge" style="display:none;">0</span>
+          </button>
         </div>
 
-        <!-- 게시글 목록 -->
-        <div class="floating-board-content" id="floatingBoardContent">
-          <div class="floating-board-loading">
-            <div class="loading-spinner"></div>
+        <!-- 게시판 탭 컨텐츠 -->
+        <div class="floating-board-tab-content active" id="boardTabContent">
+          <!-- 카테고리 필터 -->
+          <div class="floating-board-filters">
+            <button class="filter-chip category-all active" data-filter="all">전체</button>
+            <button class="filter-chip category-request" data-filter="request">🟠 요청</button>
+            <button class="filter-chip category-info" data-filter="info">🔵 정보</button>
+            <button class="filter-chip category-share" data-filter="share">🟢 나눔</button>
+            <button class="filter-chip category-etc" data-filter="etc">🟣 기타</button>
+          </div>
+
+          <!-- 게시글 목록 -->
+          <div class="floating-board-content" id="floatingBoardContent">
+            <div class="floating-board-loading">
+              <div class="loading-spinner"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 뉴스 탭 컨텐츠 -->
+        <div class="floating-board-tab-content" id="newsTabContent">
+          <!-- 뉴스 목록 -->
+          <div class="floating-board-content" id="floatingNewsContent">
+            <div class="floating-board-loading">
+              <div class="loading-spinner"></div>
+            </div>
           </div>
         </div>
 
@@ -115,6 +146,14 @@ class FloatingBoard {
       }
     });
 
+    // 탭 전환
+    document.querySelectorAll('.floating-board-tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const tabName = e.currentTarget.dataset.tab;
+        this.switchTab(tabName);
+      });
+    });
+
     // 카테고리 필터 클릭
     document.querySelectorAll('.filter-chip').forEach(chip => {
       chip.addEventListener('click', (e) => {
@@ -125,12 +164,20 @@ class FloatingBoard {
 
     // 글쓰기 버튼
     document.getElementById('floatingBoardWrite').addEventListener('click', () => {
-      window.location.href = 'board-write.html';
+      if (this.currentTab === 'news') {
+        window.location.href = 'news-write.html';
+      } else {
+        window.location.href = 'board-write.html';
+      }
     });
 
     // 전체보기 버튼
     document.getElementById('floatingBoardViewAll').addEventListener('click', () => {
-      window.location.href = 'board.html';
+      if (this.currentTab === 'news') {
+        window.location.href = 'news.html';
+      } else {
+        window.location.href = 'board.html';
+      }
     });
   }
 
@@ -145,7 +192,9 @@ class FloatingBoard {
 
     // 새 글 카운트 초기화
     this.newPostCount = 0;
+    this.newNewsCount = 0;
     this.updateBadge();
+    this.updateTabBadges();
     this.lastCheckTime = new Date();
   }
 
@@ -157,6 +206,29 @@ class FloatingBoard {
     document.getElementById('floatingBoardPanel').classList.remove('active');
     document.getElementById('floatingBoardOverlay').classList.remove('active');
     document.body.style.overflow = '';
+  }
+
+  /**
+   * 탭 전환
+   */
+  switchTab(tabName) {
+    this.currentTab = tabName;
+
+    // 탭 버튼 활성화
+    document.querySelectorAll('.floating-board-tab').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+    // 탭 컨텐츠 활성화
+    document.querySelectorAll('.floating-board-tab-content').forEach(content => {
+      content.classList.remove('active');
+    });
+    if (tabName === 'board') {
+      document.getElementById('boardTabContent').classList.add('active');
+    } else {
+      document.getElementById('newsTabContent').classList.add('active');
+    }
   }
 
   /**
@@ -201,10 +273,62 @@ class FloatingBoard {
       }
 
       this.posts = data || [];
+
+      // 최근 24시간 이내 게시글을 "새 글"로 카운트
+      const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      this.newPostCount = this.posts.filter(post =>
+        new Date(post.created_at) > oneDayAgo
+      ).length;
+
+      this.updateBadge();
+      this.updateTabBadges();
       this.renderPosts();
     } catch (error) {
       console.error('Error:', error);
       this.renderError();
+    }
+  }
+
+  /**
+   * 뉴스 로드
+   */
+  async loadNews() {
+    try {
+      // Supabase가 없으면 샘플 데이터 사용
+      if (typeof supabase === 'undefined') {
+        console.warn('Supabase not available, using sample data');
+        this.news = [];
+        this.renderNews();
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('news')
+        .select('*')
+        .eq('is_published', true)
+        .order('created_at', { ascending: false })
+        .limit(20);
+
+      if (error) {
+        console.error('Error loading news:', error);
+        this.renderNewsError();
+        return;
+      }
+
+      this.news = data || [];
+
+      // 최근 24시간 이내 뉴스를 "새 글"로 카운트
+      const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      this.newNewsCount = this.news.filter(news =>
+        new Date(news.created_at) > oneDayAgo
+      ).length;
+
+      this.updateBadge();
+      this.updateTabBadges();
+      this.renderNews();
+    } catch (error) {
+      console.error('Error:', error);
+      this.renderNewsError();
     }
   }
 
@@ -283,6 +407,67 @@ class FloatingBoard {
   }
 
   /**
+   * 뉴스 렌더링
+   */
+  renderNews() {
+    const content = document.getElementById('floatingNewsContent');
+
+    // 최대 15개만 표시
+    const displayNews = this.news.slice(0, 15);
+
+    if (displayNews.length === 0) {
+      content.innerHTML = `
+        <div class="floating-board-empty">
+          <div class="floating-board-empty-icon">📭</div>
+          <div class="floating-board-empty-text">뉴스가 없습니다</div>
+        </div>
+      `;
+      return;
+    }
+
+    const html = displayNews.map(news => this.renderNewsItem(news)).join('');
+    content.innerHTML = html;
+
+    // 뉴스 클릭 이벤트
+    content.querySelectorAll('.news-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const newsId = item.dataset.newsId;
+        window.location.href = `news.html#news-${newsId}`;
+      });
+    });
+  }
+
+  /**
+   * 뉴스 아이템 렌더링
+   */
+  renderNewsItem(news) {
+    const timeAgo = this.getTimeAgo(new Date(news.created_at));
+
+    // 새 글 체크 (최근 24시간 이내)
+    const isNew = new Date(news.created_at) > new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const newClass = isNew ? 'new' : '';
+
+    // 썸네일 HTML
+    const thumbnailHTML = news.image_url
+      ? `<img src="${news.image_url}" alt="${this.escapeHtml(news.title)}" class="news-item-thumbnail">`
+      : '<div class="news-item-thumbnail" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">📰</div>';
+
+    return `
+      <div class="news-item ${newClass}" data-news-id="${news.id}">
+        ${thumbnailHTML}
+        <div class="news-item-content">
+          <span class="news-item-category ${news.category}">${this.escapeHtml(news.category)}</span>
+          <h4 class="news-item-title">${this.escapeHtml(news.title)}</h4>
+          <div class="news-item-meta">
+            <span>${timeAgo}</span>
+            <span>👁️ ${news.view_count || 0}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  /**
    * 에러 렌더링
    */
   renderError() {
@@ -296,6 +481,19 @@ class FloatingBoard {
   }
 
   /**
+   * 뉴스 에러 렌더링
+   */
+  renderNewsError() {
+    const content = document.getElementById('floatingNewsContent');
+    content.innerHTML = `
+      <div class="floating-board-empty">
+        <div class="floating-board-empty-icon">⚠️</div>
+        <div class="floating-board-empty-text">뉴스를 불러올 수 없습니다</div>
+      </div>
+    `;
+  }
+
+  /**
    * 실시간 업데이트 구독
    */
   subscribeToRealtime() {
@@ -304,6 +502,7 @@ class FloatingBoard {
     }
 
     try {
+      // 게시판 글 변경 구독
       supabase
         .channel('board_posts_changes')
         .on('postgres_changes',
@@ -316,9 +515,10 @@ class FloatingBoard {
               this.posts.unshift(payload.new);
               this.newPostCount++;
               this.updateBadge();
+              this.updateTabBadges();
 
               // 패널이 열려있으면 즉시 렌더링
-              if (this.isOpen) {
+              if (this.isOpen && this.currentTab === 'board') {
                 this.renderPosts();
               }
             } else if (payload.eventType === 'UPDATE') {
@@ -326,15 +526,56 @@ class FloatingBoard {
               const index = this.posts.findIndex(p => p.id === payload.new.id);
               if (index !== -1) {
                 this.posts[index] = payload.new;
-                if (this.isOpen) {
+                if (this.isOpen && this.currentTab === 'board') {
                   this.renderPosts();
                 }
               }
             } else if (payload.eventType === 'DELETE') {
               // 글 삭제
               this.posts = this.posts.filter(p => p.id !== payload.old.id);
-              if (this.isOpen) {
+              if (this.isOpen && this.currentTab === 'board') {
                 this.renderPosts();
+              }
+            }
+          }
+        )
+        .subscribe();
+
+      // 뉴스 변경 구독
+      supabase
+        .channel('news_changes')
+        .on('postgres_changes',
+          { event: '*', schema: 'public', table: 'news' },
+          (payload) => {
+            console.log('News changed:', payload);
+
+            if (payload.eventType === 'INSERT') {
+              // 새 뉴스 추가
+              if (payload.new.is_published) {
+                this.news.unshift(payload.new);
+                this.newNewsCount++;
+                this.updateBadge();
+                this.updateTabBadges();
+
+                // 패널이 열려있으면 즉시 렌더링
+                if (this.isOpen && this.currentTab === 'news') {
+                  this.renderNews();
+                }
+              }
+            } else if (payload.eventType === 'UPDATE') {
+              // 뉴스 수정
+              const index = this.news.findIndex(n => n.id === payload.new.id);
+              if (index !== -1) {
+                this.news[index] = payload.new;
+                if (this.isOpen && this.currentTab === 'news') {
+                  this.renderNews();
+                }
+              }
+            } else if (payload.eventType === 'DELETE') {
+              // 뉴스 삭제
+              this.news = this.news.filter(n => n.id !== payload.old.id);
+              if (this.isOpen && this.currentTab === 'news') {
+                this.renderNews();
               }
             }
           }
@@ -346,39 +587,80 @@ class FloatingBoard {
   }
 
   /**
-   * 새 글 확인
+   * 새 컨텐츠 확인 (게시판 + 뉴스)
    */
-  async checkNewPosts() {
+  async checkNewContent() {
     if (typeof supabase === 'undefined' || this.isOpen) {
       return;
     }
 
     try {
-      const { data, error } = await supabase
+      // 새 게시판 글 확인
+      const { data: newPosts, error: postsError } = await supabase
         .from('board_posts')
         .select('id')
         .gte('created_at', this.lastCheckTime.toISOString())
         .order('created_at', { ascending: false });
 
-      if (!error && data && data.length > 0) {
-        this.newPostCount = data.length;
-        this.updateBadge();
+      if (!postsError && newPosts && newPosts.length > 0) {
+        this.newPostCount = newPosts.length;
       }
+
+      // 새 뉴스 확인
+      const { data: newNews, error: newsError } = await supabase
+        .from('news')
+        .select('id')
+        .eq('is_published', true)
+        .gte('created_at', this.lastCheckTime.toISOString())
+        .order('created_at', { ascending: false});
+
+      if (!newsError && newNews && newNews.length > 0) {
+        this.newNewsCount = newNews.length;
+      }
+
+      // 뱃지 업데이트
+      this.updateBadge();
+      this.updateTabBadges();
     } catch (error) {
-      console.error('Error checking new posts:', error);
+      console.error('Error checking new content:', error);
     }
   }
 
   /**
-   * 뱃지 업데이트
+   * 뱃지 업데이트 (통합 뱃지)
    */
   updateBadge() {
     const badge = document.getElementById('floatingBoardBadge');
-    if (this.newPostCount > 0) {
-      badge.textContent = this.newPostCount > 99 ? '99+' : this.newPostCount;
+    const totalCount = this.newPostCount + this.newNewsCount;
+
+    if (totalCount > 0) {
+      badge.textContent = totalCount > 99 ? '99+' : totalCount;
       badge.style.display = 'block';
     } else {
       badge.style.display = 'none';
+    }
+  }
+
+  /**
+   * 탭별 뱃지 업데이트
+   */
+  updateTabBadges() {
+    // 게시판 뱃지
+    const boardBadge = document.getElementById('boardBadge');
+    if (this.newPostCount > 0) {
+      boardBadge.textContent = this.newPostCount > 99 ? '99+' : this.newPostCount;
+      boardBadge.style.display = 'inline-block';
+    } else {
+      boardBadge.style.display = 'none';
+    }
+
+    // 뉴스 뱃지
+    const newsBadge = document.getElementById('newsBadge');
+    if (this.newNewsCount > 0) {
+      newsBadge.textContent = this.newNewsCount > 99 ? '99+' : this.newNewsCount;
+      newsBadge.style.display = 'inline-block';
+    } else {
+      newsBadge.style.display = 'none';
     }
   }
 

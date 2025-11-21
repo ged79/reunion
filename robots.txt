@@ -5,14 +5,10 @@ User-agent: *
 Allow: /
 
 # Sitemap 위치
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://mintong.netlify.app/sitemap.xml
 
 # 크롤링 제외 디렉토리
 Disallow: /vendors/
 Disallow: /.git/
 Disallow: /.claude/
 Disallow: /node_modules/
-
-# 임시 파일 제외
-Disallow: *_backup.html
-Disallow: /nul

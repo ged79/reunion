@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- 메인 페이지 -->
   <url>
-    <loc>https://your-domain.com/</loc>
+    <loc>https://mintong.netlify.app/</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -10,7 +10,7 @@
 
   <!-- 협의회 소개 -->
   <url>
-    <loc>https://your-domain.com/about.html</loc>
+    <loc>https://mintong.netlify.app/about.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -18,7 +18,7 @@
 
   <!-- 사업 안내 -->
   <url>
-    <loc>https://your-domain.com/services.html</loc>
+    <loc>https://mintong.netlify.app/services.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -26,7 +26,7 @@
 
   <!-- 회원 소개 -->
   <url>
-    <loc>https://your-domain.com/members.html</loc>
+    <loc>https://mintong.netlify.app/members.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -34,7 +34,7 @@
 
   <!-- 회원 게시판 -->
   <url>
-    <loc>https://your-domain.com/board.html</loc>
+    <loc>https://mintong.netlify.app/board.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -42,7 +42,7 @@
 
   <!-- 게시글 작성 -->
   <url>
-    <loc>https://your-domain.com/board-write.html</loc>
+    <loc>https://mintong.netlify.app/board-write.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -50,7 +50,7 @@
 
   <!-- 활동 소식 -->
   <url>
-    <loc>https://your-domain.com/news.html</loc>
+    <loc>https://mintong.netlify.app/news.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -58,7 +58,7 @@
 
   <!-- 뉴스 작성 -->
   <url>
-    <loc>https://your-domain.com/news-write.html</loc>
+    <loc>https://mintong.netlify.app/news-write.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -66,7 +66,7 @@
 
   <!-- 뉴스 상세 -->
   <url>
-    <loc>https://your-domain.com/news-detail.html</loc>
+    <loc>https://mintong.netlify.app/news-detail.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -74,7 +74,7 @@
 
   <!-- 행사 안내 -->
   <url>
-    <loc>https://your-domain.com/events.html</loc>
+    <loc>https://mintong.netlify.app/events.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -82,7 +82,7 @@
 
   <!-- 행사 상세 -->
   <url>
-    <loc>https://your-domain.com/event-detail.html</loc>
+    <loc>https://mintong.netlify.app/event-detail.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -90,7 +90,7 @@
 
   <!-- 활동 갤러리 -->
   <url>
-    <loc>https://your-domain.com/portfolio.html</loc>
+    <loc>https://mintong.netlify.app/portfolio.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -98,7 +98,7 @@
 
   <!-- 사례 연구 -->
   <url>
-    <loc>https://your-domain.com/casestudy.html</loc>
+    <loc>https://mintong.netlify.app/casestudy.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -106,7 +106,7 @@
 
   <!-- 연락처 -->
   <url>
-    <loc>https://your-domain.com/contact.html</loc>
+    <loc>https://mintong.netlify.app/contact.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
