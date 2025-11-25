@@ -21,23 +21,28 @@ class FloatingBoard {
    * 초기화
    */
   async init() {
-    // HTML 구조 생성
-    this.createHTML();
+    try {
+      // HTML 구조 생성
+      this.createHTML();
 
-    // 이벤트 리스너 등록
-    this.attachEventListeners();
+      // 이벤트 리스너 등록
+      this.attachEventListeners();
 
-    // 게시글과 뉴스 로드
-    await Promise.all([
-      this.loadPosts(),
-      this.loadNews()
-    ]);
+      // 게시글과 뉴스 로드
+      await Promise.all([
+        this.loadPosts().catch(err => console.error('Failed to load posts:', err)),
+        this.loadNews().catch(err => console.error('Failed to load news:', err))
+      ]);
 
-    // 실시간 업데이트 구독
-    this.subscribeToRealtime();
+      // 실시간 업데이트 구독 (임시 비활성화 - WebSocket 오류로 인해)
+      // this.subscribeToRealtime();
 
-    // 주기적으로 새 글 확인 (5분마다)
-    setInterval(() => this.checkNewContent(), 5 * 60 * 1000);
+      // 주기적으로 새 글 확인 (5분마다)
+      setInterval(() => this.checkNewContent(), 5 * 60 * 1000);
+    } catch (error) {
+      console.error('FloatingBoard initialization error:', error);
+      // 초기화 실패해도 페이지는 계속 작동하도록 함
+    }
   }
 
   /**
@@ -627,18 +632,20 @@ class FloatingBoard {
   }
 
   /**
-   * 뱃지 업데이트 (통합 뱃지)
+   * 뱃지 업데이트 (게시판만)
    */
   updateBadge() {
     const badge = document.getElementById('floatingBoardBadge');
-    const totalCount = this.newPostCount + this.newNewsCount;
-
-    if (totalCount > 0) {
-      badge.textContent = totalCount > 99 ? '99+' : totalCount;
+    // 플로팅 버튼 뱃지는 게시판 글만 표시
+    if (this.newPostCount > 0) {
+      badge.textContent = this.newPostCount > 99 ? '99+' : this.newPostCount;
       badge.style.display = 'block';
     } else {
       badge.style.display = 'none';
     }
+
+    // index 페이지의 뉴스 버튼 뱃지도 업데이트
+    this.updateIndexNewsBadge();
   }
 
   /**
@@ -661,6 +668,21 @@ class FloatingBoard {
       newsBadge.style.display = 'inline-block';
     } else {
       newsBadge.style.display = 'none';
+    }
+  }
+
+  /**
+   * index 페이지 뉴스 버튼 뱃지 업데이트
+   */
+  updateIndexNewsBadge() {
+    const indexNewsBadge = document.getElementById('indexNewsBadge');
+    if (!indexNewsBadge) return; // index 페이지가 아니면 종료
+
+    if (this.newNewsCount > 0) {
+      indexNewsBadge.textContent = this.newNewsCount > 99 ? '99+' : this.newNewsCount;
+      indexNewsBadge.style.display = 'inline-block';
+    } else {
+      indexNewsBadge.style.display = 'none';
     }
   }
 

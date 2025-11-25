@@ -654,3 +654,19 @@
     font-size: 8px;
   }
 }
+
+/* ============================================= */
+/* Index 페이지 뉴스 버튼 뱃지                     */
+/* ============================================= */
+#indexNewsBadge {
+  animation: pulse-badge 2s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}

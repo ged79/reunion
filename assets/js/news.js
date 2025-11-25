@@ -713,12 +713,12 @@ async function loadEventsTimeline() {
   console.log('timelineEl:', timelineEl);
 
   try {
-    // 행사안내 카테고리의 뉴스만 가져오기
+    // 행사안내 카테고리의 뉴스만 가져오기 (행사 날짜 기준 최신순)
     const { data: events, error } = await supabase
       .from('news')
       .select('*')
       .eq('category', '행사안내')
-      .order('created_at', { ascending: false })
+      .order('event_date', { ascending: false })
       .limit(6);
 
     if (error) throw error;

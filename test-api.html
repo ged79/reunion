@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Supabase API Test</title>
+</head>
+<body>
+    <h1>Supabase API 연결 테스트</h1>
+    <button onclick="testAPI()">API 테스트</button>
+    <pre id="result"></pre>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://qcepxveeuscqvsuhbqyd.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjZXB4dmVldXNjcXZzdWhicXlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM0MzkzNTgsImV4cCI6MjA3OTAxNTM1OH0.QV9Z9Wc6W9dbxYF5EZq7isIOQC7CBEQ3KLXmqFNh3Ro';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function testAPI() {
+            const resultEl = document.getElementById('result');
+            resultEl.textContent = 'Testing...';
+
+            try {
+                // Test 1: news 테이블
+                console.log('Testing news table...');
+                const { data: news, error: newsError } = await supabase
+                    .from('news')
+                    .select('*')
+                    .limit(1);
+
+                if (newsError) {
+                    resultEl.textContent = 'ERROR:\n' + JSON.stringify(newsError, null, 2);
+                    console.error('News error:', newsError);
+                } else {
+                    resultEl.textContent = 'SUCCESS:\n' + JSON.stringify(news, null, 2);
+                    console.log('News data:', news);
+                }
+
+            } catch (error) {
+                resultEl.textContent = 'EXCEPTION:\n' + error.message + '\n\n' + error.stack;
+                console.error('Exception:', error);
+            }
+        }
+
+        // 페이지 로드시 자동 테스트
+        window.addEventListener('DOMContentLoaded', testAPI);
+    </script>
+</body>
+</html>

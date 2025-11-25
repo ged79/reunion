@@ -93,7 +93,7 @@
           <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="board.html"><span class="fancynav-link-content">회원게시판</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
-          <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사 안내</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사&사진</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
         </ul>
       </div>
@@ -218,7 +218,11 @@
 
               <!-- 더보기 버튼 -->
               <div class="text-center mt-5">
-                <a class="btn btn-outline-dark" href="news.html">소식 더보기 <span class="fas fa-arrow-right ms-2"></span></a>
+                <a class="btn btn-outline-dark position-relative" href="news.html">
+                  소식 더보기
+                  <span class="fas fa-arrow-right ms-2"></span>
+                  <span id="indexNewsBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none; font-size: 0.65rem;">0</span>
+                </a>
               </div>
             </div>
           </div>
@@ -247,7 +251,7 @@
             <!-- 회원 그리드 (25명) - 실제 회원 정보 -->
             <!-- 회장 -->
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4" data-bs-toggle="modal" data-bs-target="#member1Modal" style="cursor:pointer">
-              <img class="rounded-circle img-fluid" src="assets/img/team/0.jpg" alt="김종원" loading="lazy" />
+              <img class="rounded-circle img-fluid" src="assets/img/team/p2.jpg" alt="김종원" loading="lazy" />
               <h6 class="mt-2 mb-0 fw-bold fs-10">김종원</h6>
               <p class="text-body-secondary fs-11 mb-0">청년회장</p>
             </div>
