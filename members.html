@@ -207,28 +207,28 @@
             <div class="col-lg-10">
               <div class="d-flex flex-wrap gap-2 justify-content-center" id="categoryFilters">
                 <button type="button" class="btn btn-dark btn-sm category-filter-btn active" data-category="">
-                  전체 <span class="badge bg-light text-dark ms-1" id="count-all">25</span>
+                  전체 <span class="badge bg-light text-dark ms-1" id="count-all">26</span>
                 </button>
                 <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="leadership">
                   지도부 <span class="badge bg-secondary ms-1" id="count-leadership">2</span>
                 </button>
                 <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="construction">
-                  건설/부동산 <span class="badge bg-secondary ms-1" id="count-construction">6</span>
+                  건설/건축 <span class="badge bg-secondary ms-1" id="count-construction">7</span>
                 </button>
-                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="it">
-                  IT/기술 <span class="badge bg-secondary ms-1" id="count-it">1</span>
+                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="electric">
+                  전기/설비 <span class="badge bg-secondary ms-1" id="count-electric">3</span>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="equipment">
+                  장비/렌탈 <span class="badge bg-secondary ms-1" id="count-equipment">6</span>
                 </button>
                 <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="service">
-                  서비스업 <span class="badge bg-secondary ms-1" id="count-service">3</span>
+                  서비스/유통 <span class="badge bg-secondary ms-1" id="count-service">6</span>
                 </button>
                 <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="finance">
-                  금융업 <span class="badge bg-secondary ms-1" id="count-finance">1</span>
+                  금융 <span class="badge bg-secondary ms-1" id="count-finance">1</span>
                 </button>
-                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="manufacturing">
-                  제조/인쇄 <span class="badge bg-secondary ms-1" id="count-manufacturing">1</span>
-                </button>
-                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="other">
-                  기타 <span class="badge bg-secondary ms-1" id="count-other">11</span>
+                <button type="button" class="btn btn-outline-dark btn-sm category-filter-btn" data-category="it">
+                  IT <span class="badge bg-secondary ms-1" id="count-it">1</span>
                 </button>
               </div>
             </div>
@@ -247,354 +247,412 @@
 
             <div class="col-12 member-item" data-category="leadership" data-name="김종원">
               <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="김종원" data-role="청년회장" data-company="(주)범증" data-field="건설업"
-                   data-phone="010-1234-0001" data-email="kim@example.com" data-img="assets/img/team/0.jpg">
-                <img src="assets/img/team/0.jpg" alt="김종원" />
+                   data-name="김종원" data-role="청년회장" data-company="㈜범증" data-field="건설"
+                   data-phone="010-5407-3228" data-img="assets/img/team/김종원.jpg"
+                   data-position="CEO" data-birth="1972" data-address="" data-title="현 민족통일 영동군 청년회장">
+                <img src="assets/img/team/김종원.jpg" alt="김종원" />
                 <div class="member-compact-info">
                   <h5>김종원 <span class="badge bg-primary">청년회장</span></h5>
-                  <p><strong>회사:</strong> (주)범증</p>
-                  <p><strong>분야:</strong> 건설업</p>
+                  <p><strong>회사:</strong> ㈜범증</p>
+                  <p><strong>분야:</strong> 건설</p>
                 </div>
               </div>
             </div>
 
             <div class="col-12 member-item" data-category="leadership" data-name="임진석">
               <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="임진석" data-role="총무" data-company="레인보우꽃집 / (주)코넥서스 이사" data-field="서비스업"
-                   data-phone="010-1234-0002" data-email="lim@example.com" data-img="assets/img/team/1.jpg">
-                <img src="assets/img/team/1.jpg" alt="임진석" />
+                   data-name="임진석" data-role="총무" data-company="레인보우꽃집" data-field="화훼유통"
+                   data-phone="010-4533-1333" data-img="assets/img/team/임진석.jpg"
+                   data-position="CEO" data-birth="1979" data-address="영동읍 눈어치4로4 101" data-title="현 민족통일 영동군 청년회 총무">
+                <img src="assets/img/team/임진석.jpg" alt="임진석" />
                 <div class="member-compact-info">
                   <h5>임진석 <span class="badge bg-info">총무</span></h5>
-                  <p><strong>회사:</strong> 레인보우꽃집 / (주)코넥서스 이사</p>
-                  <p><strong>분야:</strong> 서비스업</p>
+                  <p><strong>회사:</strong> 레인보우꽃집</p>
+                  <p><strong>분야:</strong> 화훼유통</p>
                 </div>
               </div>
             </div>
 
-            <!-- 건설/부동산 카테고리 -->
+            <!-- 건설/건축 카테고리 -->
             <div class="col-12 category-header" data-category="construction">
               <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
-                <h3>건설/부동산</h3>
-                <span class="category-count">6명</span>
+                <h3>건설/건축</h3>
+                <span class="category-count">7명</span>
               </div>
             </div>
 
-            <div class="col-12 member-item" data-category="construction" data-name="박수용">
+            <div class="col-12 member-item" data-category="construction" data-name="이정희">
               <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="박수용" data-role="회원" data-company="" data-field="건설업"
-                   data-phone="010-1234-0003" data-email="park@example.com" data-img="assets/img/team/8.jpg">
-                <img src="assets/img/team/8.jpg" alt="박수용" />
+                   data-name="이정희" data-role="회원" data-company="J 건축" data-field="건축"
+                   data-phone="010-4718-0221" data-img="assets/img/team/이정희.jpg"
+                   data-position="CEO" data-birth="1978" data-address="영동읍 계산로 5길 9-1" data-title="전 하나축구회 회장">
+                <img src="assets/img/team/이정희.jpg" alt="이정희" />
                 <div class="member-compact-info">
-                  <h5>박수용</h5>
-                  <p><strong>분야:</strong> 건설업</p>
+                  <h5>이정희</h5>
+                  <p><strong>회사:</strong> J 건축</p>
+                  <p><strong>분야:</strong> 건축</p>
                 </div>
               </div>
             </div>
 
-            <div class="col-12 member-item" data-category="construction" data-name="연규영">
+            <div class="col-12 member-item" data-category="construction" data-name="임동기">
               <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="연규영" data-role="회원" data-company="" data-field="건설업"
-                   data-phone="010-1234-0004" data-email="yeon@example.com" data-img="assets/img/team/2.jpg">
-                <img src="assets/img/team/2.jpg" alt="연규영" />
+                   data-name="임동기" data-role="회원" data-company="디에이치개발(주)" data-field="폐기물처리"
+                   data-phone="010-8708-5730" data-img="assets/img/team/4.jpg"
+                   data-position="실장" data-birth="1989" data-address="매곡면 괴방명로 741-58" data-title="">
+                <img src="assets/img/team/4.jpg" alt="임동기" />
                 <div class="member-compact-info">
-                  <h5>연규영</h5>
-                  <p><strong>분야:</strong> 건설업 CEO</p>
+                  <h5>임동기</h5>
+                  <p><strong>회사:</strong> 디에이치개발(주)</p>
+                  <p><strong>분야:</strong> 폐기물처리</p>
                 </div>
               </div>
             </div>
 
-            <div class="col-12 member-item" data-category="construction" data-name="최원호">
+            <div class="col-12 member-item" data-category="construction" data-name="이종만">
               <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="최원호" data-role="회원" data-company="" data-field="건설업"
-                   data-phone="010-1234-0005" data-email="choi@example.com" data-img="assets/img/team/3.jpg">
-                <img src="assets/img/team/3.jpg" alt="최원호" />
+                   data-name="이종만" data-role="회원" data-company="서온건설" data-field="중장비(06) 운영"
+                   data-phone="010-9425-4099" data-img="assets/img/team/이종만.jpg"
+                   data-position="CEO" data-birth="1975" data-address="" data-title="">
+                <img src="assets/img/team/이종만.jpg" alt="이종만" />
                 <div class="member-compact-info">
-                  <h5>최원호</h5>
-                  <p><strong>분야:</strong> 건설업 CEO</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="construction" data-name="채흥열">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="채흥열" data-role="회원" data-company="" data-field="건설장비사업"
-                   data-phone="010-1234-0006" data-email="chae@example.com" data-img="assets/img/team/1.jpg">
-                <img src="assets/img/team/1.jpg" alt="채흥열" />
-                <div class="member-compact-info">
-                  <h5>채흥열</h5>
-                  <p><strong>분야:</strong> 건설장비사업 CEO</p>
+                  <h5>이종만</h5>
+                  <p><strong>회사:</strong> 서온건설</p>
+                  <p><strong>분야:</strong> 중장비(06) 운영</p>
                 </div>
               </div>
             </div>
 
             <div class="col-12 member-item" data-category="construction" data-name="조훈희">
               <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="조훈희" data-role="회원" data-company="" data-field="인테리어 사업"
-                   data-phone="010-1234-0007" data-email="jo@example.com" data-img="assets/img/team/0.jpg">
-                <img src="assets/img/team/0.jpg" alt="조훈희" />
+                   data-name="조훈희" data-role="회원" data-company="모던건축" data-field="건축설비/인테리어"
+                   data-phone="010-5455-9329" data-img="assets/img/team/조훈희.jpg"
+                   data-position="CEO" data-birth="1978" data-address="양강면 묵정2길 6" data-title="">
+                <img src="assets/img/team/조훈희.jpg" alt="조훈희" />
                 <div class="member-compact-info">
                   <h5>조훈희</h5>
-                  <p><strong>분야:</strong> 인테리어 사업 CEO</p>
+                  <p><strong>회사:</strong> 모던건축</p>
+                  <p><strong>분야:</strong> 건축설비/인테리어</p>
                 </div>
               </div>
             </div>
 
-            <div class="col-12 member-item" data-category="construction" data-name="김영균">
+            <div class="col-12 member-item" data-category="construction" data-name="박수용">
               <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="김영균" data-role="회원" data-company="" data-field="전력설비"
-                   data-phone="010-1234-0008" data-email="kimy@example.com" data-img="assets/img/team/4.jpg">
-                <img src="assets/img/team/4.jpg" alt="김영균" />
+                   data-name="박수용" data-role="회원" data-company="(주)금용건설" data-field="건설"
+                   data-phone="010-5481-0260" data-img="assets/img/team/2.jpg"
+                   data-position="CEO" data-birth="1978" data-address="영동읍 새동네길 24" data-title="">
+                <img src="assets/img/team/2.jpg" alt="박수용" />
+                <div class="member-compact-info">
+                  <h5>박수용</h5>
+                  <p><strong>회사:</strong> (주)금용건설</p>
+                  <p><strong>분야:</strong> 건설</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="construction" data-name="최원호">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="최원호" data-role="회원" data-company="㈜원호종합건설" data-field="건설"
+                   data-phone="010-5123-0745" data-img="assets/img/team/최원호.jpg"
+                   data-position="CEO" data-birth="1979" data-address="영동읍 영동황간로 324" data-title="">
+                <img src="assets/img/team/최원호.jpg" alt="최원호" />
+                <div class="member-compact-info">
+                  <h5>최원호</h5>
+                  <p><strong>회사:</strong> ㈜원호종합건설</p>
+                  <p><strong>분야:</strong> 건설</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="construction" data-name="연규영">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="연규영" data-role="회원" data-company="㈜준영건설" data-field="건설"
+                   data-phone="010-8807-7345" data-img="assets/img/team/연규영.jpg"
+                   data-position="CEO" data-birth="1982" data-address="" data-title="">
+                <img src="assets/img/team/연규영.jpg" alt="연규영" />
+                <div class="member-compact-info">
+                  <h5>연규영</h5>
+                  <p><strong>회사:</strong> ㈜준영건설</p>
+                  <p><strong>분야:</strong> 건설</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="construction" data-name="최두호">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="최두호" data-role="회원" data-company="㈜조이건설" data-field="건설"
+                   data-phone="010-3096-9243" data-img="assets/img/team/최두호.jpg"
+                   data-position="직장인" data-birth="1990" data-address="" data-title="">
+                <img src="assets/img/team/최두호.jpg" alt="최두호" />
+                <div class="member-compact-info">
+                  <h5>최두호</h5>
+                  <p><strong>회사:</strong> ㈜조이건설</p>
+                  <p><strong>분야:</strong> 건설</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 전기/설비 카테고리 -->
+            <div class="col-12 category-header" data-category="electric">
+              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
+                <h3>전기/설비</h3>
+                <span class="category-count">3명</span>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="electric" data-name="김영균">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="김영균" data-role="회원" data-company="㈜세영전력" data-field="전기"
+                   data-phone="010-4405-9347" data-img="assets/img/team/김영균.jpg"
+                   data-position="CEO" data-birth="1979" data-address="영동읍 설계리 308-2" data-title="">
+                <img src="assets/img/team/김영균.jpg" alt="김영균" />
                 <div class="member-compact-info">
                   <h5>김영균</h5>
-                  <p><strong>분야:</strong> 전력설비 회사 CEO</p>
+                  <p><strong>회사:</strong> ㈜세영전력</p>
+                  <p><strong>분야:</strong> 전기</p>
                 </div>
               </div>
             </div>
 
-            <!-- IT/기술 카테고리 -->
+            <div class="col-12 member-item" data-category="electric" data-name="여수원">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="여수원" data-role="회원" data-company="㈜이수전력" data-field="전기"
+                   data-phone="010-5433-6697" data-img="assets/img/team/8.jpg"
+                   data-position="CEO" data-birth="1972" data-address="영동읍 오정1길 104" data-title="현 영동로타리 클럽 회장">
+                <img src="assets/img/team/8.jpg" alt="여수원" />
+                <div class="member-compact-info">
+                  <h5>여수원</h5>
+                  <p><strong>회사:</strong> ㈜이수전력</p>
+                  <p><strong>분야:</strong> 전기</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="electric" data-name="오명택">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="오명택" data-role="회원" data-company="㈜용진환경" data-field="수처리 전문"
+                   data-phone="010-6623-4445" data-img="assets/img/team/5.jpg"
+                   data-position="직장인" data-birth="1978" data-address="영동읍 동정로 47 104동 903" data-title="">
+                <img src="assets/img/team/5.jpg" alt="오명택" />
+                <div class="member-compact-info">
+                  <h5>오명택</h5>
+                  <p><strong>회사:</strong> ㈜용진환경</p>
+                  <p><strong>분야:</strong> 수처리 전문</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 장비/렌탈 카테고리 -->
+            <div class="col-12 category-header" data-category="equipment">
+              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
+                <h3>장비/렌탈</h3>
+                <span class="category-count">6명</span>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="equipment" data-name="윤용수">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="윤용수" data-role="회원" data-company="성우렌탈" data-field="장비대여"
+                   data-phone="010-9163-5179" data-img="assets/img/team/윤용수.jpg"
+                   data-position="CEO" data-birth="1976" data-address="영동읍 회동리 74" data-title="현 뉴영동라이온스 클럽 회장">
+                <img src="assets/img/team/윤용수.jpg" alt="윤용수" />
+                <div class="member-compact-info">
+                  <h5>윤용수</h5>
+                  <p><strong>회사:</strong> 성우렌탈</p>
+                  <p><strong>분야:</strong> 장비대여</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="equipment" data-name="김용국">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="김용국" data-role="회원" data-company="영동 우성사다리차" data-field="사다리차(스카이)"
+                   data-phone="010-2482-4449" data-img="assets/img/team/5.jpg"
+                   data-position="CEO" data-birth="1988" data-address="영동읍 계산리 741-7" data-title="">
+                <img src="assets/img/team/5.jpg" alt="김용국" />
+                <div class="member-compact-info">
+                  <h5>김용국</h5>
+                  <p><strong>회사:</strong> 영동 우성사다리차</p>
+                  <p><strong>분야:</strong> 사다리차(스카이)</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="equipment" data-name="정성용">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="정성용" data-role="회원" data-company="프로지게차" data-field="장비대여"
+                   data-phone="010-2023-8306" data-img="assets/img/team/9.jpg"
+                   data-position="CEO" data-birth="1990" data-address="영동읍 영동황간로 668-6" data-title="">
+                <img src="assets/img/team/9.jpg" alt="정성용" />
+                <div class="member-compact-info">
+                  <h5>정성용</h5>
+                  <p><strong>회사:</strong> 프로지게차</p>
+                  <p><strong>분야:</strong> 장비대여</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="equipment" data-name="채흥렬">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="채흥렬" data-role="회원" data-company="영일 펌프카" data-field="장비대여"
+                   data-phone="010-5484-8584" data-img="assets/img/team/3.jpg"
+                   data-position="CEO" data-birth="" data-address="" data-title="">
+                <img src="assets/img/team/3.jpg" alt="채흥렬" />
+                <div class="member-compact-info">
+                  <h5>채흥렬</h5>
+                  <p><strong>회사:</strong> 영일 펌프카</p>
+                  <p><strong>분야:</strong> 장비대여</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="equipment" data-name="윤진한">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="윤진한" data-role="회원" data-company="국제중기" data-field="국제중기06"
+                   data-phone="010-6599-9597" data-img="assets/img/team/1.jpg"
+                   data-position="CEO" data-birth="1976" data-address="영동읍 구교로 22" data-title="">
+                <img src="assets/img/team/1.jpg" alt="윤진한" />
+                <div class="member-compact-info">
+                  <h5>윤진한</h5>
+                  <p><strong>회사:</strong> 국제중기</p>
+                  <p><strong>분야:</strong> 국제중기06</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 서비스/유통 카테고리 -->
+            <div class="col-12 category-header" data-category="service">
+              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
+                <h3>서비스/유통</h3>
+                <span class="category-count">6명</span>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="service" data-name="박성현">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="박성현" data-role="회원" data-company="길인당" data-field="판촉물 인쇄"
+                   data-phone="010-8919-8160" data-img="assets/img/team/9.jpg"
+                   data-position="CEO" data-birth="1996" data-address="영동읍 계산로 23-4" data-title="">
+                <img src="assets/img/team/9.jpg" alt="박성현" />
+                <div class="member-compact-info">
+                  <h5>박성현</h5>
+                  <p><strong>회사:</strong> 길인당</p>
+                  <p><strong>분야:</strong> 판촉물 인쇄</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="service" data-name="배명호">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="배명호" data-role="회원" data-company="영동꽃집" data-field="화훼유통"
+                   data-phone="010-5401-5336" data-img="assets/img/team/2.jpg"
+                   data-position="CEO" data-birth="1972" data-address="" data-title="">
+                <img src="assets/img/team/2.jpg" alt="배명호" />
+                <div class="member-compact-info">
+                  <h5>배명호</h5>
+                  <p><strong>회사:</strong> 영동꽃집</p>
+                  <p><strong>분야:</strong> 화훼유통</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="service" data-name="여형구">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="여형구" data-role="회원" data-company="철우종합공구" data-field="공구상사"
+                   data-phone="010-4002-9377" data-img="assets/img/team/여형구.jpg"
+                   data-position="" data-birth="" data-address="" data-title="">
+                <img src="assets/img/team/여형구.jpg" alt="여형구" />
+                <div class="member-compact-info">
+                  <h5>여형구</h5>
+                  <p><strong>회사:</strong> 철우종합공구</p>
+                  <p><strong>분야:</strong> 공구상사</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="service" data-name="전동민">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="전동민" data-role="회원" data-company="중앙석재" data-field="석재"
+                   data-phone="010-6517-3770" data-img="assets/img/team/6.jpg"
+                   data-position="CEO" data-birth="1979" data-address="영동읍 기골로 42-1" data-title="전 영동청년회의소 회장">
+                <img src="assets/img/team/6.jpg" alt="전동민" />
+                <div class="member-compact-info">
+                  <h5>전동민</h5>
+                  <p><strong>회사:</strong> 중앙석재</p>
+                  <p><strong>분야:</strong> 석재</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="service" data-name="이기돈">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="이기돈" data-role="회원" data-company="도시가스" data-field="도시가스(남부3군)"
+                   data-phone="010-5433-5082" data-img="assets/img/team/7.jpg"
+                   data-position="관리자" data-birth="1972" data-address="양강면 남전3길 80-43" data-title="">
+                <img src="assets/img/team/7.jpg" alt="이기돈" />
+                <div class="member-compact-info">
+                  <h5>이기돈</h5>
+                  <p><strong>회사:</strong> 도시가스</p>
+                  <p><strong>분야:</strong> 도시가스(남부3군)</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="service" data-name="이재룡">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="이재룡" data-role="회원" data-company="영동얀마 LS농기계" data-field="농기계 대리점"
+                   data-phone="010-5469-9484" data-img="assets/img/team/이재룡.jpg"
+                   data-position="CEO" data-birth="1979" data-address="영동읍 영동황간로 328" data-title="">
+                <img src="assets/img/team/이재룡.jpg" alt="이재룡" />
+                <div class="member-compact-info">
+                  <h5>이재룡</h5>
+                  <p><strong>회사:</strong> 영동얀마 LS농기계</p>
+                  <p><strong>분야:</strong> 농기계 대리점</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 금융 카테고리 -->
+            <div class="col-12 category-header" data-category="finance">
+              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
+                <h3>금융</h3>
+                <span class="category-count">1명</span>
+              </div>
+            </div>
+
+            <div class="col-12 member-item" data-category="finance" data-name="한상욱">
+              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
+                   data-name="한상욱" data-role="회원" data-company="영동 세마을금고" data-field="금융업"
+                   data-phone="010-7229-0456" data-img="assets/img/team/8.jpg"
+                   data-position="직장인" data-birth="1989" data-address="영동읍 상부용로 8-6" data-title="">
+                <img src="assets/img/team/8.jpg" alt="한상욱" />
+                <div class="member-compact-info">
+                  <h5>한상욱</h5>
+                  <p><strong>회사:</strong> 영동 세마을금고</p>
+                  <p><strong>분야:</strong> 금융업</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- IT 카테고리 -->
             <div class="col-12 category-header" data-category="it">
               <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
-                <h3>IT/기술</h3>
+                <h3>IT</h3>
                 <span class="category-count">1명</span>
               </div>
             </div>
 
             <div class="col-12 member-item" data-category="it" data-name="이경환">
               <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="이경환" data-role="회원" data-company="코넥서스 CTO" data-field="IT 기업"
-                   data-phone="010-1234-0009" data-email="lee@example.com" data-img="assets/img/team/4.jpg">
-                <img src="assets/img/team/4.jpg" alt="이경환" />
+                   data-name="이경환" data-role="회원" data-company="㈜코넥서스" data-field="IT"
+                   data-phone="010-7741-4569" data-img="assets/img/team/이경환.jpg"
+                   data-position="CTO" data-birth="1979" data-address="영동읍 눈어치4로4 201" data-title="">
+                <img src="assets/img/team/이경환.jpg" alt="이경환" />
                 <div class="member-compact-info">
                   <h5>이경환</h5>
-                  <p><strong>회사:</strong> 코넥서스 CTO</p>
-                  <p><strong>분야:</strong> IT 기업</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- 서비스업 카테고리 -->
-            <div class="col-12 category-header" data-category="service">
-              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
-                <h3>서비스업</h3>
-                <span class="category-count">3명</span>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="service" data-name="김용국">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="김용국" data-role="회원" data-company="" data-field="사다리차 사업"
-                   data-phone="010-1234-0010" data-email="kimyg@example.com" data-img="assets/img/team/2.jpg">
-                <img src="assets/img/team/2.jpg" alt="김용국" />
-                <div class="member-compact-info">
-                  <h5>김용국</h5>
-                  <p><strong>분야:</strong> 사다리차 사업 CEO</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="service" data-name="윤용수">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="윤용수" data-role="회원" data-company="성우렌탈" data-field="렌탈 사업"
-                   data-phone="010-1234-0011" data-email="yoon@example.com" data-img="assets/img/team/5.jpg">
-                <img src="assets/img/team/5.jpg" alt="윤용수" />
-                <div class="member-compact-info">
-                  <h5>윤용수</h5>
-                  <p><strong>회사:</strong> 성우렌탈 CEO</p>
-                  <p><strong>분야:</strong> 렌탈 사업</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="service" data-name="정성용">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="정성용" data-role="회원" data-company="" data-field="지게차 사업"
-                   data-phone="010-1234-0012" data-email="jung@example.com" data-img="assets/img/team/9.jpg">
-                <img src="assets/img/team/9.jpg" alt="정성용" />
-                <div class="member-compact-info">
-                  <h5>정성용</h5>
-                  <p><strong>분야:</strong> 지게차 사업 CEO</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- 금융업 카테고리 -->
-            <div class="col-12 category-header" data-category="finance">
-              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
-                <h3>금융업</h3>
-                <span class="category-count">1명</span>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="finance" data-name="한성욱">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="한성욱" data-role="회원" data-company="신협" data-field="금융업"
-                   data-phone="010-1234-0013" data-email="han@example.com" data-img="assets/img/team/6.jpg">
-                <img src="assets/img/team/6.jpg" alt="한성욱" />
-                <div class="member-compact-info">
-                  <h5>한성욱</h5>
-                  <p><strong>근무처:</strong> 신협</p>
-                  <p><strong>분야:</strong> 금융업</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- 제조/인쇄 카테고리 -->
-            <div class="col-12 category-header" data-category="manufacturing">
-              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
-                <h3>제조/인쇄</h3>
-                <span class="category-count">1명</span>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="manufacturing" data-name="박성현">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="박성현" data-role="회원" data-company="길인당" data-field="인쇄 및 판촉물 제작"
-                   data-phone="010-1234-0014" data-email="parksh@example.com" data-img="assets/img/team/7.jpg">
-                <img src="assets/img/team/7.jpg" alt="박성현" />
-                <div class="member-compact-info">
-                  <h5>박성현</h5>
-                  <p><strong>회사:</strong> 길인당 CEO</p>
-                  <p><strong>분야:</strong> 인쇄 및 판촉물 제작</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- 기타 회원 카테고리 -->
-            <div class="col-12 category-header" data-category="other">
-              <div class="category-header-custom" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">
-                <h3>기타 회원</h3>
-                <span class="category-count">11명</span>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="다니엘">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="다니엘" data-role="회원" data-company="" data-field=""
-                   data-phone="010-1234-0015" data-email="daniel@example.com" data-img="assets/img/team/3.jpg">
-                <img src="assets/img/team/3.jpg" alt="다니엘" />
-                <div class="member-compact-info">
-                  <h5>다니엘</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="돈이">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="돈이" data-role="회원" data-company="" data-field=""
-                   data-phone="010-1234-0016" data-email="doni@example.com" data-img="assets/img/team/4.jpg">
-                <img src="assets/img/team/4.jpg" alt="돈이" />
-                <div class="member-compact-info">
-                  <h5>돈이</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="모티베이션">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="모티베이션" data-role="회원" data-company="" data-field=""
-                   data-phone="010-1234-0017" data-email="moti@example.com" data-img="assets/img/team/5.jpg">
-                <img src="assets/img/team/5.jpg" alt="모티베이션" />
-                <div class="member-compact-info">
-                  <h5>모티베이션</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="배명호">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="배명호" data-role="회원" data-company="" data-field=""
-                   data-phone="010-1234-0018" data-email="bae@example.com" data-img="assets/img/team/9.jpg">
-                <img src="assets/img/team/9.jpg" alt="배명호" />
-                <div class="member-compact-info">
-                  <h5>배명호</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="셔니">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="셔니" data-role="회원" data-company="" data-field=""
-                   data-phone="010-1234-0019" data-email="sunny@example.com" data-img="assets/img/team/0.jpg">
-                <img src="assets/img/team/0.jpg" alt="셔니" />
-                <div class="member-compact-info">
-                  <h5>셔니</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="여형구">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="여형구" data-role="회원" data-company="" data-field=""
-                   data-phone="010-1234-0020" data-email="yeo@example.com" data-img="assets/img/team/1.jpg">
-                <img src="assets/img/team/1.jpg" alt="여형구" />
-                <div class="member-compact-info">
-                  <h5>여형구</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="열심히살자">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="열심히살자" data-role="회원" data-company="" data-field=""
-                   data-phone="010-1234-0021" data-email="work@example.com" data-img="assets/img/team/3.jpg">
-                <img src="assets/img/team/3.jpg" alt="열심히살자" />
-                <div class="member-compact-info">
-                  <h5>열심히살자</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="윤진한">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="윤진한" data-role="회원" data-company="" data-field=""
-                   data-phone="010-1234-0022" data-email="yoonjh@example.com" data-img="assets/img/team/6.jpg">
-                <img src="assets/img/team/6.jpg" alt="윤진한" />
-                <div class="member-compact-info">
-                  <h5>윤진한</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="이정희">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="이정희" data-role="회원" data-company="" data-field=""
-                   data-phone="010-1234-0023" data-email="leejh@example.com" data-img="assets/img/team/7.jpg">
-                <img src="assets/img/team/7.jpg" alt="이정희" />
-                <div class="member-compact-info">
-                  <h5>이정희</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="이종만">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="이종만" data-role="회원" data-company="" data-field=""
-                   data-phone="010-1234-0024" data-email="leejm@example.com" data-img="assets/img/team/8.jpg">
-                <img src="assets/img/team/8.jpg" alt="이종만" />
-                <div class="member-compact-info">
-                  <h5>이종만</h5>
-                  <p>청년회 회원</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 member-item" data-category="other" data-name="최두호">
-              <div class="member-compact-card" data-bs-toggle="modal" data-bs-target="#memberModal"
-                   data-name="최두호" data-role="회원" data-company="해병대" data-field=""
-                   data-phone="010-1234-0025" data-email="choidh@example.com" data-img="assets/img/team/2.jpg">
-                <img src="assets/img/team/2.jpg" alt="최두호" />
-                <div class="member-compact-info">
-                  <h5>최두호</h5>
-                  <p><strong>소속:</strong> 해병대</p>
+                  <p><strong>회사:</strong> ㈜코넥서스</p>
+                  <p><strong>분야:</strong> IT</p>
                 </div>
               </div>
             </div>
@@ -654,17 +712,27 @@
 
             <!-- 상세 정보 -->
             <div class="border-top pt-3">
-              <div class="mb-2" id="modalCompanyRow">
-                <small class="text-body-secondary">회사/소속</small>
-                <p class="mb-0 fw-medium" id="modalCompany"></p>
+              <div class="row mb-2" id="modalCompanyPositionRow">
+                <div class="col-6" id="modalCompanyRow">
+                  <small class="text-body-secondary">회사/소속</small>
+                  <p class="mb-0 fw-medium" id="modalCompany"></p>
+                </div>
+                <div class="col-6" id="modalPositionRow">
+                  <small class="text-body-secondary">직책</small>
+                  <p class="mb-0 fw-medium" id="modalPosition"></p>
+                </div>
               </div>
               <div class="mb-2" id="modalFieldRow">
                 <small class="text-body-secondary">업종/분야</small>
                 <p class="mb-0 fw-medium" id="modalField"></p>
               </div>
-              <div class="mb-2" id="modalServicesRow">
-                <small class="text-body-secondary">제공 서비스</small>
-                <div class="d-flex flex-wrap gap-1 mt-1" id="modalServices"></div>
+              <div class="mb-2" id="modalBirthRow">
+                <small class="text-body-secondary">출생연도</small>
+                <p class="mb-0 fw-medium" id="modalBirth"></p>
+              </div>
+              <div class="mb-2" id="modalAddressRow">
+                <small class="text-body-secondary">직장 주소</small>
+                <p class="mb-0 fw-medium" id="modalAddress"></p>
               </div>
               <div class="mb-3">
                 <small class="text-body-secondary">연락처</small>
@@ -672,6 +740,7 @@
                   <a href="#" id="modalPhone" class="text-decoration-none fw-medium"></a>
                 </p>
               </div>
+              <p class="text-primary fst-italic mb-0 small" id="modalTitle"></p>
             </div>
 
             <!-- 문의 버튼 -->
@@ -715,24 +784,6 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
 
-        // 회원별 서비스 데이터
-        const servicesData = {
-          '김종원': ['건축 시공', '리모델링', '인테리어'],
-          '임진석': ['꽃배달', '화환', 'IT 컨설팅'],
-          '박수용': ['건축', '토목'],
-          '연규영': ['건설 시공'],
-          '최원호': ['건설'],
-          '채흥열': ['건설장비 대여', '중장비'],
-          '조훈희': ['인테리어', '리모델링', '시공'],
-          '김영균': ['전기 공사', '전력설비'],
-          '이경환': ['웹 개발', '앱 개발', 'IT 컨설팅'],
-          '김용국': ['사다리차', '이사 운송'],
-          '윤용수': ['장비 렌탈', '기계 대여'],
-          '정성용': ['지게차', '물류'],
-          '한성욱': ['대출 상담', '금융 서비스'],
-          '박성현': ['인쇄', '판촉물', '명함']
-        };
-
         // 동적 모달 처리
         const memberModal = document.getElementById('memberModal');
         memberModal.addEventListener('show.bs.modal', function(event) {
@@ -745,9 +796,12 @@
           const field = card.getAttribute('data-field');
           const phone = card.getAttribute('data-phone');
           const img = card.getAttribute('data-img');
+          const position = card.getAttribute('data-position');
+          const birth = card.getAttribute('data-birth');
+          const address = card.getAttribute('data-address');
+          const title = card.getAttribute('data-title');
 
           // 모달에 데이터 설정
-          document.getElementById('memberModalLabel').textContent = name;
           document.getElementById('modalImg').src = img;
           document.getElementById('modalImg').alt = name;
           document.getElementById('modalName').textContent = name;
@@ -769,16 +823,36 @@
             document.getElementById('modalFieldRow').style.display = 'none';
           }
 
-          // 서비스 태그
-          const services = servicesData[name] || [];
-          const servicesContainer = document.getElementById('modalServices');
-          if (services.length > 0) {
-            servicesContainer.innerHTML = services.map(s =>
-              '<span class="badge bg-light text-dark">' + s + '</span>'
-            ).join('');
-            document.getElementById('modalServicesRow').style.display = 'block';
+          // 직책 정보
+          if (position) {
+            document.getElementById('modalPosition').textContent = position;
+            document.getElementById('modalPositionRow').style.display = 'block';
           } else {
-            document.getElementById('modalServicesRow').style.display = 'none';
+            document.getElementById('modalPositionRow').style.display = 'none';
+          }
+
+          // 출생연도 정보
+          if (birth) {
+            document.getElementById('modalBirth').textContent = birth + '년생';
+            document.getElementById('modalBirthRow').style.display = 'block';
+          } else {
+            document.getElementById('modalBirthRow').style.display = 'none';
+          }
+
+          // 직장 주소 정보
+          if (address) {
+            document.getElementById('modalAddress').textContent = address;
+            document.getElementById('modalAddressRow').style.display = 'block';
+          } else {
+            document.getElementById('modalAddressRow').style.display = 'none';
+          }
+
+          // 타이틀 정보
+          if (title) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalTitle').style.display = 'block';
+          } else {
+            document.getElementById('modalTitle').style.display = 'none';
           }
 
           // 연락처 정보
