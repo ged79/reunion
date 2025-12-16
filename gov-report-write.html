@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html class="has-sidemenu" lang="ko-KR" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="민족통일청년회 영동군 지부 - 군정보고 작성">
+
+    <title>군정보고 작성 | 민족통일청년회 영동군</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico">
+    <link rel="manifest" href="assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="vendors/loaders.css/loaders.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=PT+Mono%7cPT+Serif:400,400i%7cLato:100,300,400,700,800,900" rel="stylesheet">
+    <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/user.css" rel="stylesheet" />
+
+    <style>
+      .fancynavbar-togglerbar {
+        background-color: #000 !important;
+      }
+
+      .image-upload-container {
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s;
+        cursor: pointer;
+        background: #f8f9fa;
+      }
+
+      .image-upload-container:hover {
+        border-color: #c2185b;
+        background: #fff;
+      }
+
+      .image-upload-container.drag-over {
+        border-color: #c2185b;
+        background: #fce4ec;
+      }
+
+      .image-upload-icon {
+        font-size: 3rem;
+        color: #adb5bd;
+        margin-bottom: 1rem;
+      }
+
+      .image-preview-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .image-preview-item {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        aspect-ratio: 1;
+        border: 1px solid #e0e0e0;
+      }
+
+      .image-preview-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .image-preview-remove {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        transition: all 0.2s;
+      }
+
+      .image-preview-remove:hover {
+        background: rgba(255, 0, 0, 0.8);
+        transform: scale(1.1);
+      }
+
+      .form-hint {
+        background: #fce4ec;
+        border-left: 4px solid #c2185b;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .form-hint h6 {
+        color: #c2185b;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-hint ul {
+        margin: 0;
+        padding-left: 1.25rem;
+        font-size: 0.9rem;
+        color: #666;
+      }
+    </style>
+  </head>
+
+  <body class="overflow-hidden-x">
+
+    <nav class="fancynavbar fancynavbar-expand-lg">
+      <div class="fancynavbar-togglerbar"><a class="fancynavbar-brand" href="index.html"><img class="fancynavbar-brand-img" src="assets/img/logo-sparrow-invert.svg" alt="" width="30" height="30" /></a>
+        <div class="fancynavbar-toggler">
+          <svg class="fancynavbar-toggler-icon" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
+            <path id="path-top" d="M20,25c0,0,22,0,30,0c16,0,18.89,40.71-.15,21.75C38.7,35.65,19.9,16.8,19.9,16.8"></path>
+            <path id="path-middle" d="M20,32h30"></path>
+            <path id="path-bottom" d="M19.9,46.98c0,0,18.8-18.85,29.95-29.95C68.89-1.92,66,38.78,50,38.78c-8,0-30,0-30,0"></path>
+          </svg>
+        </div>
+        <div class="fancynavbar-addon fancynavbar-addon-height"><a class="fancynavbar-addon-item" href="https://twitter.com" target="_blank" rel="noopener"><span class="fab fa-twitter"></span></a><a class="fancynavbar-addon-item" href="https://facebook.com" target="_blank" rel="noopener"><span class="fab fa-facebook"></span></a>
+        </div>
+      </div>
+      <div class="fancynavbar-collapse">
+        <ul class="fancynavbar-nav">
+          <li class="fancynav-item"><a class="fancynav-link" href="index.html"><span class="fancynav-link-content">홈</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">사업 안내</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="board.html"><span class="fancynav-link-content">회원게시판</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사&사진</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="main min-vh-100" id="top">
+
+      <div class="preloader" id="preloader">
+        <div class="loader">
+          <div class="line-scale-pulse-out-rapid">
+            <div> </div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div> </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="py-7 py-md-9">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+              <div class="mb-4">
+                <a href="gov-report.html" class="text-decoration-none">
+                  <span class="fas fa-arrow-left me-2"></span>군정보고로 돌아가기
+                </a>
+              </div>
+
+              <div class="mb-5">
+                <h1 class="display-6 mb-2">군정보고 작성</h1>
+                <p class="text-body-secondary">정책보고회, 간담회 내용을 회원들과 공유해주세요.</p>
+              </div>
+
+              <!-- 작성 힌트 -->
+              <div class="form-hint">
+                <h6><i class="fas fa-lightbulb me-2"></i>작성 팁</h6>
+                <ul>
+                  <li>행사명, 일시, 장소를 포함해주세요</li>
+                  <li>참석자와 주요 논의 내용을 정리해주세요</li>
+                  <li>중요한 결정사항이나 향후 일정이 있다면 함께 기록해주세요</li>
+                </ul>
+              </div>
+
+              <form id="reportForm">
+
+                <div class="mb-4">
+                  <label for="report_type" class="form-label fw-bold">유형 <span class="text-danger">*</span></label>
+                  <select class="form-select" id="report_type" name="report_type" required>
+                    <option value="">선택하세요</option>
+                    <option value="policy">정책보고회</option>
+                    <option value="meeting">간담회</option>
+                    <option value="briefing">설명회</option>
+                    <option value="other">기타</option>
+                  </select>
+                </div>
+
+                <div class="mb-4">
+                  <label for="title" class="form-label fw-bold">제목 <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="title" name="title" required placeholder="예: 2025년 영동군 주요정책 보고회">
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <label for="event_date" class="form-label fw-bold">행사일</label>
+                    <input type="date" class="form-control" id="event_date" name="event_date">
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <label for="location" class="form-label fw-bold">장소</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="예: 영동군청 대회의실">
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="content" class="form-label fw-bold">내용 <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="content" name="content" rows="12" required placeholder="보고회/간담회 내용을 상세히 작성해주세요.
+
+예시:
+1. 참석자: 군수, 부군수, 각 과장, 민통 회원 15명
+
+2. 주요 안건:
+- 2025년 영동군 주요 정책 방향
+- 지역 현안 논의
+- 민관 협력 사업 계획
+
+3. 논의 내용:
+...
+
+4. 향후 일정:
+..."></textarea>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label fw-bold">사진 첨부 <span class="text-body-secondary">(선택, 최대 5개)</span></label>
+                  <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
+
+                  <div class="image-upload-container" id="imageUploadArea">
+                    <div class="image-upload-icon">
+                      <i class="fas fa-camera"></i>
+                    </div>
+                    <p class="mb-2 fw-semibold">클릭하거나 이미지를 드래그하세요</p>
+                    <p class="text-body-secondary small mb-0">JPG, PNG (최대 5MB)</p>
+                  </div>
+                  <div class="image-preview-container" id="imagePreviewContainer"></div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="author_name" class="form-label fw-bold">작성자 <span class="text-danger">*</span></label>
+                  <select class="form-select" id="author_name" name="author_name" required>
+                    <option value="">선택하세요</option>
+                    <option value="김종원">김종원</option>
+                    <option value="임진석">임진석</option>
+                    <option value="박수용">박수용</option>
+                    <option value="연규영">연규영</option>
+                    <option value="최원호">최원호</option>
+                    <option value="채흥열">채흥열</option>
+                    <option value="조훈희">조훈희</option>
+                    <option value="김영균">김영균</option>
+                    <option value="이경환">이경환</option>
+                    <option value="김용국">김용국</option>
+                    <option value="윤용수">윤용수</option>
+                    <option value="정성용">정성용</option>
+                    <option value="한성욱">한성욱</option>
+                    <option value="박성현">박성현</option>
+                  </select>
+                </div>
+
+                <div class="mb-4">
+                  <label for="password" class="form-label fw-bold">비밀번호 <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="password" name="password" autocomplete="new-password" required placeholder="수정/삭제 시 필요한 비밀번호" minlength="4">
+                  <small class="text-body-secondary">글 수정/삭제 시 필요합니다. (최소 4자)</small>
+                </div>
+
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn btn-primary px-5" id="submitBtn">
+                    <span class="fas fa-check me-2"></span>등록하기
+                  </button>
+                  <a href="gov-report.html" class="btn btn-outline-secondary px-5">
+                    <span class="fas fa-times me-2"></span>취소
+                  </a>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer bg-black text-body-secondary py-4 font-secondary text-center overflow-hidden">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-4 order-lg-2 position-relative"><a class="indicator indicator-up" href="#top"><span class="indicator-arrow indicator-arrow-one"></span><span class="indicator-arrow indicator-arrow-two"></span></a></div>
+          <div class="col-lg-4 text-lg-start mt-4 mt-lg-0">
+            <p class="fs-10 ls fw-bold mb-0">Copyright &copy; 2025 민족통일청년회 영동군</p>
+            <p class="fs-10 mb-0 mt-2"><a href="http://www.mintong.or.kr/mt/main" target="_blank" class="text-body-secondary">민족통일협의회</a></p>
+          </div>
+          <div class="col-lg-4 text-lg-end order-lg-2 mt-2 mt-lg-0">
+            <p class="fs-10 mb-0">충청북도 영동군 | 문의: conexus25@conexus.co.kr</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="vendors/popper/popper.min.js"></script>
+    <script src="vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="vendors/anchorjs/anchor.min.js"></script>
+    <script src="vendors/is/is.min.js"></script>
+    <script src="vendors/fontawesome/all.min.js"></script>
+    <script src="vendors/lodash/lodash.min.js"></script>
+    <script src="vendors/imagesloaded/imagesloaded.pkgd.js"></script>
+    <script src="vendors/gsap/gsap.js"></script>
+    <script src="vendors/gsap/customEase.js"></script>
+    <script src="vendors/gsap/drawSVGPlugin.js"></script>
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+
+    <script>
+      // 이미지 관리
+      let uploadedImages = [];
+      const MAX_IMAGES = 5;
+      const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+      const imageInput = document.getElementById('imageInput');
+      const imageUploadArea = document.getElementById('imageUploadArea');
+      const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+
+      imageUploadArea.addEventListener('click', () => {
+        if (uploadedImages.length < MAX_IMAGES) {
+          imageInput.click();
+        } else {
+          alert('이미지는 최대 5개까지 업로드할 수 있습니다.');
+        }
+      });
+
+      imageInput.addEventListener('change', (e) => {
+        handleFiles(e.target.files);
+      });
+
+      imageUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        imageUploadArea.classList.add('drag-over');
+      });
+
+      imageUploadArea.addEventListener('dragleave', () => {
+        imageUploadArea.classList.remove('drag-over');
+      });
+
+      imageUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        imageUploadArea.classList.remove('drag-over');
+        handleFiles(e.dataTransfer.files);
+      });
+
+      function handleFiles(files) {
+        const fileArray = Array.from(files);
+
+        if (uploadedImages.length + fileArray.length > MAX_IMAGES) {
+          alert(`이미지는 최대 ${MAX_IMAGES}개까지 업로드할 수 있습니다.`);
+          return;
+        }
+
+        fileArray.forEach(file => {
+          if (!file.type.startsWith('image/')) {
+            alert('이미지 파일만 업로드할 수 있습니다.');
+            return;
+          }
+
+          if (file.size > MAX_FILE_SIZE) {
+            alert('파일 크기는 5MB를 초과할 수 없습니다.');
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            uploadedImages.push({
+              file: file,
+              dataUrl: e.target.result
+            });
+            renderImagePreviews();
+          };
+          reader.readAsDataURL(file);
+        });
+
+        imageInput.value = '';
+      }
+
+      function renderImagePreviews() {
+        imagePreviewContainer.innerHTML = uploadedImages.map((img, index) => `
+          <div class="image-preview-item">
+            <img src="${img.dataUrl}" alt="Preview ${index + 1}">
+            <button type="button" class="image-preview-remove" onclick="removeImage(${index})">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        `).join('');
+      }
+
+      window.removeImage = function(index) {
+        uploadedImages.splice(index, 1);
+        renderImagePreviews();
+      };
+
+      // 폼 제출
+      document.getElementById('reportForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>등록 중...';
+
+        // 이미지 Data URL 수집
+        const imageUrls = uploadedImages.map(img => img.dataUrl);
+
+        const formData = {
+          report_type: document.getElementById('report_type').value,
+          title: document.getElementById('title').value,
+          event_date: document.getElementById('event_date').value || null,
+          location: document.getElementById('location').value,
+          content: document.getElementById('content').value,
+          author_name: document.getElementById('author_name').value,
+          password: document.getElementById('password').value,
+          images: imageUrls.length > 0 ? imageUrls : null
+        };
+
+        try {
+          const { data, error } = await supabase
+            .from('gov_reports')
+            .insert([formData]);
+
+          if (error) throw error;
+
+          alert('군정보고가 등록되었습니다.');
+          window.location.href = 'gov-report.html';
+        } catch (error) {
+          console.error('등록 오류:', error);
+          alert('등록 중 오류가 발생했습니다.\n' + error.message);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span class="fas fa-check me-2"></span>등록하기';
+        }
+      });
+    </script>
+
+  </body>
+
+</html>

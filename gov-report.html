@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html class="has-sidemenu" lang="ko-KR" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="민족통일청년회 영동군 지부 - 군정보고 및 정책간담회 내용 공유">
+    <meta name="keywords" content="민족통일청년회, 영동군, 군정보고, 정책보고회, 간담회">
+
+    <title>군정보고 | 민족통일청년회 영동군</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico">
+    <link rel="manifest" href="assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="vendors/loaders.css/loaders.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=PT+Mono%7cPT+Serif:400,400i%7cLato:100,300,400,700,800,900" rel="stylesheet">
+    <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/user.css" rel="stylesheet" />
+
+    <style>
+      .report-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .report-card:hover {
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        transform: translateY(-2px);
+      }
+
+      .report-card-header {
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #f0f0f0;
+        cursor: pointer;
+      }
+
+      .report-card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0 0 0.5rem 0;
+        color: #333;
+      }
+
+      .report-card-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 0.85rem;
+        color: #666;
+      }
+
+      .report-card-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+
+      .report-card-body {
+        padding: 1.5rem;
+        display: none;
+        background: #fafafa;
+      }
+
+      .report-card-body.show {
+        display: block;
+      }
+
+      .report-card-content {
+        white-space: pre-wrap;
+        line-height: 1.7;
+        color: #444;
+      }
+
+      .report-type-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .type-policy { background: #e3f2fd; color: #1565c0; }
+      .type-meeting { background: #fff3e0; color: #e65100; }
+      .type-briefing { background: #e8f5e9; color: #2e7d32; }
+      .type-other { background: #f3e5f5; color: #7b1fa2; }
+
+      .report-images {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+
+      .report-image {
+        border-radius: 8px;
+        overflow: hidden;
+        aspect-ratio: 4/3;
+        cursor: pointer;
+      }
+
+      .report-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+      }
+
+      .report-image:hover img {
+        transform: scale(1.05);
+      }
+
+      .comments-section {
+        border-top: 1px solid #eee;
+        padding: 1rem 1.5rem;
+        background: #fff;
+      }
+
+      .comment-form {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .comment-form select {
+        width: 120px;
+      }
+
+      .comment-item {
+        display: flex;
+        gap: 0.75rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .comment-item:last-child {
+        border-bottom: none;
+      }
+
+      .comment-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .comment-content {
+        flex: 1;
+      }
+
+      .comment-author {
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+
+      .comment-text {
+        font-size: 0.9rem;
+        color: #555;
+        margin-top: 0.25rem;
+      }
+
+      .comment-date {
+        font-size: 0.75rem;
+        color: #999;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #666;
+      }
+
+      .empty-state i {
+        font-size: 4rem;
+        color: #ddd;
+        margin-bottom: 1rem;
+      }
+
+      .filter-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .filter-tab {
+        padding: 0.5rem 1rem;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        background: #fff;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: all 0.2s;
+      }
+
+      .filter-tab:hover {
+        border-color: #c2185b;
+        color: #c2185b;
+      }
+
+      .filter-tab.active {
+        background: #c2185b;
+        color: #fff;
+        border-color: #c2185b;
+      }
+
+      .card-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .card-actions button {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+      }
+
+      @media (max-width: 768px) {
+        .report-card-header { padding: 1rem; }
+        .report-card-body { padding: 1rem; }
+        .report-card-meta { gap: 0.5rem; font-size: 0.8rem; }
+        .comment-form { flex-wrap: wrap; }
+        .comment-form select { width: 100%; }
+        .comment-form input { flex: 1; min-width: 150px; }
+      }
+    </style>
+  </head>
+
+  <body class="overflow-hidden-x">
+
+    <nav class="fancynavbar fancynavbar-expand-lg" data-zanim-lg='{"from":{"opacity":1,"x":70},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.3}' data-zanim-xs='{"from":{"opacity":1,"y":-37},"to":{"opacity":1,"y":0},"ease":"CubicBezier","duration":0.8,"delay":0.3}' data-zanim-trigger="scroll" data-exclusive="true">
+      <div class="fancynavbar-togglerbar"><a class="fancynavbar-brand" href="index.html"><img class="fancynavbar-brand-img" src="assets/img/logo-sparrow-invert.svg" alt="" width="30" height="30" data-zanim-lg='{"from":{"opacity":0,"x":45},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.4}' data-zanim-trigger="scroll" /></a>
+        <div class="fancynavbar-toggler">
+          <svg class="fancynavbar-toggler-icon" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg" data-zanim-lg='{"from":{"opacity":0,"x":45},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.5}' data-zanim-trigger="scroll">
+            <path id="path-top" d="M20,25c0,0,22,0,30,0c16,0,18.89,40.71-.15,21.75C38.7,35.65,19.9,16.8,19.9,16.8"></path>
+            <path id="path-middle" d="M20,32h30"></path>
+            <path id="path-bottom" d="M19.9,46.98c0,0,18.8-18.85,29.95-29.95C68.89-1.92,66,38.78,50,38.78c-8,0-30,0-30,0"></path>
+          </svg>
+        </div>
+        <div class="fancynavbar-addon fancynavbar-addon-height" data-zanim-lg='{"from":{"opacity":1,"x":45},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.4}' data-zanim-trigger="scroll"><a class="fancynavbar-addon-item" href="https://twitter.com" target="_blank" rel="noopener"><span class="fab fa-twitter"></span></a><a class="fancynavbar-addon-item" href="https://facebook.com" target="_blank" rel="noopener"><span class="fab fa-facebook"></span></a>
+        </div>
+      </div>
+      <div class="fancynavbar-collapse">
+        <ul class="fancynavbar-nav">
+          <li class="fancynav-item"><a class="fancynav-link" href="index.html"><span class="fancynav-link-content">홈</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">사업 안내</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="board.html"><span class="fancynav-link-content">회원게시판</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사&사진</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="main min-vh-100" id="top">
+
+      <div class="preloader" id="preloader">
+        <div class="loader">
+          <div class="line-scale-pulse-out-rapid">
+            <div> </div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div> </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="py-0">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- 오른쪽 이미지 -->
+            <div class="col-lg-6 px-0 order-lg-2">
+              <div class="sticky-top vh-50 vh-lg-100 py-9">
+                <div class="bg-holder" style="background-image:url(assets/img/headers/header-48.jpg);" data-zanim-trigger="scroll" data-zanim-lg='{"animation":"zoom-out-slide-left","delay":0.4}'>
+                </div>
+              </div>
+            </div>
+
+            <!-- 왼쪽 콘텐츠 -->
+            <div class="col-lg-6 py-4">
+              <div class="row h-100">
+                <div class="col-lg-10 mx-auto">
+
+                  <!-- 헤더 -->
+                  <div class="mb-5">
+                    <div class="overflow-hidden">
+                      <h1 class="fs-6 fs-sm-5"><span class="text-decoration-underline mb-4" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">군정보고</span></h1>
+                    </div>
+                    <p class="mt-4 text-body-secondary" data-zanim-xs='{"delay":0.2}' data-zanim-trigger="scroll">
+                      영동군 정책보고회, 간담회 내용을 회원들과 공유하는 공간입니다.<br>
+                      군정 참여와 지역 발전을 위한 소중한 정보를 나눠주세요.
+                    </p>
+                  </div>
+
+                  <!-- 글쓰기 버튼 -->
+                  <div class="d-flex justify-content-between align-items-center mb-4" data-zanim-xs='{"delay":0.3}' data-zanim-trigger="scroll">
+                    <div class="filter-tabs" id="filterTabs">
+                      <button class="filter-tab active" data-type="">전체</button>
+                      <button class="filter-tab" data-type="policy">정책보고회</button>
+                      <button class="filter-tab" data-type="meeting">간담회</button>
+                      <button class="filter-tab" data-type="briefing">설명회</button>
+                      <button class="filter-tab" data-type="other">기타</button>
+                    </div>
+                    <a href="gov-report-write.html" class="btn btn-primary btn-sm">
+                      <span class="fas fa-plus me-1"></span>글쓰기
+                    </a>
+                  </div>
+
+                  <!-- 보고 목록 -->
+                  <div id="reportList" data-zanim-xs='{"delay":0.4}' data-zanim-trigger="scroll">
+                    <!-- 로딩 -->
+                    <div class="text-center py-5" id="loadingState">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">로딩중...</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 빈 상태 -->
+                  <div class="empty-state" id="emptyState" style="display: none;">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h5>등록된 보고가 없습니다</h5>
+                    <p class="text-body-secondary">첫 번째 군정보고를 작성해보세요.</p>
+                    <a href="gov-report-write.html" class="btn btn-primary mt-3">
+                      <span class="fas fa-pen me-2"></span>보고서 작성하기
+                    </a>
+                  </div>
+
+                  <!-- 하단 링크 -->
+                  <div class="text-center mt-5 mb-5" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll">
+                    <a href="services.html" class="btn btn-outline-secondary me-2">
+                      <span class="fas fa-arrow-left me-2"></span>사업안내로 돌아가기
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 수정 모달 -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><span class="fas fa-edit me-2"></span>보고서 수정</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="editForm">
+              <input type="hidden" id="edit_id">
+              <div class="mb-3">
+                <label class="form-label fw-bold">비밀번호 <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="edit_password" required placeholder="글 작성 시 설정한 비밀번호">
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold">유형</label>
+                <select class="form-select" id="edit_report_type">
+                  <option value="policy">정책보고회</option>
+                  <option value="meeting">간담회</option>
+                  <option value="briefing">설명회</option>
+                  <option value="other">기타</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold">제목</label>
+                <input type="text" class="form-control" id="edit_title" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold">행사일</label>
+                <input type="date" class="form-control" id="edit_event_date">
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold">장소</label>
+                <input type="text" class="form-control" id="edit_location">
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold">내용</label>
+                <textarea class="form-control" id="edit_content" rows="6" required></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" onclick="submitEdit()">수정 완료</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer bg-black text-body-secondary py-4 font-secondary text-center overflow-hidden">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-4 order-lg-2 position-relative"><a class="indicator indicator-up" href="#top"><span class="indicator-arrow indicator-arrow-one" data-zanim-xs='{"from":{"opacity":0,"y":15},"to":{"opacity":1,"y":-5,"scale":1},"ease":"Back.easeOut","duration":0.4,"delay":0.9}'></span><span class="indicator-arrow indicator-arrow-two" data-zanim-xs='{"from":{"opacity":0,"y":15},"to":{"opacity":1,"y":-5,"scale":1},"ease":"Back.easeOut","duration":0.4,"delay":1.05}'></span></a></div>
+          <div class="col-lg-4 text-lg-start mt-4 mt-lg-0">
+            <p class="fs-10 ls fw-bold mb-0">Copyright &copy; 2025 민족통일청년회 영동군</p>
+            <p class="fs-10 mb-0 mt-2"><a href="http://www.mintong.or.kr/mt/main" target="_blank" class="text-body-secondary">민족통일협의회</a></p>
+          </div>
+          <div class="col-lg-4 text-lg-end order-lg-2 mt-2 mt-lg-0">
+            <p class="fs-10 mb-0">충청북도 영동군 | 문의: conexus25@conexus.co.kr</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="vendors/popper/popper.min.js"></script>
+    <script src="vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="vendors/anchorjs/anchor.min.js"></script>
+    <script src="vendors/is/is.min.js"></script>
+    <script src="vendors/fontawesome/all.min.js"></script>
+    <script src="vendors/lodash/lodash.min.js"></script>
+    <script src="vendors/imagesloaded/imagesloaded.pkgd.js"></script>
+    <script src="vendors/gsap/gsap.js"></script>
+    <script src="vendors/gsap/customEase.js"></script>
+    <script src="vendors/gsap/drawSVGPlugin.js"></script>
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+
+    <script>
+      const reportList = document.getElementById('reportList');
+      const loadingState = document.getElementById('loadingState');
+      const emptyState = document.getElementById('emptyState');
+      const filterTabs = document.querySelectorAll('.filter-tab');
+
+      let allReports = [];
+      let currentFilter = '';
+
+      // 유형 라벨
+      const typeLabels = {
+        'policy': '정책보고회',
+        'meeting': '간담회',
+        'briefing': '설명회',
+        'other': '기타'
+      };
+
+      const typeClasses = {
+        'policy': 'type-policy',
+        'meeting': 'type-meeting',
+        'briefing': 'type-briefing',
+        'other': 'type-other'
+      };
+
+      // 작성자 이미지
+      const authorImages = {
+        '김종원': 'assets/img/team/0.jpg',
+        '임진석': 'assets/img/team/1.jpg',
+        '박수용': 'assets/img/team/8.jpg',
+        '연규영': 'assets/img/team/2.jpg',
+        '최원호': 'assets/img/team/3.jpg',
+        '채흥열': 'assets/img/team/1.jpg',
+        '조훈희': 'assets/img/team/0.jpg',
+        '김영균': 'assets/img/team/4.jpg',
+        '이경환': 'assets/img/team/4.jpg',
+        '김용국': 'assets/img/team/2.jpg',
+        '윤용수': 'assets/img/team/5.jpg',
+        '정성용': 'assets/img/team/9.jpg',
+        '한성욱': 'assets/img/team/6.jpg',
+        '박성현': 'assets/img/team/7.jpg'
+      };
+
+      // 보고서 로드
+      async function loadReports() {
+        try {
+          const { data, error } = await supabase
+            .from('gov_reports')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+          if (error) throw error;
+
+          // 댓글 개수 가져오기
+          const reportsWithComments = await Promise.all(
+            (data || []).map(async (report) => {
+              const { count } = await supabase
+                .from('gov_report_comments')
+                .select('*', { count: 'exact', head: true })
+                .eq('report_id', report.id);
+              return { ...report, comments_count: count || 0 };
+            })
+          );
+
+          allReports = reportsWithComments;
+          renderReports();
+        } catch (error) {
+          console.error('로드 오류:', error);
+          loadingState.style.display = 'none';
+          emptyState.style.display = 'block';
+        }
+      }
+
+      // 보고서 렌더링
+      function renderReports() {
+        loadingState.style.display = 'none';
+
+        let reports = allReports;
+        if (currentFilter) {
+          reports = reports.filter(r => r.report_type === currentFilter);
+        }
+
+        if (reports.length === 0) {
+          reportList.innerHTML = '';
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        emptyState.style.display = 'none';
+
+        reportList.innerHTML = reports.map(report => {
+          const createdDate = new Date(report.created_at).toLocaleDateString('ko-KR');
+          const eventDate = report.event_date ? new Date(report.event_date).toLocaleDateString('ko-KR') : '';
+          const authorImg = authorImages[report.author_name] || 'assets/img/team/0.jpg';
+
+          return `
+            <div class="report-card" id="report-${report.id}">
+              <div class="report-card-header" onclick="toggleReport('${report.id}')">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <span class="report-type-badge ${typeClasses[report.report_type] || 'type-other'}">
+                    ${typeLabels[report.report_type] || '기타'}
+                  </span>
+                  <div class="card-actions">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="event.stopPropagation(); openEditModal('${report.id}')" title="수정">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteReport('${report.id}')" title="삭제">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+                <h3 class="report-card-title">${escapeHtml(report.title)}</h3>
+                <div class="report-card-meta">
+                  ${eventDate ? `<span><i class="fas fa-calendar"></i> ${eventDate}</span>` : ''}
+                  ${report.location ? `<span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(report.location)}</span>` : ''}
+                  <span><i class="fas fa-user"></i> ${escapeHtml(report.author_name)}</span>
+                  <span><i class="fas fa-comment"></i> ${report.comments_count}</span>
+                  <span><i class="fas fa-clock"></i> ${createdDate}</span>
+                </div>
+              </div>
+              <div class="report-card-body" id="body-${report.id}">
+                <div class="report-card-content">${escapeHtml(report.content)}</div>
+                ${renderImages(report.images)}
+              </div>
+              <div class="comments-section" id="comments-${report.id}" style="display: none;">
+                <h6 class="mb-3"><i class="fas fa-comments me-2"></i>댓글 ${report.comments_count}개</h6>
+                <form class="comment-form" onsubmit="submitComment(event, '${report.id}')">
+                  <select class="form-select form-select-sm" name="author_name" required>
+                    <option value="">작성자</option>
+                    <option value="김종원">김종원</option>
+                    <option value="임진석">임진석</option>
+                    <option value="박수용">박수용</option>
+                    <option value="연규영">연규영</option>
+                    <option value="최원호">최원호</option>
+                    <option value="채흥열">채흥열</option>
+                    <option value="조훈희">조훈희</option>
+                    <option value="김영균">김영균</option>
+                    <option value="이경환">이경환</option>
+                    <option value="김용국">김용국</option>
+                    <option value="윤용수">윤용수</option>
+                    <option value="정성용">정성용</option>
+                    <option value="한성욱">한성욱</option>
+                    <option value="박성현">박성현</option>
+                  </select>
+                  <input type="text" class="form-control form-control-sm" name="content" placeholder="댓글을 입력하세요" required>
+                  <button type="submit" class="btn btn-sm btn-primary">
+                    <i class="fas fa-paper-plane"></i>
+                  </button>
+                </form>
+                <div id="comments-list-${report.id}"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 이미지 렌더링
+      function renderImages(images) {
+        if (!images || !Array.isArray(images) || images.length === 0) return '';
+        return `
+          <div class="report-images">
+            ${images.map((img, i) => `
+              <div class="report-image" onclick="window.open('${img}', '_blank')">
+                <img src="${img}" alt="첨부 이미지 ${i + 1}" loading="lazy">
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      // 보고서 토글
+      async function toggleReport(id) {
+        const body = document.getElementById(`body-${id}`);
+        const comments = document.getElementById(`comments-${id}`);
+
+        if (body.classList.contains('show')) {
+          body.classList.remove('show');
+          comments.style.display = 'none';
+        } else {
+          body.classList.add('show');
+          comments.style.display = 'block';
+          await loadComments(id);
+        }
+      }
+
+      // 댓글 로드
+      async function loadComments(reportId) {
+        try {
+          const { data: comments, error } = await supabase
+            .from('gov_report_comments')
+            .select('*')
+            .eq('report_id', reportId)
+            .order('created_at', { ascending: true });
+
+          if (error) throw error;
+          displayComments(reportId, comments || []);
+        } catch (error) {
+          console.error('댓글 로드 오류:', error);
+        }
+      }
+
+      // 댓글 표시
+      function displayComments(reportId, comments) {
+        const container = document.getElementById(`comments-list-${reportId}`);
+        if (comments.length === 0) {
+          container.innerHTML = '<p class="text-body-secondary text-center py-3">첫 댓글을 작성해보세요!</p>';
+          return;
+        }
+
+        container.innerHTML = comments.map(c => {
+          const img = authorImages[c.author_name] || 'assets/img/team/0.jpg';
+          const date = new Date(c.created_at).toLocaleDateString('ko-KR', {
+            month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+          });
+          return `
+            <div class="comment-item">
+              <img src="${img}" alt="${c.author_name}" class="comment-avatar">
+              <div class="comment-content">
+                <div class="d-flex justify-content-between">
+                  <span class="comment-author">${escapeHtml(c.author_name)}</span>
+                  <span class="comment-date">${date}</span>
+                </div>
+                <p class="comment-text">${escapeHtml(c.content)}</p>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 댓글 작성
+      async function submitComment(event, reportId) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+
+        try {
+          const { error } = await supabase
+            .from('gov_report_comments')
+            .insert([{
+              report_id: parseInt(reportId),
+              author_name: formData.get('author_name'),
+              content: formData.get('content')
+            }]);
+
+          if (error) throw error;
+
+          form.reset();
+          await loadComments(reportId);
+          await loadReports();
+        } catch (error) {
+          console.error('댓글 작성 오류:', error);
+          alert('댓글 작성에 실패했습니다.');
+        }
+      }
+
+      // 수정 모달
+      async function openEditModal(id) {
+        try {
+          const { data: report, error } = await supabase
+            .from('gov_reports')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+          if (error) throw error;
+
+          document.getElementById('edit_id').value = report.id;
+          document.getElementById('edit_report_type').value = report.report_type || 'other';
+          document.getElementById('edit_title').value = report.title;
+          document.getElementById('edit_event_date').value = report.event_date || '';
+          document.getElementById('edit_location').value = report.location || '';
+          document.getElementById('edit_content').value = report.content;
+          document.getElementById('edit_password').value = '';
+
+          new bootstrap.Modal(document.getElementById('editModal')).show();
+        } catch (error) {
+          console.error('로드 오류:', error);
+          alert('보고서를 불러오는데 실패했습니다.');
+        }
+      }
+
+      // 수정 제출
+      async function submitEdit() {
+        const id = document.getElementById('edit_id').value;
+        const password = document.getElementById('edit_password').value;
+
+        try {
+          const { data: report, error: fetchError } = await supabase
+            .from('gov_reports')
+            .select('password')
+            .eq('id', id)
+            .single();
+
+          if (fetchError) throw fetchError;
+          if (report.password !== password) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+          }
+
+          const { error } = await supabase
+            .from('gov_reports')
+            .update({
+              report_type: document.getElementById('edit_report_type').value,
+              title: document.getElementById('edit_title').value,
+              event_date: document.getElementById('edit_event_date').value || null,
+              location: document.getElementById('edit_location').value,
+              content: document.getElementById('edit_content').value,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', id);
+
+          if (error) throw error;
+
+          alert('수정되었습니다.');
+          bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
+          await loadReports();
+        } catch (error) {
+          console.error('수정 오류:', error);
+          alert('수정에 실패했습니다.');
+        }
+      }
+
+      // 삭제
+      async function deleteReport(id) {
+        const password = prompt('비밀번호를 입력하세요:');
+        if (!password) return;
+
+        try {
+          const { data: report, error: fetchError } = await supabase
+            .from('gov_reports')
+            .select('password, title')
+            .eq('id', id)
+            .single();
+
+          if (fetchError) throw fetchError;
+          if (report.password !== password) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+          }
+
+          if (!confirm(`"${report.title}" 보고서를 삭제하시겠습니까?`)) return;
+
+          const { error } = await supabase
+            .from('gov_reports')
+            .delete()
+            .eq('id', id);
+
+          if (error) throw error;
+
+          alert('삭제되었습니다.');
+          await loadReports();
+        } catch (error) {
+          console.error('삭제 오류:', error);
+          alert('삭제에 실패했습니다.');
+        }
+      }
+
+      // HTML 이스케이프
+      function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // 필터 탭 클릭
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          filterTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          currentFilter = this.getAttribute('data-type');
+          renderReports();
+        });
+      });
+
+      // 초기 로드
+      document.addEventListener('DOMContentLoaded', loadReports);
+    </script>
+
+  </body>
+
+</html>

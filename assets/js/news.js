@@ -149,8 +149,16 @@ function displayNews(newsItems) {
           </div>
         </div>
 
-        <!-- 댓글 섹션 (초기에는 숨김) -->
+        <!-- 전체 내용 및 댓글 섹션 (초기에는 숨김) -->
         <div class="news-comments-section mt-3 pt-3 border-top" id="comments-section-${item.id}" style="display:none;">
+          <!-- 전체 본문 내용 -->
+          <div class="mb-4 p-3 bg-light rounded">
+            ${item.image_url ? `<div class="mb-3"><img src="${item.image_url}" alt="${escapeHtml(item.title)}" class="img-fluid rounded" style="max-height: 400px; object-fit: cover;"></div>` : ''}
+            <div style="white-space: pre-wrap; line-height: 1.8;">${escapeHtml(item.content)}</div>
+            ${item.event_date ? `<div class="mt-3 text-body-secondary"><i class="fas fa-calendar me-2"></i>행사일: ${new Date(item.event_date).toLocaleDateString('ko-KR')}</div>` : ''}
+            ${item.location ? `<div class="text-body-secondary"><i class="fas fa-map-marker-alt me-2"></i>장소: ${escapeHtml(item.location)}</div>` : ''}
+          </div>
+
           <div class="mb-3">
             <strong class="text-primary"><i class="fas fa-comments me-2"></i>댓글 ${item.comment_count || 0}개</strong>
           </div>
