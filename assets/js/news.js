@@ -376,6 +376,7 @@ function setupNewsForm() {
 async function toggleNewsComments(newsId) {
   const commentsSection = document.getElementById(`comments-section-${newsId}`);
   const toggleIcon = document.getElementById(`toggle-${newsId}`);
+  const newsElement = document.getElementById(`news-${newsId}`);
 
   if (commentsSection.style.display === 'none') {
     commentsSection.style.display = 'block';
@@ -383,6 +384,13 @@ async function toggleNewsComments(newsId) {
 
     // 댓글 로드
     await loadNewsComments(newsId);
+
+    // 해당 뉴스 제목이 보이도록 상단으로 스크롤
+    if (newsElement) {
+      setTimeout(() => {
+        newsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
   } else {
     commentsSection.style.display = 'none';
     toggleIcon.innerHTML = '<i class="fas fa-chevron-down"></i>';
