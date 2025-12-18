@@ -816,36 +816,63 @@ async function loadEventsTimeline() {
 }
 
 // 페이지 로드 시 초기화
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Supabase 준비 대기
+  try {
+    if (typeof waitForSupabase === 'function') {
+      await waitForSupabase(5000);
+    }
+  } catch (error) {
+    console.warn('Supabase 로딩 실패, 일부 기능이 제한됩니다:', error.message);
+  }
+
   // 뉴스 목록 페이지
   if (document.getElementById('newsContainer')) {
-    loadNews().then(() => {
-      // URL 해시가 있으면 해당 뉴스 자동으로 펼치기
-      const hash = window.location.hash;
-      if (hash && hash.startsWith('#news-')) {
-        const newsId = hash.replace('#news-', '');
-        setTimeout(() => {
-          toggleNewsComments(newsId);
-          // 해당 뉴스로 스크롤
-          const newsElement = document.getElementById(hash.substring(1));
-          if (newsElement) {
-            newsElement.scrollIntoView({
-              behavior: 'smooth',
-              block: 'center'
-            });
-          }
-        }, 500); // 뉴스 로드 후 약간의 지연
-      }
-    });
+    if (supabase) {
+      loadNews().then(() => {
+        // URL 해시가 있으면 해당 뉴스 자동으로 펼치기
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#news-')) {
+          const newsId = hash.replace('#news-', '');
+          setTimeout(() => {
+            toggleNewsComments(newsId);
+            // 해당 뉴스로 스크롤
+            const newsElement = document.getElementById(hash.substring(1));
+            if (newsElement) {
+              newsElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+              });
+            }
+          }, 500); // 뉴스 로드 후 약간의 지연
+        }
+      });
 
-    // 연간 행사 일정도 로드
-    loadEventsTimeline();
+      // 연간 행사 일정도 로드
+      loadEventsTimeline();
+    } else {
+      // Supabase 없이 에러 메시지 표시
+      const container = document.getElementById('newsContainer');
+      const loadingEl = document.getElementById('newsLoading');
+      if (loadingEl) loadingEl.style.display = 'none';
+      if (container) {
+        container.innerHTML = `
+          <div class="text-center py-5 text-body-secondary">
+            <p class="fs-5"><span class="fas fa-exclamation-triangle me-2"></span>데이터를 불러올 수 없습니다.</p>
+            <p>잠시 후 다시 시도해주세요.</p>
+            <button class="btn btn-primary mt-3" onclick="location.reload()">
+              <span class="fas fa-refresh me-2"></span>새로고침
+            </button>
+          </div>
+        `;
+      }
+    }
   }
 
   // 뉴스 상세 페이지
   const urlParams = new URLSearchParams(window.location.search);
   const newsId = urlParams.get('id');
-  if (newsId && document.getElementById('newsDetail')) {
+  if (newsId && document.getElementById('newsDetail') && supabase) {
     loadNewsDetail(newsId);
   }
 
