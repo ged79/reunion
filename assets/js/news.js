@@ -23,7 +23,7 @@ async function uploadImage(file) {
     console.log('이미지 업로드 시작:', filePath);
 
     // Supabase Storage에 업로드
-    const { data, error } = await supabase.storage
+    const { data, error } = await window.supabase.storage
       .from('events')
       .upload(filePath, file);
 
@@ -33,7 +33,7 @@ async function uploadImage(file) {
     }
 
     // 공개 URL 가져오기
-    const { data: urlData } = supabase.storage
+    const { data: urlData } = window.supabase.storage
       .from('events')
       .getPublicUrl(filePath);
 
@@ -48,7 +48,7 @@ async function uploadImage(file) {
 // 뉴스 목록 불러오기
 async function loadNews() {
   try {
-    const { data: news, error } = await supabase
+    const { data: news, error } = await window.supabase
       .from('news')
       .select('*')
       .eq('is_published', true)
@@ -59,7 +59,7 @@ async function loadNews() {
     // 각 뉴스의 댓글 개수 가져오기
     const newsWithComments = await Promise.all(
       news.map(async (item) => {
-        const { count } = await supabase
+        const { count } = await window.supabase
           .from('comments')
           .select('*', { count: 'exact', head: true })
           .eq('news_id', item.id)
@@ -202,7 +202,7 @@ function displayNews(newsItems) {
 async function createNews(newsData) {
   try {
     // 현재 로그인한 사용자 확인
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await window.supabase.auth.getUser();
 
     // 비밀번호 해시
     const password_hash = await hashPassword(newsData.password);
@@ -230,7 +230,7 @@ async function createNews(newsData) {
       insertData.location = newsData.location;
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await window.supabase
       .from('news')
       .insert([insertData])
       .select();
@@ -254,9 +254,9 @@ async function createNews(newsData) {
 async function loadNewsDetail(newsId) {
   try {
     // 조회수 증가
-    await supabase.rpc('increment_view_count', { news_id: newsId });
+    await window.supabase.rpc('increment_view_count', { news_id: newsId });
 
-    const { data: news, error } = await supabase
+    const { data: news, error } = await window.supabase
       .from('news')
       .select('*')
       .eq('id', newsId)
@@ -400,7 +400,7 @@ async function toggleNewsComments(newsId) {
 // 뉴스 댓글 로드 (최대 3개)
 async function loadNewsComments(newsId, limit = 3) {
   try {
-    const { data: comments, error } = await supabase
+    const { data: comments, error } = await window.supabase
       .from('comments')
       .select('*')
       .eq('news_id', newsId)
@@ -410,7 +410,7 @@ async function loadNewsComments(newsId, limit = 3) {
 
     if (error) throw error;
 
-    const { count } = await supabase
+    const { count } = await window.supabase
       .from('comments')
       .select('*', { count: 'exact', head: true })
       .eq('news_id', newsId)
@@ -479,7 +479,7 @@ async function submitNewsComment(event, newsId) {
   };
 
   try {
-    const { error } = await supabase
+    const { error } = await window.supabase
       .from('comments')
       .insert([commentData]);
 
@@ -503,7 +503,7 @@ async function submitNewsComment(event, newsId) {
 async function openEditModal(newsId) {
   try {
     // 뉴스 정보 불러오기
-    const { data: news, error } = await supabase
+    const { data: news, error } = await window.supabase
       .from('news')
       .select('*')
       .eq('id', newsId)
@@ -579,7 +579,7 @@ async function deleteNews(newsId) {
     console.log('입력한 비밀번호 해시:', password_hash);
 
     // 비밀번호 확인
-    const { data: news, error: fetchError } = await supabase
+    const { data: news, error: fetchError } = await window.supabase
       .from('news')
       .select('password_hash, title')
       .eq('id', newsId)
@@ -603,7 +603,7 @@ async function deleteNews(newsId) {
     }
 
     // 먼저 댓글 삭제
-    const { error: commentsDeleteError } = await supabase
+    const { error: commentsDeleteError } = await window.supabase
       .from('comments')
       .delete()
       .eq('news_id', newsId);
@@ -614,7 +614,7 @@ async function deleteNews(newsId) {
     }
 
     // 뉴스 삭제 실행
-    const { error: deleteError } = await supabase
+    const { error: deleteError } = await window.supabase
       .from('news')
       .delete()
       .eq('id', newsId);
@@ -649,7 +649,7 @@ async function submitEdit() {
     console.log('입력한 비밀번호 해시:', password_hash);
 
     // 비밀번호 확인
-    const { data: news, error: fetchError } = await supabase
+    const { data: news, error: fetchError } = await window.supabase
       .from('news')
       .select('password_hash')
       .eq('id', newsId)
@@ -690,7 +690,7 @@ async function submitEdit() {
     console.log('업데이트 데이터:', updateData);
 
     // 업데이트 실행
-    const { data: updatedData, error: updateError } = await supabase
+    const { data: updatedData, error: updateError } = await window.supabase
       .from('news')
       .update(updateData)
       .eq('id', newsId)
@@ -730,7 +730,7 @@ async function loadEventsTimeline() {
 
   try {
     // 행사안내 카테고리의 뉴스만 가져오기 (행사 날짜 기준 최신순)
-    const { data: events, error } = await supabase
+    const { data: events, error } = await window.supabase
       .from('news')
       .select('*')
       .eq('category', '행사안내')
@@ -821,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function initNewsPage() {
     // 뉴스 목록 페이지
     if (document.getElementById('newsContainer')) {
-      if (supabase && typeof supabase.from === 'function') {
+      if (window.supabase && typeof window.supabase.from === 'function') {
         console.log('Supabase 준비 완료, 뉴스 로드 시작');
         loadNews().then(function() {
           // URL 해시가 있으면 해당 뉴스 자동으로 펼치기
@@ -864,7 +864,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 뉴스 상세 페이지
     var urlParams = new URLSearchParams(window.location.search);
     var newsId = urlParams.get('id');
-    if (newsId && document.getElementById('newsDetail') && supabase && typeof supabase.from === 'function') {
+    if (newsId && document.getElementById('newsDetail') && window.supabase && typeof window.supabase.from === 'function') {
       loadNewsDetail(newsId);
     }
 

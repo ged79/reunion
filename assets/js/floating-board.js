@@ -258,14 +258,14 @@ class FloatingBoard {
   async loadPosts() {
     try {
       // Supabase가 없으면 샘플 데이터 사용
-      if (typeof supabase === 'undefined') {
+      if (typeof window.supabase === 'undefined' || typeof window.supabase.from !== 'function') {
         console.warn('Supabase not available, using sample data');
         this.posts = this.getSamplePosts();
         this.renderPosts();
         return;
       }
 
-      const { data, error } = await supabase
+      const { data, error } = await window.supabase
         .from('board_posts')
         .select('*')
         .order('created_at', { ascending: false })
@@ -300,14 +300,14 @@ class FloatingBoard {
   async loadNews() {
     try {
       // Supabase가 없으면 샘플 데이터 사용
-      if (typeof supabase === 'undefined') {
+      if (typeof window.supabase === 'undefined' || typeof window.supabase.from !== 'function') {
         console.warn('Supabase not available, using sample data');
         this.news = [];
         this.renderNews();
         return;
       }
 
-      const { data, error } = await supabase
+      const { data, error } = await window.supabase
         .from('news')
         .select('*')
         .eq('is_published', true)
@@ -502,7 +502,7 @@ class FloatingBoard {
    * 실시간 업데이트 구독
    */
   subscribeToRealtime() {
-    if (typeof supabase === 'undefined') {
+    if (typeof window.supabase === 'undefined' || typeof window.supabase.from !== 'function') {
       return;
     }
 
@@ -595,13 +595,13 @@ class FloatingBoard {
    * 새 컨텐츠 확인 (게시판 + 뉴스)
    */
   async checkNewContent() {
-    if (typeof supabase === 'undefined' || this.isOpen) {
+    if (typeof window.supabase === 'undefined' || typeof window.supabase.from !== 'function' || this.isOpen) {
       return;
     }
 
     try {
       // 새 게시판 글 확인
-      const { data: newPosts, error: postsError } = await supabase
+      const { data: newPosts, error: postsError } = await window.supabase
         .from('board_posts')
         .select('id')
         .gte('created_at', this.lastCheckTime.toISOString())
@@ -612,7 +612,7 @@ class FloatingBoard {
       }
 
       // 새 뉴스 확인
-      const { data: newNews, error: newsError } = await supabase
+      const { data: newNews, error: newsError } = await window.supabase
         .from('news')
         .select('id')
         .eq('is_published', true)
@@ -774,14 +774,14 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Supabase가 이미 로드되었으면 즉시 초기화
-  if (typeof supabase !== 'undefined') {
+  if (typeof window.supabase !== 'undefined' && typeof window.supabase.from === 'function') {
     initFloatingBoard();
   } else {
     // Supabase 로드를 기다림 (최대 2초)
     let attempts = 0;
     const checkInterval = setInterval(() => {
       attempts++;
-      if (typeof supabase !== 'undefined' || attempts > 20) {
+      if (typeof window.supabase !== 'undefined' && typeof window.supabase.from === 'function' || attempts > 20) {
         clearInterval(checkInterval);
         initFloatingBoard();
       }

@@ -201,7 +201,7 @@
         try {
           console.log('행사 로딩 시작...');
 
-          const { data: events, error } = await supabase
+          const { data: events, error } = await window.supabase
             .from('news')
             .select('*')
             .eq('category', '행사안내')
@@ -332,7 +332,7 @@
         const eventTabsContainer = document.getElementById('eventTabs');
 
         try {
-          const { data: photos, error } = await supabase
+          const { data: photos, error } = await window.supabase
             .from('event_photos')
             .select(`
               *,
@@ -561,7 +561,7 @@
 
         // 초기화 함수
         function initPage() {
-          if (supabase && typeof supabase.from === 'function') {
+          if (window.supabase && typeof window.supabase.from === 'function') {
             console.log('Supabase 준비 완료, 데이터 로드 시작');
             loadEvents().then(function() {
               initFilterButtons();

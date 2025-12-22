@@ -656,7 +656,7 @@
     <script>
       async function loadLatestNews() {
         try {
-          const { data: news, error } = await supabase
+          const { data: news, error } = await window.supabase
             .from('news')
             .select('*')
             .eq('is_published', true)
@@ -738,7 +738,7 @@
       // 홈페이지 갤러리 사진 로드
       async function loadHomeGallery() {
         try {
-          const { data: photos, error } = await supabase
+          const { data: photos, error } = await window.supabase
             .from('event_photos')
             .select('*, news(title)')
             .order('created_at', { ascending: false })
@@ -801,7 +801,7 @@
           console.warn('Supabase 로딩 실패:', error.message);
         }
 
-        if (supabase) {
+        if (window.supabase && typeof window.supabase.from === 'function') {
           loadLatestNews();
           loadHomeGallery();
         } else {

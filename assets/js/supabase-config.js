@@ -3,18 +3,15 @@ var SUPABASE_URL = 'https://qcepxveeuscqvsuhbqyd.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjZXB4dmVldXNjcXZzdWhicXlkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM0MzkzNTgsImV4cCI6MjA3OTAxNTM1OH0.QV9Z9Wc6W9dbxYF5EZq7isIOQC7CBEQ3KLXmqFNh3Ro';
 
 // Supabase 클라이언트 초기화
-var supabase = null;
 var supabaseReady = false;
 var supabaseReadyCallbacks = [];
 
 function initSupabase() {
   try {
-    // CDN에서 로드된 라이브러리 찾기
     var lib = window.supabase;
 
     // 이미 클라이언트로 초기화되어 있는지 확인
     if (lib && typeof lib.from === 'function') {
-      supabase = lib;
       supabaseReady = true;
       console.log('Supabase 이미 초기화됨');
       runCallbacks(lib);
@@ -25,7 +22,6 @@ function initSupabase() {
     if (lib && typeof lib.createClient === 'function') {
       var client = lib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       if (client && typeof client.from === 'function') {
-        supabase = client;
         window.supabase = client;
         supabaseReady = true;
         console.log('Supabase 초기화 성공');
@@ -34,7 +30,7 @@ function initSupabase() {
       }
     }
 
-    console.log('Supabase 라이브러리 대기 중...', typeof lib);
+    console.log('Supabase 라이브러리 대기 중...');
   } catch (error) {
     console.error('Supabase 초기화 오류:', error);
   }
@@ -57,8 +53,8 @@ function waitForSupabase(timeout) {
   if (timeout === undefined) timeout = 10000;
 
   return new Promise(function(resolve, reject) {
-    if (supabaseReady && supabase) {
-      resolve(supabase);
+    if (supabaseReady && window.supabase && typeof window.supabase.from === 'function') {
+      resolve(window.supabase);
       return;
     }
 
@@ -73,6 +69,11 @@ function waitForSupabase(timeout) {
   });
 }
 
+// 전역 supabase 변수 접근용 게터
+function getSupabase() {
+  return window.supabase;
+}
+
 // 초기화 시도
 if (!initSupabase()) {
   var retryCount = 0;
@@ -82,7 +83,7 @@ if (!initSupabase()) {
     retryCount++;
     if (initSupabase() || retryCount >= maxRetries) {
       clearInterval(retryInit);
-      if (retryCount >= maxRetries && !supabase) {
+      if (retryCount >= maxRetries && (!window.supabase || typeof window.supabase.from !== 'function')) {
         console.warn('Supabase CDN 로딩 실패');
         runCallbacks(null);
       }
