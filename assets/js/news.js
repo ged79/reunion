@@ -816,66 +816,72 @@ async function loadEventsTimeline() {
 }
 
 // 페이지 로드 시 초기화
-document.addEventListener('DOMContentLoaded', async () => {
-  // Supabase 준비 대기
-  try {
-    if (typeof waitForSupabase === 'function') {
-      await waitForSupabase(5000);
-    }
-  } catch (error) {
-    console.warn('Supabase 로딩 실패, 일부 기능이 제한됩니다:', error.message);
-  }
+document.addEventListener('DOMContentLoaded', function() {
+  // 페이지 초기화 함수
+  function initNewsPage() {
+    // 뉴스 목록 페이지
+    if (document.getElementById('newsContainer')) {
+      if (supabase && typeof supabase.from === 'function') {
+        console.log('Supabase 준비 완료, 뉴스 로드 시작');
+        loadNews().then(function() {
+          // URL 해시가 있으면 해당 뉴스 자동으로 펼치기
+          var hash = window.location.hash;
+          if (hash && hash.indexOf('#news-') === 0) {
+            var newsId = hash.replace('#news-', '');
+            setTimeout(function() {
+              toggleNewsComments(newsId);
+              // 해당 뉴스로 스크롤
+              var newsElement = document.getElementById(hash.substring(1));
+              if (newsElement) {
+                newsElement.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'center'
+                });
+              }
+            }, 500);
+          }
+        }).catch(function(err) {
+          console.error('뉴스 로드 오류:', err);
+        });
 
-  // 뉴스 목록 페이지
-  if (document.getElementById('newsContainer')) {
-    if (supabase) {
-      loadNews().then(() => {
-        // URL 해시가 있으면 해당 뉴스 자동으로 펼치기
-        const hash = window.location.hash;
-        if (hash && hash.startsWith('#news-')) {
-          const newsId = hash.replace('#news-', '');
-          setTimeout(() => {
-            toggleNewsComments(newsId);
-            // 해당 뉴스로 스크롤
-            const newsElement = document.getElementById(hash.substring(1));
-            if (newsElement) {
-              newsElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-              });
-            }
-          }, 500); // 뉴스 로드 후 약간의 지연
+        // 연간 행사 일정도 로드
+        loadEventsTimeline();
+      } else {
+        // Supabase 없이 에러 메시지 표시
+        var container = document.getElementById('newsContainer');
+        var loadingEl = document.getElementById('newsLoading');
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (container) {
+          container.innerHTML = '<div class="text-center py-5 text-body-secondary">' +
+            '<p class="fs-5"><span class="fas fa-exclamation-triangle me-2"></span>데이터를 불러올 수 없습니다.</p>' +
+            '<p>잠시 후 다시 시도해주세요.</p>' +
+            '<button class="btn btn-primary mt-3" onclick="location.reload()">' +
+            '<span class="fas fa-refresh me-2"></span>새로고침</button></div>';
         }
-      });
-
-      // 연간 행사 일정도 로드
-      loadEventsTimeline();
-    } else {
-      // Supabase 없이 에러 메시지 표시
-      const container = document.getElementById('newsContainer');
-      const loadingEl = document.getElementById('newsLoading');
-      if (loadingEl) loadingEl.style.display = 'none';
-      if (container) {
-        container.innerHTML = `
-          <div class="text-center py-5 text-body-secondary">
-            <p class="fs-5"><span class="fas fa-exclamation-triangle me-2"></span>데이터를 불러올 수 없습니다.</p>
-            <p>잠시 후 다시 시도해주세요.</p>
-            <button class="btn btn-primary mt-3" onclick="location.reload()">
-              <span class="fas fa-refresh me-2"></span>새로고침
-            </button>
-          </div>
-        `;
       }
     }
+
+    // 뉴스 상세 페이지
+    var urlParams = new URLSearchParams(window.location.search);
+    var newsId = urlParams.get('id');
+    if (newsId && document.getElementById('newsDetail') && supabase && typeof supabase.from === 'function') {
+      loadNewsDetail(newsId);
+    }
+
+    // 뉴스 작성 폼
+    setupNewsForm();
   }
 
-  // 뉴스 상세 페이지
-  const urlParams = new URLSearchParams(window.location.search);
-  const newsId = urlParams.get('id');
-  if (newsId && document.getElementById('newsDetail') && supabase) {
-    loadNewsDetail(newsId);
+  // Supabase 준비 대기 (갤럭시용 타임아웃 증가)
+  if (typeof waitForSupabase === 'function') {
+    waitForSupabase(10000).then(function() {
+      initNewsPage();
+    }).catch(function(error) {
+      console.warn('Supabase 로딩 실패:', error.message);
+      initNewsPage(); // 실패해도 initNewsPage 호출하여 에러 메시지 표시
+    });
+  } else {
+    // waitForSupabase가 없으면 잠시 후 시도
+    setTimeout(initNewsPage, 2000);
   }
-
-  // 뉴스 작성 폼
-  setupNewsForm();
 });

@@ -556,39 +556,45 @@
       }
 
       // 페이지 로드 시 초기화
-      document.addEventListener('DOMContentLoaded', async () => {
+      document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM 로드 완료');
 
-        // Supabase 준비 대기
-        try {
-          if (typeof waitForSupabase === 'function') {
-            await waitForSupabase(5000);
+        // 초기화 함수
+        function initPage() {
+          if (supabase && typeof supabase.from === 'function') {
+            console.log('Supabase 준비 완료, 데이터 로드 시작');
+            loadEvents().then(function() {
+              initFilterButtons();
+            }).catch(function(err) {
+              console.error('행사 로드 오류:', err);
+            });
+            loadEventPhotos();
+          } else {
+            // Supabase 없이 에러 메시지 표시
+            var loadingEl = document.getElementById('eventsLoading');
+            var eventsContainer = document.getElementById('eventsContainer');
+            if (loadingEl) loadingEl.style.display = 'none';
+            if (eventsContainer) {
+              eventsContainer.innerHTML = '<div class="col-12 text-center py-5 text-body-secondary">' +
+                '<p class="fs-5"><span class="fas fa-exclamation-triangle me-2"></span>데이터를 불러올 수 없습니다.</p>' +
+                '<p>잠시 후 다시 시도해주세요.</p>' +
+                '<button class="btn btn-primary mt-3" onclick="location.reload()">' +
+                '<span class="fas fa-refresh me-2"></span>새로고침</button></div>';
+            }
           }
-        } catch (error) {
-          console.warn('Supabase 로딩 실패:', error.message);
         }
 
-        if (supabase) {
-          loadEvents().then(() => {
-            initFilterButtons();
+        // Supabase 준비 대기 (갤럭시용 타임아웃 증가)
+        if (typeof waitForSupabase === 'function') {
+          waitForSupabase(10000).then(function() {
+            initPage();
+          }).catch(function(error) {
+            console.warn('Supabase 로딩 실패:', error.message);
+            initPage(); // 실패해도 initPage 호출하여 에러 메시지 표시
           });
-          loadEventPhotos();
         } else {
-          // Supabase 없이 에러 메시지 표시
-          const loadingEl = document.getElementById('eventsLoading');
-          const eventsContainer = document.getElementById('eventsContainer');
-          if (loadingEl) loadingEl.style.display = 'none';
-          if (eventsContainer) {
-            eventsContainer.innerHTML = `
-              <div class="col-12 text-center py-5 text-body-secondary">
-                <p class="fs-5"><span class="fas fa-exclamation-triangle me-2"></span>데이터를 불러올 수 없습니다.</p>
-                <p>잠시 후 다시 시도해주세요.</p>
-                <button class="btn btn-primary mt-3" onclick="location.reload()">
-                  <span class="fas fa-refresh me-2"></span>새로고침
-                </button>
-              </div>
-            `;
-          }
+          // waitForSupabase가 없으면 잠시 후 시도
+          setTimeout(initPage, 2000);
         }
       });
     </script>
