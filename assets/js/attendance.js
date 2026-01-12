@@ -178,10 +178,59 @@ function getAttendanceHTML(item) {
     '</div></div>';
 }
 
-// 행사 참석자 수 배지 HTML (목록에 표시용)
+
+// 참석자 드롭다운 토글
+function toggleParticipantDropdown(eventId, evt) {
+  evt.stopPropagation();
+  var dropdown = document.getElementById('participant-dropdown-' + eventId);
+  if (!dropdown) return;
+  document.querySelectorAll('.participant-dropdown').forEach(function(d) {
+    if (d.id !== 'participant-dropdown-' + eventId) d.style.display = 'none';
+  });
+  if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+    dropdown.style.display = 'block';
+    loadParticipantDropdown(eventId);
+  } else {
+    dropdown.style.display = 'none';
+  }
+}
+
+// 참석자 드롭다운 로드
+async function loadParticipantDropdown(eventId) {
+  var dropdown = document.getElementById('participant-dropdown-' + eventId);
+  if (!dropdown) return;
+  var participants = await getParticipants(eventId);
+  if (participants.length === 0) {
+    dropdown.innerHTML = '<div class="p-2 text-muted small">참석자 없음</div>';
+  } else {
+    var html = '<div class="p-2 border-bottom small fw-bold text-success">참석자 ' + participants.length + '명</div>';
+    participants.forEach(function(p) { html += '<div class="p-2 small border-bottom">' + escapeHtml(p.member_name) + '</div>'; });
+    dropdown.innerHTML = html;
+  }
+}
+
+// 문서 클릭 시 드롭다운 닫기
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.participant-badge-wrapper')) {
+    document.querySelectorAll('.participant-dropdown').forEach(function(d) { d.style.display = 'none'; });
+  }
+});
+
+
+// 행사 참석자 수 배지 HTML - 클릭시 드롭다운 + 이동 아이콘
 function getParticipantBadgeHTML(item) {
   if (item.category !== '행사안내') return '';
-  return '<span class="badge bg-success" title="참석자"><i class="fas fa-user-check me-1"></i><span id="participant-count-badge-' + item.id + '">0</span></span>';
+  return '<span class="participant-badge-wrapper position-relative d-inline-block">' +
+    '<span class="badge bg-success" style="cursor:pointer;" onclick="toggleParticipantDropdown(\x27' + item.id + '\x27, event)" title="참석자 보기">' +
+    '<i class="fas fa-user-check me-1"></i><span id="participant-count-badge-' + item.id + '">0</span>' +
+    '</span>' +
+    '<div class="participant-dropdown position-absolute bg-white border rounded shadow-sm" id="participant-dropdown-' + item.id + '" style="display:none; z-index:1000; min-width:130px; top:100%; left:0; margin-top:4px;">' +
+    '<div class="p-2 text-muted small">로딩중...</div>' +
+    '</div>' +
+    '</span>' +
+    '<a href="event-detail.html?id=' + item.id + '" class="badge bg-primary ms-1" title="행사 상세보기" onclick="event.stopPropagation();">' +
+    '<i class="fas fa-external-link-alt"></i>' +
+    '</a>';
 }
 
 // 페이지 로드 시 참석자 수 로드
@@ -190,14 +239,10 @@ async function loadAllParticipantCounts(newsItems) {
     var item = newsItems[i];
     if (item.category === '행사안내') {
       var count = await getParticipantCount(item.id);
-      
       var countEl = document.getElementById('participant-count-' + item.id);
       if (countEl) countEl.textContent = count;
-      
       var badgeEl = document.getElementById('participant-count-badge-' + item.id);
       if (badgeEl) badgeEl.textContent = count;
-      
-      // 참석자 목록도 로드
       var participants = await getParticipants(item.id);
       var listContainer = document.getElementById('participants-list-' + item.id);
       if (listContainer) {
@@ -206,10 +251,8 @@ async function loadAllParticipantCounts(newsItems) {
         } else {
           var html = '';
           participants.forEach(function(p) {
-            html += '<span class="badge bg-success me-1 mb-1">' + 
-              escapeHtml(p.member_name) + 
-              ' <i class="fas fa-times ms-1" style="cursor:pointer;" onclick="handleCancelAttendance(\'' + item.id + '\', \'' + p.member_name.replace(/'/g, "\'") + '\')"></i>' +
-              '</span>';
+            var safeName = p.member_name.replace(/'/g, "\'");
+            html += '<span class="badge bg-success me-1 mb-1">' + escapeHtml(p.member_name) + ' <i class="fas fa-times ms-1" style="cursor:pointer;" onclick="event.stopPropagation(); handleCancelAttendance(\x27' + item.id + '\x27, \x27' + safeName + '\x27)"></i></span>';
           });
           listContainer.innerHTML = html;
         }

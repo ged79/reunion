@@ -3,10 +3,10 @@
 -- Supabase SQL Editor에서 실행하세요
 -- =============================================
 
--- 참석자 테이블 생성
+-- 참석자 테이블 생성 (event_id는 UUID 타입)
 CREATE TABLE IF NOT EXISTS event_participants (
   id BIGSERIAL PRIMARY KEY,
-  event_id BIGINT NOT NULL REFERENCES news(id) ON DELETE CASCADE,
+  event_id UUID NOT NULL REFERENCES news(id) ON DELETE CASCADE,
   member_name VARCHAR(100) NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   
