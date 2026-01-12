@@ -160,7 +160,7 @@ function getMemberDropdownHTML(eventId) {
 
 // 참석 UI HTML 생성 (행사안내 카테고리용)
 function getAttendanceHTML(item) {
-  if (item.category !== '행사안내') return '';
+  if (item.category !== '행사안내' && item.category !== '공지사항') return '';
   
   var dropdownHTML = getMemberDropdownHTML(item.id);
   
@@ -219,7 +219,7 @@ document.addEventListener('click', function(e) {
 
 // 행사 참석자 수 배지 HTML - 클릭시 드롭다운 + 이동 아이콘
 function getParticipantBadgeHTML(item) {
-  if (item.category !== '행사안내') return '';
+  if (item.category !== '행사안내' && item.category !== '공지사항') return '';
   return '<span class="participant-badge-wrapper position-relative d-inline-block">' +
     '<span class="badge bg-success" style="cursor:pointer;" onclick="toggleParticipantDropdown(\x27' + item.id + '\x27, event)" title="참석자 보기">' +
     '<i class="fas fa-user-check me-1"></i><span id="participant-count-badge-' + item.id + '">0</span>' +
@@ -237,7 +237,7 @@ function getParticipantBadgeHTML(item) {
 async function loadAllParticipantCounts(newsItems) {
   for (var i = 0; i < newsItems.length; i++) {
     var item = newsItems[i];
-    if (item.category === '행사안내') {
+    if (item.category === '행사안내' || item.category === '공지사항') {
       var count = await getParticipantCount(item.id);
       var countEl = document.getElementById('participant-count-' + item.id);
       if (countEl) countEl.textContent = count;
