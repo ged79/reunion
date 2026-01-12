@@ -571,6 +571,43 @@
         </div>
       </div>
 
+      <!-- 회비 납부 모달 -->
+      <div class="modal fade" id="duesPaymentModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">회비 납부</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <p class="mb-3"><strong id="duesPaymentMemberName"></strong>님 회비 납부</p>
+              <div class="mb-3">
+                <label class="form-label small text-body-secondary">빠른 선택</label>
+                <div class="d-flex gap-2 flex-wrap">
+                  <button type="button" class="btn btn-outline-primary btn-sm" onclick="setDuesAmount(240000)">연납 24만원</button>
+                  <button type="button" class="btn btn-outline-primary btn-sm" onclick="setDuesAmount(120000)">반기 12만원</button>
+                  <button type="button" class="btn btn-outline-primary btn-sm" onclick="setDuesAmount(20000)">월납 2만원</button>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">납부 금액</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="duesPaymentAmount" min="0" step="1000" placeholder="금액 입력">
+                  <span class="input-group-text">원</span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">메모 <span class="text-body-secondary small">(선택)</span></label>
+                <input type="text" class="form-control" id="duesPaymentNote" placeholder="예: 1~6월분, 연납 등">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-dark" onclick="confirmDuesPayment()">납부 확인</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- 결산 보고서 모달 -->
       <div class="modal fade" id="reportModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
@@ -1073,12 +1110,35 @@
         document.getElementById('duesYearLabel').textContent = `${year}년 회비`;
       }
 
+
+      let duesPaymentMember = null;
+
       function recordPayment(memberName) {
+        duesPaymentMember = memberName;
+        document.getElementById('duesPaymentMemberName').textContent = memberName;
+        document.getElementById('duesPaymentAmount').value = '';
+        document.getElementById('duesPaymentNote').value = '';
+        new bootstrap.Modal(document.getElementById('duesPaymentModal')).show();
+      }
+
+      function setDuesAmount(amount) {
+        document.getElementById('duesPaymentAmount').value = amount;
+      }
+
+      function confirmDuesPayment() {
+        const amount = parseInt(document.getElementById('duesPaymentAmount').value);
+        const note = document.getElementById('duesPaymentNote').value;
+
+        if (!amount || amount <= 0) {
+          alert('납부 금액을 입력해주세요.');
+          return;
+        }
+
         const year = currentYear.toString();
         const today = new Date().toISOString().split('T')[0];
 
         if (!duesData[year]) duesData[year] = {};
-        duesData[year][memberName] = { paid: true, date: today, amount: DEFAULT_DUES_AMOUNT };
+        duesData[year][duesPaymentMember] = { paid: true, date: today, amount: amount };
         saveDuesData(duesData);
 
         accountingData.transactions.push({
@@ -1086,16 +1146,18 @@
           date: today,
           type: 'income',
           category: '회비',
-          description: `${memberName} 회비 납부`,
-          amount: DEFAULT_DUES_AMOUNT,
-          note: `${currentYear}년 연회비`
+          description: `${duesPaymentMember} 회비 납부`,
+          amount: amount,
+          note: note || `${currentYear}년 회비`
         });
         saveData(accountingData);
+
+        bootstrap.Modal.getInstance(document.getElementById('duesPaymentModal')).hide();
+        duesPaymentMember = null;
 
         renderDuesTable(currentYear);
         loadAll(currentYear);
       }
-
       function cancelPayment(memberName) {
         if (!confirm(`${memberName}님의 납부를 취소하시겠습니까?`)) return;
 
