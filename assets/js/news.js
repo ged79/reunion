@@ -70,6 +70,11 @@ async function loadNews() {
     );
 
     displayNews(newsWithComments);
+    
+    // 참석자 수 로드
+    if (typeof loadAllParticipantCounts === 'function') {
+      loadAllParticipantCounts(newsWithComments);
+    }
   } catch (error) {
     console.error('뉴스 불러오기 오류:', error);
     alert('뉴스를 불러오는데 실패했습니다.');
@@ -129,11 +134,12 @@ function displayNews(newsItems) {
               </div>
               <p class="mb-2 text-body-secondary">${escapeHtml(truncateText(item.content, 100))}</p>
               <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-wrap">
                   <span class="badge ${badgeClass}">${escapeHtml(item.category)}</span>
                   <span class="badge bg-secondary">
                     <span class="fas fa-comment me-1"></span>${item.comment_count || 0}
                   </span>
+                  ${typeof getParticipantBadgeHTML === 'function' ? getParticipantBadgeHTML(item) : ''}
                 </div>
                 <div class="d-flex align-items-center gap-3">
                   <small class="text-body-tertiary"><span class="fas fa-eye me-1"></span>${item.view_count}</small>
@@ -158,6 +164,8 @@ function displayNews(newsItems) {
             ${item.event_date ? `<div class="mt-3 text-body-secondary"><i class="fas fa-calendar me-2"></i>행사일: ${new Date(item.event_date).toLocaleDateString('ko-KR')}</div>` : ''}
             ${item.location ? `<div class="text-body-secondary"><i class="fas fa-map-marker-alt me-2"></i>장소: ${escapeHtml(item.location)}</div>` : ''}
           </div>
+
+          ${typeof getAttendanceHTML === 'function' ? getAttendanceHTML(item) : ''}
 
           <div class="mb-3">
             <strong class="text-primary"><i class="fas fa-comments me-2"></i>댓글 ${item.comment_count || 0}개</strong>
