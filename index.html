@@ -60,7 +60,7 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Mono%7cPT+Serif:400,400i%7cLato:100,300,400,700,800,900" rel="stylesheet">
     <link href="assets/css/theme.css" rel="stylesheet" />
     <link href="assets/css/user.css" rel="stylesheet" />
-    <link href="assets/css/floating-board.css" rel="stylesheet" />
+    <link href="assets/css/floating-events.css" rel="stylesheet" />
 
   </head>
 
@@ -90,7 +90,6 @@
           <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">회계</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
-          <li class="fancynav-item"><a class="fancynav-link" href="board.html"><span class="fancynav-link-content">회원게시판</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사&사진</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
@@ -439,27 +438,6 @@
       <!-- ============================================-->
 
 
-      <!-- ============================================-->
-      <!-- 회원 게시판 퀵링크 배너 =====================-->
-      <!-- ============================================-->
-      <section class="py-5 bg-light">
-        <div class="container">
-          <div class="row flex-center">
-            <div class="col-lg-8">
-              <div class="d-md-flex align-items-center justify-content-between text-center text-md-start">
-                <div class="mb-3 mb-md-0">
-                  <h4 class="mb-1"><span class="fas fa-comments me-2"></span>회원 게시판</h4>
-                  <p class="text-body-secondary mb-0">회원간 정보 공유, 업무 요청, 나눔 등 소통 공간</p>
-                </div>
-                <a href="board.html" class="btn btn-dark">
-                  게시판 바로가기 <span class="fas fa-arrow-right ms-2"></span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- ============================================-->
 
 
       <!-- ============================================-->
@@ -604,29 +582,6 @@
       </div>
     </div>
 
-    <!-- 게시판 안내 팝업 -->
-    <div class="modal fade" id="boardPopup" tabindex="-1" aria-labelledby="boardPopupLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header border-0 pb-0">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center pt-0 pb-4">
-            <span class="fas fa-comments fa-3x text-primary mb-3"></span>
-            <h4 class="mb-2">회원 게시판 오픈!</h4>
-            <p class="text-body-secondary mb-4">회원간 정보 공유, 업무 요청, 나눔 등<br>자유롭게 소통하세요.</p>
-            <div class="d-grid gap-2">
-              <a href="board.html" class="btn btn-primary">
-                게시판 바로가기 <span class="fas fa-arrow-right ms-2"></span>
-              </a>
-              <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal" onclick="hidePopupToday()">
-                오늘 하루 보지 않기
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
 
     <!-- ===============================================-->
@@ -816,25 +771,7 @@
           }
         }
 
-        // 게시판 팝업 표시 (오늘 하루 보지 않기 체크)
-        const hideUntil = localStorage.getItem('boardPopupHideUntil');
-        const now = new Date().getTime();
-
-        if (!hideUntil || now > parseInt(hideUntil)) {
-          setTimeout(() => {
-            const popup = new bootstrap.Modal(document.getElementById('boardPopup'));
-            popup.show();
-          }, 1000);
-        }
       });
-
-      // 오늘 하루 보지 않기
-      function hidePopupToday() {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
-        localStorage.setItem('boardPopupHideUntil', tomorrow.getTime().toString());
-      }
 
       // 동적 모달 처리
       const memberModal = document.getElementById('memberModal');
@@ -918,8 +855,8 @@
       }
     </script>
 
-    <!-- 플로팅 게시판 -->
-    <script src="assets/js/floating-board.js"></script>
+    <!-- 플로팅 행사 버튼 -->
+    <script src="assets/js/floating-events.js"></script>
 
   </body>
 

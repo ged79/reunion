@@ -35,6 +35,7 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Mono%7cPT+Serif:400,400i%7cLato:100,300,400,700,800,900" rel="stylesheet">
     <link href="assets/css/theme.css" rel="stylesheet" />
     <link href="assets/css/user.css" rel="stylesheet" />
+    <link href="assets/css/floating-events.css" rel="stylesheet" />
 
     <style>
       /* 네비게이션 헤더를 항상 검은색으로 유지 */
@@ -141,7 +142,6 @@
           <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">회계</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
-          <li class="fancynav-item"><a class="fancynav-link" href="board.html"><span class="fancynav-link-content">회원게시판</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사&사진</span></a></li>
           <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
@@ -183,15 +183,6 @@
             <div class="col-12 text-center mb-5">
               <h1 class="fs-5 fs-md-4 text-decoration-underline d-inline-block mb-3">회원 소개</h1>
               <p class="text-body-tertiary mt-3">민족통일청년회 영동군 지부를 이끌어가는 회원들을 소개합니다</p>
-            </div>
-          </div>
-
-          <!-- 게시판 바로가기 -->
-          <div class="row flex-center mb-4">
-            <div class="col-lg-10 text-end">
-              <a href="board.html" class="btn btn-dark">
-                <span class="fas fa-comments me-2"></span>회원 게시판
-              </a>
             </div>
           </div>
 
@@ -935,6 +926,9 @@
         searchName.addEventListener('input', filterMembers);
       });
     </script>
+
+    <!-- 플로팅 행사 버튼 -->
+    <script src="assets/js/floating-events.js"></script>
 
   </body>
 

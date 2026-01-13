@@ -24,7 +24,10 @@ const membersData = [
   {name:"정성용",role:"회원",company:"",field:"",category:"other",image:"9.jpg",desc:"민족통일청년회 영동군 지부 회원으로 활동하고 있습니다."},
   {name:"조훈희",role:"회원",company:"",field:"",category:"other",image:"0.jpg",desc:"민족통일청년회 영동군 지부 회원으로 활동하고 있습니다."},
   {name:"채흥열",role:"회원",company:"",field:"",category:"other",image:"1.jpg",desc:"민족통일청년회 영동군 지부 회원으로 활동하고 있습니다."},
-  {name:"최두호",role:"회원",company:"",field:"해병대",category:"other",image:"2.jpg",desc:"민족통일청년회 영동군 지부 회원으로 활동하고 있습니다."}
+  {name:"최두호",role:"회원",company:"",field:"해병대",category:"other",image:"2.jpg",desc:"민족통일청년회 영동군 지부 회원으로 활동하고 있습니다."},
+  {name:"전동민",role:"회원",company:"",field:"",category:"other",image:"3.jpg",desc:"민족통일청년회 영동군 지부 회원으로 활동하고 있습니다."},
+  {name:"오명택",role:"회원",company:"",field:"",category:"other",image:"4.jpg",desc:"민족통일청년회 영동군 지부 회원으로 활동하고 있습니다."},
+  {name:"이재룡",role:"회원",company:"",field:"",category:"other",image:"5.jpg",desc:"민족통일청년회 영동군 지부 회원으로 활동하고 있습니다."}
 ];
 
 const categories = {
