@@ -947,7 +947,7 @@
                     <div class="d-flex justify-content-center align-items-center gap-3 mb-3 flex-wrap">
                       <div class="text-center">
                         <div class="balance-label">2025년 결산 (확정)</div>
-                        <div class="balance-amount-small text-muted" id="settledBalance">3,734,393원</div>
+                        <div class="balance-amount-small text-muted" id="settledBalance">0원</div>
                       </div>
                       <div class="balance-divider d-none d-sm-block"></div>
                       <div class="text-center">
@@ -1009,6 +1009,11 @@
 
                   <!-- 거래 내역 탭 -->
                   <div class="tab-content-area active" id="transactionsTab">
+                    <!-- 연도 선택 -->
+                    <div class="d-flex gap-2 mb-3" id="txYearSelector">
+                      <button class="btn btn-sm btn-outline-dark tx-year-btn" data-year="2025">2025년</button>
+                      <button class="btn btn-sm btn-dark tx-year-btn" data-year="2026">2026년</button>
+                    </div>
                     <div class="utility-bar">
                       <span class="text-body-secondary" id="transactionCount">0건</span>
                       <div>
@@ -1378,10 +1383,104 @@
 
       const STORAGE_KEY = 'mintong_accounting';
       const PAYMENT_DATA_KEY = 'mintong_payments_v2';
-      const INITIAL_BALANCE = 3734393;
+      const INITIAL_BALANCE = 1691319; // 2025년 첫 거래 전 잔액
       const ANNUAL_DUES = 240000;
 
       let currentYear = 2026;
+
+      // ========================================
+      // 2025년 확정 거래 데이터 (통장 내역 기준)
+      // ========================================
+      const DEFAULT_2025_TRANSACTIONS = [
+        {id:25001,date:'2025-01-10',type:'income',amount:1908,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25002,date:'2025-01-25',type:'income',amount:119,description:'입출금통장 이자',category:'이자'},
+        {id:25003,date:'2025-02-07',type:'expense',amount:183880,description:'영동농협하나로마트',category:'행사비'},
+        {id:25004,date:'2025-02-07',type:'expense',amount:34000,description:'새벽닭엣날통닭',category:'행사비'},
+        {id:25005,date:'2025-02-07',type:'expense',amount:19000,description:'이츠마트 영동점',category:'행사비'},
+        {id:25006,date:'2025-02-08',type:'expense',amount:60000,description:'김밥천국',category:'행사비'},
+        {id:25007,date:'2025-02-08',type:'expense',amount:13400,description:'이마트24의성(영덕방)',category:'행사비'},
+        {id:25008,date:'2025-02-08',type:'expense',amount:250000,description:'대원호',category:'행사비'},
+        {id:25009,date:'2025-02-08',type:'expense',amount:36000,description:'해맞이공원 등대포차',category:'행사비'},
+        {id:25010,date:'2025-02-08',type:'expense',amount:35000,description:'동광슈퍼',category:'행사비'},
+        {id:25011,date:'2025-02-08',type:'expense',amount:19100,description:'이마트24 강구해파랑',category:'행사비'},
+        {id:25012,date:'2025-02-08',type:'expense',amount:212500,description:'순호프(SooN HOF)',category:'행사비'},
+        {id:25013,date:'2025-02-09',type:'income',amount:500000,description:'박경하부회장님찬조',category:'찬조금'},
+        {id:25014,date:'2025-02-09',type:'income',amount:300000,description:'최원호회원님찬조',category:'찬조금'},
+        {id:25015,date:'2025-02-09',type:'income',amount:50000,description:'이정진부회장님찬조',category:'찬조금'},
+        {id:25016,date:'2025-02-09',type:'income',amount:200000,description:'홍영근부회장님찬조',category:'찬조금'},
+        {id:25017,date:'2025-02-09',type:'income',amount:240000,description:'임진석',category:'회비'},
+        {id:25018,date:'2025-02-09',type:'income',amount:240000,description:'김종원',category:'회비'},
+        {id:25019,date:'2025-02-09',type:'income',amount:240000,description:'이재룡',category:'회비'},
+        {id:25020,date:'2025-02-09',type:'income',amount:400000,description:'조훈희',category:'회비'},
+        {id:25021,date:'2025-02-09',type:'income',amount:240000,description:'윤용수',category:'회비'},
+        {id:25022,date:'2025-02-09',type:'income',amount:240000,description:'이종만',category:'회비'},
+        {id:25023,date:'2025-02-10',type:'income',amount:240000,description:'최두호',category:'회비'},
+        {id:25024,date:'2025-02-10',type:'income',amount:240000,description:'박성현(길인당)',category:'회비'},
+        {id:25025,date:'2025-02-10',type:'income',amount:220000,description:'정성용',category:'회비'},
+        {id:25026,date:'2025-02-10',type:'income',amount:420000,description:'오명택',category:'회비'},
+        {id:25027,date:'2025-02-11',type:'income',amount:240000,description:'김영균',category:'회비'},
+        {id:25028,date:'2025-02-25',type:'income',amount:380000,description:'이경환',category:'회비'},
+        {id:25029,date:'2025-02-28',type:'income',amount:240000,description:'한상욱',category:'회비'},
+        {id:25030,date:'2025-03-01',type:'income',amount:292,description:'입출금통장 이자',category:'이자'},
+        {id:25031,date:'2025-03-10',type:'income',amount:2979,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25032,date:'2025-03-29',type:'income',amount:369,description:'입출금통장 이자',category:'이자'},
+        {id:25033,date:'2025-04-21',type:'expense',amount:389700,description:'양촌리 직화 쭈꾸미',category:'행사비'},
+        {id:25034,date:'2025-04-24',type:'income',amount:340000,description:'이재룡',category:'회비'},
+        {id:25035,date:'2025-04-24',type:'income',amount:100000,description:'정성용',category:'회비'},
+        {id:25036,date:'2025-04-25',type:'income',amount:340000,description:'여형구',category:'회비'},
+        {id:25037,date:'2025-04-25',type:'income',amount:100000,description:'이종만',category:'회비'},
+        {id:25038,date:'2025-04-26',type:'income',amount:367,description:'입출금통장 이자',category:'이자'},
+        {id:25039,date:'2025-04-28',type:'income',amount:200000,description:'김영균',category:'회비'},
+        {id:25040,date:'2025-04-28',type:'income',amount:50000,description:'박성현',category:'회비'},
+        {id:25041,date:'2025-04-28',type:'income',amount:100000,description:'최두호',category:'회비'},
+        {id:25042,date:'2025-04-28',type:'income',amount:340000,description:'이기돈',category:'회비'},
+        {id:25043,date:'2025-04-28',type:'income',amount:680000,description:'최원호',category:'회비'},
+        {id:25044,date:'2025-04-28',type:'income',amount:100000,description:'한상욱',category:'회비'},
+        {id:25045,date:'2025-04-28',type:'income',amount:100000,description:'조훈희',category:'회비'},
+        {id:25046,date:'2025-04-29',type:'income',amount:440000,description:'임동기',category:'회비'},
+        {id:25047,date:'2025-04-29',type:'income',amount:760000,description:'박수용',category:'회비'},
+        {id:25048,date:'2025-05-03',type:'income',amount:340000,description:'윤진한',category:'회비'},
+        {id:25049,date:'2025-05-09',type:'income',amount:680000,description:'여수원',category:'회비'},
+        {id:25050,date:'2025-05-09',type:'income',amount:100000,description:'윤용수',category:'회비'},
+        {id:25051,date:'2025-05-12',type:'income',amount:780,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25052,date:'2025-05-12',type:'income',amount:340000,description:'이정희',category:'회비'},
+        {id:25053,date:'2025-05-16',type:'income',amount:340000,description:'채흥열',category:'회비'},
+        {id:25054,date:'2025-05-19',type:'income',amount:100000,description:'이경환',category:'회비'},
+        {id:25055,date:'2025-05-19',type:'income',amount:200000,description:'임진석',category:'회비'},
+        {id:25056,date:'2025-05-19',type:'expense',amount:3000000,description:'영동세계국악엑스포조',category:'사업비'},
+        {id:25057,date:'2025-05-19',type:'income',amount:300000,description:'김종원',category:'회비'},
+        {id:25058,date:'2025-05-22',type:'income',amount:290000,description:'배명호',category:'회비'},
+        {id:25059,date:'2025-05-24',type:'income',amount:599,description:'입출금통장 이자',category:'이자'},
+        {id:25060,date:'2025-06-18',type:'expense',amount:739000,description:'남해활어회',category:'행사비'},
+        {id:25061,date:'2025-06-18',type:'expense',amount:140000,description:'남해활어회',category:'행사비'},
+        {id:25062,date:'2025-06-28',type:'income',amount:672,description:'입출금통장 이자',category:'이자'},
+        {id:25063,date:'2025-07-10',type:'income',amount:1758,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25064,date:'2025-07-16',type:'expense',amount:216000,description:'비어앤쿡',category:'행사비'},
+        {id:25065,date:'2025-07-23',type:'income',amount:500000,description:'수원용수',category:'회비'},
+        {id:25066,date:'2025-07-26',type:'income',amount:496,description:'입출금통장 이자',category:'이자'},
+        {id:25067,date:'2025-08-11',type:'income',amount:432,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25068,date:'2025-08-20',type:'expense',amount:502000,description:'토담 누룽지백숙 영',category:'행사비'},
+        {id:25069,date:'2025-08-23',type:'income',amount:516,description:'입출금통장 이자',category:'이자'},
+        {id:25070,date:'2025-08-28',type:'income',amount:440000,description:'김용국',category:'회비'},
+        {id:25071,date:'2025-09-10',type:'income',amount:1004,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25072,date:'2025-09-27',type:'income',amount:628,description:'입출금통장 이자',category:'이자'},
+        {id:25073,date:'2025-10-15',type:'expense',amount:990000,description:'우리집장어',category:'행사비'},
+        {id:25074,date:'2025-10-25',type:'income',amount:498,description:'입출금통장 이자',category:'이자'},
+        {id:25075,date:'2025-10-30',type:'expense',amount:1460000,description:'임진석',category:'기타'},
+        {id:25076,date:'2025-11-10',type:'income',amount:1980,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25077,date:'2025-11-26',type:'expense',amount:90000,description:'행복꽃집',category:'행사비'},
+        {id:25078,date:'2025-11-29',type:'income',amount:459,description:'입출금통장 이자',category:'이자'},
+        {id:25079,date:'2025-12-10',type:'income',amount:180,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25080,date:'2025-12-14',type:'expense',amount:37600,description:'신탄진(상)휴게소',category:'행사비'},
+        {id:25081,date:'2025-12-14',type:'expense',amount:17500,description:'신탄진(상)휴게소',category:'행사비'},
+        {id:25082,date:'2025-12-14',type:'expense',amount:10300,description:'지에스25 삽교함상공',category:'행사비'},
+        {id:25083,date:'2025-12-14',type:'expense',amount:1176000,description:'다미횟집,모텔',category:'행사비'},
+        {id:25084,date:'2025-12-14',type:'expense',amount:895000,description:'오케이수산',category:'행사비'},
+        {id:25085,date:'2025-12-14',type:'expense',amount:66100,description:'(주)선인상사 예산',category:'행사비'},
+        {id:25086,date:'2025-12-14',type:'income',amount:500000,description:'김종원',category:'찬조금'},
+        {id:25087,date:'2025-12-15',type:'income',amount:200000,description:'김춘호찬조금',category:'찬조금'},
+        {id:25088,date:'2025-12-27',type:'income',amount:306,description:'입출금통장 이자',category:'이자'}
+      ];
       let currentPaymentItem = 'dues';
       let deleteTargetId = null;
       let paymentTargetMember = null;
@@ -2272,9 +2371,10 @@
 
       // 현재 잔고 업데이트 (항상 최신 연도 기준)
       function updateCurrentBalance() {
-        const latestYear = 2026;
-        const balance = calculateBalance(latestYear);
-        document.getElementById('currentBalance').textContent = formatMoney(balance);
+        const balance2025 = calculateBalance(2025);
+        const balance2026 = calculateBalance(2026);
+        document.getElementById('settledBalance').textContent = formatMoney(balance2025);
+        document.getElementById('currentBalance').textContent = formatMoney(balance2026);
       }
 
       // ========================================
@@ -2321,18 +2421,18 @@
       // 거래 내역 관련 (기존 유지)
       // ========================================
       function getTransactionsByYear(year) {
-        return accountingData.transactions
-          .filter(function(t) { return t.date.startsWith(year.toString()); })
-          .sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+        var hardcoded = DEFAULT_2025_TRANSACTIONS.filter(function(t) { return t.date.startsWith(year.toString()); });
+        var stored = accountingData.transactions.filter(function(t) { return t.date.startsWith(year.toString()); });
+        return hardcoded.concat(stored).sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
       }
 
       function calculateBalance(upToYear) {
-        let balance = accountingData.initialBalance;
-        const allTransactions = accountingData.transactions.slice().sort(function(a, b) {
+        let balance = INITIAL_BALANCE;
+        var all = DEFAULT_2025_TRANSACTIONS.concat(accountingData.transactions).sort(function(a, b) {
           return new Date(a.date) - new Date(b.date);
         });
-        for (var i = 0; i < allTransactions.length; i++) {
-          var t = allTransactions[i];
+        for (var i = 0; i < all.length; i++) {
+          var t = all[i];
           var txYear = parseInt(t.date.substring(0, 4));
           if (txYear <= upToYear) {
             balance += t.type === 'income' ? t.amount : -t.amount;
@@ -2355,6 +2455,7 @@
       function renderTransactions(year) {
         const list = document.getElementById('transactionList');
         const transactions = getTransactionsByYear(year);
+        const isReadonly = (year === 2025);
 
         if (transactions.length === 0) {
           list.innerHTML = '<div class="empty-state">거래 내역이 없습니다.</div>';
@@ -2375,7 +2476,9 @@
           if (t.note) html += '<div class="category">' + t.note + '</div>';
           html += '</div>';
           html += '<div class="amount ' + typeClass + '">' + prefix + formatMoney(t.amount) + '</div>';
-          html += '<button class="btn btn-sm btn-outline-secondary delete-btn" onclick="confirmDelete(' + t.id + ', \'' + t.description.replace(/'/g, "\\'") + '\')"><span class="fas fa-trash-alt"></span></button>';
+          if (!isReadonly) {
+            html += '<button class="btn btn-sm btn-outline-secondary delete-btn" onclick="confirmDelete(' + t.id + ', \'' + t.description.replace(/'/g, "\\'") + '\')"><span class="fas fa-trash-alt"></span></button>';
+          }
           html += '</div>';
         }
 
@@ -2397,7 +2500,8 @@
       // 찬조금 표시
       // ========================================
       function renderDonations() {
-        var donations = accountingData.transactions.filter(function(t) {
+        var allTx = DEFAULT_2025_TRANSACTIONS.concat(accountingData.transactions);
+        var donations = allTx.filter(function(t) {
           return t.category === '찬조금' && t.type === 'income';
         });
 
@@ -2429,6 +2533,28 @@
         updateSummary(year);
         renderDonations();
         renderUnpaidSummary();
+      }
+
+      // 거래내역 탭 연도 전환
+      function switchTransactionYear(year) {
+        currentYear = year;
+        // 버튼 활성화 토글
+        document.querySelectorAll('.tx-year-btn').forEach(function(btn) {
+          if (parseInt(btn.dataset.year) === year) {
+            btn.classList.remove('btn-outline-dark');
+            btn.classList.add('btn-dark');
+          } else {
+            btn.classList.remove('btn-dark');
+            btn.classList.add('btn-outline-dark');
+          }
+        });
+        // 2025년이면 추가 버튼 숨김
+        var actionBtns = document.getElementById('actionButtons');
+        if (actionBtns) {
+          actionBtns.style.display = (year === 2025) ? 'none' : 'flex';
+        }
+        loadAll(year);
+        updateCurrentBalance();
       }
 
       // ========================================
@@ -2731,8 +2857,8 @@
 
         document.getElementById('reportTitle').textContent = year + '년도 수입·지출 결산서';
 
-        var carryOver = accountingData.initialBalance;
-        var allTransactions = accountingData.transactions.slice().sort(function(a, b) {
+        var carryOver = INITIAL_BALANCE;
+        var allTransactions = DEFAULT_2025_TRANSACTIONS.concat(accountingData.transactions).sort(function(a, b) {
           return new Date(a.date) - new Date(b.date);
         });
         for (var i = 0; i < allTransactions.length; i++) {
@@ -2801,7 +2927,7 @@
 
       function resetAllData() {
         if (!checkLock('초기화할')) return;
-        if (!confirm('모든 데이터를 초기화하시겠습니까?\n\n· 잔고: 3,734,393원\n· 거래 내역: 초기화\n· 회비 납부: 초기 상태로')) return;
+        if (!confirm('모든 데이터를 초기화하시겠습니까?\n\n· 2026년 거래 내역: 초기화\n· 회비 납부: 초기 상태로\n· 2025년 데이터는 유지됩니다')) return;
 
         localStorage.removeItem(STORAGE_KEY);
         localStorage.removeItem(PAYMENT_DATA_KEY);
@@ -2827,6 +2953,13 @@
         renderDuesAccordions();
         updateCurrentBalance();
         updateLockUI();  // 잠금 상태 초기화
+
+        // 거래내역 연도 전환 버튼
+        document.querySelectorAll('.tx-year-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            switchTransactionYear(parseInt(this.dataset.year));
+          });
+        });
 
         // 탭 전환
         document.querySelectorAll('.view-tabs .tab-btn').forEach(function(btn) {
