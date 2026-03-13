@@ -1374,6 +1374,8 @@
     <script src="vendors/gsap/drawSVGPlugin.js"></script>
     <script src="assets/js/theme.js"></script>
     <script src="assets/js/members-auto.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
 
     <script>
       // ========================================
@@ -1647,6 +1649,7 @@
 
       function saveAccountingData(data) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        saveAccountingToSupabase(data);
       }
 
       function loadPaymentData() {
@@ -1661,6 +1664,53 @@
 
       function savePaymentData(data) {
         localStorage.setItem(PAYMENT_DATA_KEY, JSON.stringify(data));
+        savePaymentToSupabase(data);
+      }
+
+      // ========================================
+      // Supabase 동기화 함수
+      // ========================================
+      function loadFromSupabase() {
+        var client = window.supabase;
+        if (!client || typeof client.from !== 'function') return Promise.resolve(false);
+
+        return client.from('accounting_data').select('data').eq('id', 1).maybeSingle()
+          .then(function(accResult) {
+            if (accResult.data && accResult.data.data && accResult.data.data.transactions) {
+              accountingData = accResult.data.data;
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(accountingData));
+            }
+            return client.from('payment_data').select('data').eq('id', 1).maybeSingle();
+          })
+          .then(function(payResult) {
+            if (payResult.data && payResult.data.data && payResult.data.data.items) {
+              paymentData = payResult.data.data;
+              localStorage.setItem(PAYMENT_DATA_KEY, JSON.stringify(paymentData));
+            }
+            return true;
+          })
+          .catch(function(err) {
+            console.error('Supabase 로드 실패:', err);
+            return false;
+          });
+      }
+
+      function saveAccountingToSupabase(data) {
+        if (!window.supabase || typeof window.supabase.from !== 'function') return;
+        window.supabase.from('accounting_data')
+          .upsert({ id: 1, data: data, updated_at: new Date().toISOString() })
+          .then(function(res) {
+            if (res.error) console.error('회계 저장 실패:', res.error);
+          });
+      }
+
+      function savePaymentToSupabase(data) {
+        if (!window.supabase || typeof window.supabase.from !== 'function') return;
+        window.supabase.from('payment_data')
+          .upsert({ id: 1, data: data, updated_at: new Date().toISOString() })
+          .then(function(res) {
+            if (res.error) console.error('납부 저장 실패:', res.error);
+          });
       }
 
       let accountingData = loadAccountingData();
@@ -2932,6 +2982,12 @@
         localStorage.removeItem(STORAGE_KEY);
         localStorage.removeItem(PAYMENT_DATA_KEY);
 
+        // Supabase 데이터도 초기화
+        if (window.supabase && typeof window.supabase.from === 'function') {
+          window.supabase.from('accounting_data').delete().eq('id', 1).then();
+          window.supabase.from('payment_data').delete().eq('id', 1).then();
+        }
+
         accountingData = loadAccountingData();
         paymentData = loadPaymentData();
 
@@ -3011,6 +3067,21 @@
         document.getElementById('backupDataBtn').addEventListener('click', backupData);
         document.getElementById('restoreDataBtn').addEventListener('click', restoreData);
         document.getElementById('restoreFileInput').addEventListener('change', handleRestoreFile);
+
+        // Supabase에서 최신 데이터 동기화
+        if (typeof waitForSupabase === 'function') {
+          waitForSupabase().then(function() {
+            return loadFromSupabase();
+          }).then(function(synced) {
+            if (synced) {
+              loadAll(currentYear);
+              renderDuesAccordions();
+              updateCurrentBalance();
+            }
+          }).catch(function(err) {
+            console.error('Supabase 동기화 실패:', err);
+          });
+        }
       });
     </script>
 
