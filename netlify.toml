@@ -1,0 +1,53 @@
+# Netlify configuration for 민족통일청년회 영동군 홈페이지
+# Static HTML site - no build process required
+
+[build]
+  # Base directory (root of the repository)
+  base = "/"
+
+  # No build command needed for static HTML
+  command = ""
+
+  # Publish directory (root contains all HTML files)
+  publish = "."
+
+# Image optimization settings
+[images]
+  # Enable automatic image optimization
+  # Images will be automatically optimized and converted to WebP when supported
+  remote_images = []
+
+# Redirect rules for clean URLs (optional)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache static assets for 1 year
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache images with optimization
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    # Enable AVIF and WebP conversion
+    Accept = "image/avif,image/webp,image/apng,image/*,*/*;q=0.8"
+
+# Cache vendor files for 1 year
+[[headers]]
+  for = "/vendors/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

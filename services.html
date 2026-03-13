@@ -1,0 +1,3022 @@
+<!DOCTYPE html>
+<html class="has-sidemenu" lang="ko-KR" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="민족통일청년회 영동군 지부 - 회계 관리">
+    <meta name="keywords" content="민족통일청년회, 영동군, 회계, 회비, 지출">
+
+    <title>회계 | 민족통일청년회 영동군</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico">
+    <link rel="manifest" href="assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="vendors/loaders.css/loaders.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=PT+Mono%7cPT+Serif:400,400i%7cLato:100,300,400,700,800,900" rel="stylesheet">
+    <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/user.css" rel="stylesheet" />
+    <link href="assets/css/floating-events.css" rel="stylesheet" />
+
+    <style>
+      /* 회계 페이지 스타일 - 사이트 컨셉에 맞춤 */
+      .balance-display {
+        text-align: center;
+        padding: 2rem;
+        border: 2px solid #000;
+        margin-bottom: 2rem;
+      }
+      .balance-display .balance-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+      }
+      .balance-display .balance-amount {
+        font-size: 2.5rem;
+        font-weight: 300;
+        letter-spacing: -1px;
+      }
+      .balance-display .balance-amount-small {
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: -0.5px;
+      }
+      .balance-display .balance-divider {
+        width: 1px;
+        height: 40px;
+        background: #dee2e6;
+      }
+      .balance-display .balance-year {
+        font-size: 0.85rem;
+        color: #999;
+        margin-top: 0.5rem;
+      }
+
+      /* 미납현황 요약 */
+      .unpaid-summary {
+        border-top: 1px solid #eee;
+        padding-top: 1rem;
+        font-size: 0.9rem;
+        text-align: left;
+      }
+      .unpaid-summary-title {
+        font-size: 0.8rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+        text-align: center;
+      }
+      .unpaid-year-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 0.5rem 0;
+        border-bottom: 1px dashed #eee;
+      }
+      .unpaid-year-row:last-child {
+        border-bottom: none;
+      }
+      .unpaid-year-label {
+        font-weight: 600;
+        min-width: 70px;
+        color: #333;
+      }
+      .unpaid-year-details {
+        flex: 1;
+        text-align: left;
+        margin-left: 1rem;
+        color: #666;
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+      .unpaid-year-amount {
+        font-weight: 500;
+        color: #c62828;
+        min-width: 80px;
+        text-align: right;
+      }
+      .unpaid-badge {
+        display: inline-block;
+        padding: 0.15rem 0.4rem;
+        border-radius: 3px;
+        font-size: 0.75rem;
+        margin-right: 0.25rem;
+        margin-bottom: 0.25rem;
+      }
+      .unpaid-badge.dues {
+        background: #ffebee;
+        color: #c62828;
+      }
+      .unpaid-badge.special {
+        background: #fff3e0;
+        color: #e65100;
+      }
+      .unpaid-badge.clickable {
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-underline-offset: 2px;
+      }
+      .unpaid-badge.clickable::after {
+        content: ' ›';
+        font-weight: bold;
+        opacity: 0.6;
+      }
+      .unpaid-badge.clickable:hover {
+        transform: scale(1.05);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        text-decoration-style: solid;
+      }
+      .unpaid-badge.clickable:hover::after {
+        opacity: 1;
+      }
+      .unpaid-badge.dues.clickable:hover {
+        background: #ffcdd2;
+      }
+      .unpaid-badge.special.clickable:hover {
+        background: #ffe0b2;
+      }
+
+      /* 회원별 미납 현황 */
+      .unpaid-member-row {
+        display: flex;
+        align-items: flex-start;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        gap: 0.75rem;
+      }
+      .unpaid-member-row:last-child {
+        border-bottom: none;
+      }
+      .unpaid-member-name {
+        font-weight: 600;
+        min-width: 55px;
+        color: #333;
+        padding-top: 0.1rem;
+      }
+      .unpaid-member-details {
+        flex: 1;
+        line-height: 1.8;
+        text-align: left;
+      }
+      .unpaid-member-amount {
+        font-weight: 600;
+        color: #c62828;
+        min-width: 85px;
+        text-align: right;
+        white-space: nowrap;
+        padding-top: 0.1rem;
+      }
+      .unpaid-click-hint {
+        font-size: 0.7rem;
+        color: #999;
+        text-align: center;
+        margin-top: 0.5rem;
+        font-style: italic;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+      .summary-item {
+        text-align: center;
+        min-width: 120px;
+      }
+      .summary-item .label {
+        font-size: 0.8rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .summary-item .value {
+        font-size: 1.5rem;
+        font-weight: 300;
+      }
+      .summary-item .value.income { color: #2e7d32; }
+      .summary-item .value.expense { color: #c62828; }
+
+      .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #333;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #dee2e6;
+      }
+
+      .transaction-list {
+        border: 1px solid #dee2e6;
+      }
+      .transaction-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.2s;
+      }
+      .transaction-item:last-child {
+        border-bottom: none;
+      }
+      .transaction-item:hover {
+        background-color: #f8f9fa;
+      }
+      .transaction-item .info {
+        flex: 1;
+      }
+      .transaction-item .date {
+        font-size: 0.8rem;
+        color: #999;
+      }
+      .transaction-item .desc {
+        font-weight: 500;
+      }
+      .transaction-item .category {
+        font-size: 0.75rem;
+        color: #6c757d;
+      }
+      .transaction-item .amount {
+        font-weight: 500;
+        min-width: 100px;
+        text-align: right;
+      }
+      .transaction-item .amount.income { color: #2e7d32; }
+      .transaction-item .amount.expense { color: #c62828; }
+      .transaction-item .delete-btn {
+        margin-left: 1rem;
+      }
+
+      /* 잠금 상태 */
+      .lock-status {
+        margin-bottom: 1.5rem;
+      }
+      .lock-status .btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+      }
+      #lockToggleBtn.unlocked {
+        background-color: #198754 !important;
+        border-color: #198754 !important;
+        color: #fff !important;
+      }
+      #lockToggleBtn.unlocked:hover {
+        background-color: #157347 !important;
+        border-color: #146c43 !important;
+      }
+      .locked-overlay {
+        opacity: 0.6;
+      }
+      .locked-overlay .btn {
+        cursor: not-allowed;
+      }
+
+      .view-tabs {
+        display: flex;
+        border-bottom: 1px solid #dee2e6;
+        margin-bottom: 2rem;
+      }
+      .view-tabs .tab-btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        background: none;
+        font-size: 0.9rem;
+        color: #6c757d;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+        transition: all 0.2s;
+      }
+      .view-tabs .tab-btn:hover {
+        color: #333;
+      }
+      .view-tabs .tab-btn.active {
+        color: #000;
+        border-bottom-color: #000;
+      }
+
+      .dues-list {
+        border: 1px solid #dee2e6;
+      }
+      .dues-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1.25rem;
+        border-bottom: 1px solid #eee;
+      }
+      .dues-item:last-child {
+        border-bottom: none;
+      }
+      .dues-item .member-name {
+        font-weight: 500;
+        min-width: 80px;
+      }
+      .dues-item .member-role {
+        font-size: 0.8rem;
+        color: #6c757d;
+        flex: 1;
+        margin-left: 1rem;
+      }
+      .dues-item .status {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 2px;
+      }
+      .dues-item .status.paid {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+      .dues-item .status.unpaid {
+        background: #ffebee;
+        color: #c62828;
+      }
+      .dues-item .action-btn {
+        margin-left: 1rem;
+      }
+      .dues-item .status.partial {
+        background: #fff3e0;
+        color: #e65100;
+      }
+      .dues-item .payment-info {
+        font-size: 0.85rem;
+        color: #666;
+        min-width: 130px;
+        text-align: right;
+      }
+      .dues-item .progress-mini {
+        width: 50px;
+        height: 4px;
+        background: #e0e0e0;
+        border-radius: 2px;
+        overflow: hidden;
+        display: inline-block;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+      .dues-item .progress-mini-fill {
+        height: 100%;
+        border-radius: 2px;
+      }
+      .dues-item .progress-mini-fill.full { background: #2e7d32; }
+      .dues-item .progress-mini-fill.partial { background: #e65100; }
+
+      .payment-item-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+      .payment-item-tabs .btn.active {
+        background: #000;
+        color: #fff;
+        border-color: #000;
+      }
+
+      .total-collection {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+      }
+      .total-collection .row-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+      .total-collection .amount {
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+      .total-progress {
+        height: 8px;
+        background: #dee2e6;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .total-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #2e7d32, #66bb6a);
+        border-radius: 4px;
+        transition: width 0.5s;
+      }
+
+      .payment-history {
+        max-height: 120px;
+        overflow-y: auto;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        margin-top: 0.75rem;
+        font-size: 0.85rem;
+      }
+      .payment-history-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.4rem 0.75rem;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .payment-history-item:last-child {
+        border-bottom: none;
+      }
+      .payment-history-empty {
+        padding: 0.75rem;
+        text-align: center;
+        color: #999;
+      }
+
+      .filter-buttons {
+        display: flex;
+        gap: 0.25rem;
+        flex-wrap: wrap;
+      }
+      .filter-buttons .btn-filter {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.75rem;
+        border-radius: 2px;
+      }
+      .filter-buttons .btn-filter.active {
+        background: #000;
+        color: #fff;
+        border-color: #000;
+      }
+
+      .dues-summary {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: #f8f9fa;
+      }
+      .dues-summary-item {
+        text-align: center;
+      }
+      .dues-summary-item .count {
+        font-size: 2rem;
+        font-weight: 300;
+      }
+      .dues-summary-item .label {
+        font-size: 0.8rem;
+        color: #6c757d;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #999;
+      }
+
+      .utility-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .tab-content-area {
+        display: none;
+      }
+      .tab-content-area.active {
+        display: block;
+      }
+
+      /* 모바일 반응형 */
+      @media (max-width: 768px) {
+        .balance-display {
+          padding: 1.5rem;
+        }
+        .balance-display .balance-amount {
+          font-size: 1.75rem;
+        }
+        .balance-display .balance-amount-small {
+          font-size: 1.25rem;
+        }
+        .balance-display .balance-divider {
+          height: 30px;
+        }
+        .unpaid-year-row {
+          flex-wrap: wrap;
+        }
+        .unpaid-year-details {
+          width: 100%;
+          margin-left: 0;
+          margin-top: 0.25rem;
+        }
+        .unpaid-member-row {
+          flex-wrap: wrap;
+        }
+        .unpaid-member-name {
+          min-width: 50px;
+        }
+        .unpaid-member-details {
+          width: 100%;
+          order: 3;
+          margin-top: 0.25rem;
+        }
+        .unpaid-member-amount {
+          min-width: auto;
+        }
+        .summary-row {
+          gap: 1rem;
+        }
+        .summary-item .value {
+          font-size: 1.25rem;
+        }
+        .action-buttons {
+          flex-direction: column;
+        }
+        .action-buttons .btn {
+          width: 100%;
+        }
+        .transaction-item {
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        .transaction-item .amount {
+          min-width: auto;
+        }
+        .dues-item {
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        .dues-item .member-role {
+          display: none;
+        }
+        .view-tabs .tab-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.85rem;
+        }
+        .utility-bar {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0.75rem;
+        }
+
+        /* 아코디언 모바일 */
+        .year-accordion-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+          padding: 0.75rem 1rem;
+        }
+        .year-accordion-header .year-stats {
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        .year-accordion-summary {
+          padding: 0.75rem 1rem;
+        }
+        .year-accordion-summary .summary-row {
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+        .year-accordion-summary .summary-label {
+          min-width: auto;
+        }
+        .year-accordion-summary .member-names {
+          font-size: 0.85rem;
+          line-height: 1.5;
+        }
+        .year-accordion-total {
+          flex-direction: column;
+          gap: 0.5rem;
+          padding: 0.75rem 1rem;
+        }
+        .year-accordion-total .total-progress {
+          width: 100%;
+          margin-left: 0;
+        }
+
+        /* 납부 항목 탭 모바일 */
+        .payment-item-tabs {
+          flex-wrap: wrap;
+          gap: 0.25rem;
+        }
+        .payment-item-tabs .btn {
+          font-size: 0.75rem;
+          padding: 0.25rem 0.5rem;
+        }
+
+        /* 필터 버튼 모바일 */
+        .filter-buttons {
+          flex-wrap: wrap;
+        }
+        .filter-buttons .btn-filter {
+          font-size: 0.7rem;
+          padding: 0.15rem 0.4rem;
+        }
+
+        /* 토스트 모바일 */
+        .toast-container {
+          left: 10px;
+          right: 10px;
+          top: 10px;
+        }
+        .toast-message {
+          max-width: 100%;
+        }
+
+        /* 데이터 관리 버튼 모바일 */
+        .data-management {
+          flex-direction: column;
+        }
+        .data-management .btn {
+          width: 100%;
+        }
+      }
+
+      /* 작은 모바일 (375px 이하) */
+      @media (max-width: 375px) {
+        .year-accordion-header .year-title {
+          font-size: 1rem;
+        }
+        .stat-badge {
+          font-size: 0.75rem;
+          padding: 0.2rem 0.4rem;
+        }
+        .dues-item .member-name {
+          font-size: 0.9rem;
+        }
+        .dues-item .payment-info {
+          font-size: 0.8rem;
+        }
+        .dues-item .action-btn {
+          font-size: 0.75rem;
+          padding: 0.2rem 0.5rem;
+        }
+      }
+
+      /* 찬조금 섹션 */
+      .donation-section {
+        background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+        border: 1px solid #ffc107;
+        border-radius: 8px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 2rem;
+      }
+      .donation-section .donation-title {
+        font-size: 0.9rem;
+        color: #856404;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .donation-section .donation-total {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: #856404;
+        margin-bottom: 0.75rem;
+      }
+      .donation-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .donation-item {
+        background: #fff;
+        border: 1px solid #ffeeba;
+        border-radius: 4px;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .donation-item .name {
+        font-weight: 500;
+        color: #856404;
+      }
+      .donation-item .amount {
+        color: #666;
+      }
+
+      /* 연도별 아코디언 스타일 */
+      .year-accordion {
+        border: 1px solid #dee2e6;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .year-accordion-header {
+        background: #f8f9fa;
+        padding: 1rem 1.25rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.2s;
+        user-select: none;
+      }
+      .year-accordion-header:hover {
+        background: #e9ecef;
+      }
+      .year-accordion-header .year-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .year-accordion-header .year-title .toggle-icon {
+        transition: transform 0.3s;
+        font-size: 0.8rem;
+        color: #666;
+      }
+      .year-accordion.open .year-accordion-header .toggle-icon {
+        transform: rotate(90deg);
+      }
+      .year-accordion-header .year-stats {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.85rem;
+      }
+      .year-accordion-header .stat-badge {
+        padding: 0.25rem 0.6rem;
+        border-radius: 3px;
+        font-weight: 500;
+      }
+      .year-accordion-header .stat-badge.paid {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+      .year-accordion-header .stat-badge.partial {
+        background: #fff3e0;
+        color: #e65100;
+      }
+      .year-accordion-header .stat-badge.unpaid {
+        background: #ffebee;
+        color: #c62828;
+      }
+      .year-accordion-summary {
+        padding: 0.75rem 1.25rem;
+        background: #fff;
+        border-top: 1px solid #eee;
+        font-size: 0.9rem;
+        color: #555;
+      }
+      .year-accordion-summary .summary-row {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+      .year-accordion-summary .summary-row:last-child {
+        margin-bottom: 0;
+      }
+      .year-accordion-summary .summary-label {
+        font-weight: 500;
+        min-width: 50px;
+      }
+      .year-accordion-summary .summary-label.paid { color: #2e7d32; }
+      .year-accordion-summary .summary-label.unpaid { color: #c62828; }
+      .year-accordion-summary .summary-label.partial { color: #e65100; }
+      .year-accordion-summary .member-names {
+        color: #666;
+      }
+      .year-accordion-body {
+        display: none;
+        border-top: 1px solid #dee2e6;
+      }
+      .year-accordion.open .year-accordion-body {
+        display: block;
+      }
+      .year-accordion-body .dues-list {
+        border: none;
+      }
+      .year-accordion-total {
+        background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+        padding: 0.75rem 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+      }
+      .year-accordion-total .total-progress {
+        width: 100px;
+        height: 6px;
+        margin-left: 0.75rem;
+      }
+
+      /* 토스트 메시지 */
+      .toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+      }
+      .toast-message {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        animation: slideIn 0.3s ease;
+        max-width: 350px;
+      }
+      .toast-message.success {
+        background: #2e7d32;
+        color: #fff;
+      }
+      .toast-message.error {
+        background: #c62828;
+        color: #fff;
+      }
+      .toast-message.info {
+        background: #1565c0;
+        color: #fff;
+      }
+      .toast-message.warning {
+        background: #f57c00;
+        color: #fff;
+      }
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+
+      /* 백업/복원 버튼 영역 */
+      .data-management {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+    </style>
+
+  </head>
+
+
+  <body class="overflow-hidden-x">
+
+    <nav class="fancynavbar fancynavbar-expand-lg" data-zanim-lg='{"from":{"opacity":1,"x":70},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.3}' data-zanim-xs='{"from":{"opacity":1,"y":-37},"to":{"opacity":1,"y":0},"ease":"CubicBezier","duration":0.8,"delay":0.3}' data-zanim-trigger="scroll" data-exclusive="true">
+      <div class="fancynavbar-togglerbar"><a class="fancynavbar-brand" href="index.html"><img class="fancynavbar-brand-img" src="assets/img/logo-sparrow-invert.svg" alt="" width="30" height="30" data-zanim-lg='{"from":{"opacity":0,"x":45},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.4}' data-zanim-trigger="scroll" /></a>
+        <div class="fancynavbar-toggler">
+          <svg class="fancynavbar-toggler-icon" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg" data-zanim-lg='{"from":{"opacity":0,"x":45},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.5}' data-zanim-trigger="scroll">
+            <path id="path-top" d="M20,25c0,0,22,0,30,0c16,0,18.89,40.71-.15,21.75C38.7,35.65,19.9,16.8,19.9,16.8"></path>
+            <path id="path-middle" d="M20,32h30"></path>
+            <path id="path-bottom" d="M19.9,46.98c0,0,18.8-18.85,29.95-29.95C68.89-1.92,66,38.78,50,38.78c-8,0-30,0-30,0"></path>
+          </svg>
+        </div>
+        <div class="fancynavbar-addon fancynavbar-addon-height" data-zanim-lg='{"from":{"opacity":1,"x":45},"to":{"opacity":1,"x":0},"ease":"CubicBezier","duration":0.8,"delay":0.4}' data-zanim-trigger="scroll"><a class="fancynavbar-addon-item" href="http://www.mintong.or.kr/mt/main" target="_blank" rel="noopener" title="민족통일협의회"><span class="fas fa-globe"></span></a><a class="fancynavbar-addon-item" href="contact.html" title="연락처"><span class="fas fa-envelope"></span></a>
+        </div>
+      </div>
+      <div class="fancynavbar-collapse">
+        <ul class="fancynavbar-nav">
+          <li class="fancynav-item"><a class="fancynav-link" href="index.html"><span class="fancynav-link-content">홈</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link active" href="services.html"><span class="fancynav-link-content">회계</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사&사진</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+
+    <main class="main min-vh-100" id="top">
+
+      <div class="preloader" id="preloader">
+        <div class="loader">
+          <div class="line-scale-pulse-out-rapid">
+            <div> </div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div> </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="py-6">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+
+                  <!-- 페이지 제목 -->
+                  <div class="mb-5">
+                    <div class="overflow-hidden">
+                      <h1 class="fs-6 fs-sm-5"><span class="text-decoration-underline mb-4" data-zanim-xs='{"delay":0.1}' data-zanim-trigger="scroll">회계 관리</span></h1>
+                    </div>
+                    <p class="mt-3 text-body-secondary" data-zanim-xs='{"delay":0.2}' data-zanim-trigger="scroll">민족통일청년회 영동군 지부의 회계 현황을 관리합니다.</p>
+                  </div>
+
+                  <!-- 잠금 상태 표시 -->
+                  <div class="lock-status text-center" data-zanim-xs='{"delay":0.3}' data-zanim-trigger="scroll">
+                    <button class="btn btn-outline-secondary" id="lockToggleBtn" onclick="toggleLock()">
+                      <span class="fas fa-lock me-1"></span>
+                      <span id="lockStatusText">잠금 상태 (보기 전용)</span>
+                    </button>
+                  </div>
+
+                  <!-- 잔고 및 미납현황 표시 -->
+                  <div class="balance-display" data-zanim-xs='{"delay":0.4}' data-zanim-trigger="scroll">
+                    <div class="d-flex justify-content-center align-items-center gap-3 mb-3 flex-wrap">
+                      <div class="text-center">
+                        <div class="balance-label">2025년 결산 (확정)</div>
+                        <div class="balance-amount-small text-muted" id="settledBalance">0원</div>
+                      </div>
+                      <div class="balance-divider d-none d-sm-block"></div>
+                      <div class="text-center">
+                        <div class="balance-label">2026년 현재 잔고</div>
+                        <div class="balance-amount-small" id="currentBalance">0원</div>
+                      </div>
+                      <div class="balance-divider d-none d-sm-block"></div>
+                      <div class="text-center">
+                        <div class="balance-label">총 미납액</div>
+                        <div class="balance-amount-small text-danger" id="totalUnpaidAmount">0원</div>
+                      </div>
+                    </div>
+                    <div class="unpaid-summary" id="unpaidSummary">
+                      <!-- 연도별 미납 현황이 여기에 표시됩니다 -->
+                    </div>
+                  </div>
+
+
+                  <!-- 찬조금 섹션 -->
+                  <div class="donation-section" id="donationSection">
+                    <div class="donation-title">
+                      <span class="fas fa-heart text-warning"></span>
+                      <span>찬조금 (고마운 분들)</span>
+                    </div>
+                    <div class="donation-total">총 <span id="donationTotal">0원</span></div>
+                    <div class="donation-list" id="donationList">
+                      <span class="text-muted small">찬조금 내역이 없습니다.</span>
+                    </div>
+                  </div>
+                  <!-- 수입/지출 요약 -->
+                  <div class="summary-row" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll">
+                    <div class="summary-item">
+                      <div class="label">수입</div>
+                      <div class="value income" id="totalIncome">0원</div>
+                    </div>
+                    <div class="summary-item">
+                      <div class="label">지출</div>
+                      <div class="value expense" id="totalExpense">0원</div>
+                    </div>
+                  </div>
+
+                  <!-- 입력 버튼 -->
+                  <div class="action-buttons" id="actionButtons" data-zanim-xs='{"delay":0.6}' data-zanim-trigger="scroll">
+                    <button class="btn btn-outline-dark" id="addIncomeBtn">
+                      <span class="fas fa-plus me-2"></span>수입 추가
+                    </button>
+                    <button class="btn btn-outline-dark" id="addExpenseBtn">
+                      <span class="fas fa-minus me-2"></span>지출 추가
+                    </button>
+                  </div>
+
+                  <hr class="my-5" />
+
+                  <!-- 탭 메뉴 -->
+                  <div class="view-tabs">
+                    <button class="tab-btn active" data-tab="transactions">거래 내역</button>
+                    <button class="tab-btn" data-tab="dues">회비 납부현황</button>
+                  </div>
+
+                  <!-- 거래 내역 탭 -->
+                  <div class="tab-content-area active" id="transactionsTab">
+                    <!-- 연도 선택 -->
+                    <div class="d-flex gap-2 mb-3" id="txYearSelector">
+                      <button class="btn btn-sm btn-outline-dark tx-year-btn" data-year="2025">2025년</button>
+                      <button class="btn btn-sm btn-dark tx-year-btn" data-year="2026">2026년</button>
+                    </div>
+                    <div class="utility-bar">
+                      <span class="text-body-secondary" id="transactionCount">0건</span>
+                      <div>
+                        <button class="btn btn-sm btn-outline-secondary" id="reportBtn">결산</button>
+                        <button class="btn btn-sm btn-outline-secondary" id="excelBtn">엑셀</button>
+                      </div>
+                    </div>
+
+                    <div class="transaction-list" id="transactionList">
+                      <div class="empty-state">거래 내역이 없습니다.</div>
+                    </div>
+                  </div>
+
+                  <!-- 회비 납부현황 탭 -->
+                  <div class="tab-content-area" id="duesTab">
+                    <!-- 유틸리티 바 -->
+                    <div class="utility-bar mb-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="text-body-secondary">연회비 납부현황</span>
+                      </div>
+                      <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-secondary" id="duesExcelBtn">전체 엑셀</button>
+                      </div>
+                    </div>
+
+                    <!-- 연도별 아코디언 컨테이너 -->
+                    <div id="duesAccordionContainer">
+                      <div class="empty-state">회원 데이터를 불러오는 중...</div>
+                    </div>
+                  </div>
+
+                  <!-- 하단 유틸리티 -->
+              <div class="text-center">
+                <div class="data-management">
+                  <button class="btn btn-sm btn-outline-primary" id="backupDataBtn">
+                    <span class="fas fa-download me-1"></span>백업
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary" id="restoreDataBtn">
+                    <span class="fas fa-upload me-1"></span>복원
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary" id="resetDataBtn">
+                    <span class="fas fa-sync-alt me-1"></span>초기화
+                  </button>
+                </div>
+                <input type="file" id="restoreFileInput" accept=".json" style="display:none">
+              </div>
+
+              <!-- 토스트 컨테이너 -->
+              <div class="toast-container" id="toastContainer"></div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 비밀번호 입력 모달 -->
+      <div class="modal fade" id="passwordModal" tabindex="-1">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title"><span class="fas fa-key me-2"></span>총무 인증</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <p class="text-muted small mb-3">회계 관리를 위해 비밀번호를 입력하세요.</p>
+              <input type="password" class="form-control" id="passwordInput" placeholder="비밀번호" onkeypress="if(event.key==='Enter') verifyPassword()">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-primary" onclick="verifyPassword()">확인</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 수입 추가 모달 -->
+      <div class="modal fade" id="incomeModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">수입 추가</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form id="incomeForm">
+                <div class="mb-3">
+                  <label class="form-label">날짜</label>
+                  <input type="date" class="form-control" id="incomeDate" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">분류</label>
+                  <select class="form-select" id="incomeCategory" required>
+                    <option value="회비">회비</option>
+                    <option value="찬조금">찬조금</option>
+                    <option value="기타">기타</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">내용</label>
+                  <input type="text" class="form-control" id="incomeDescription" required placeholder="예: 김종원 회비 납부">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">금액</label>
+                  <input type="number" class="form-control" id="incomeAmount" min="0" step="1000" required placeholder="100000">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">비고</label>
+                  <input type="text" class="form-control" id="incomeNote" placeholder="(선택사항)">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-dark" id="saveIncomeBtn">저장</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 지출 추가 모달 -->
+      <div class="modal fade" id="expenseModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">지출 추가</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <form id="expenseForm">
+                <div class="mb-3">
+                  <label class="form-label">날짜</label>
+                  <input type="date" class="form-control" id="expenseDate" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">분류</label>
+                  <select class="form-select" id="expenseCategory" required>
+                    <option value="행사비">행사비</option>
+                    <option value="운영비">운영비</option>
+                    <option value="기타">기타</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">내용</label>
+                  <input type="text" class="form-control" id="expenseDescription" required placeholder="예: 12월 월례회 식대">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">금액</label>
+                  <input type="number" class="form-control" id="expenseAmount" min="0" step="1000" required placeholder="500000">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">비고</label>
+                  <input type="text" class="form-control" id="expenseNote" placeholder="(선택사항)">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-dark" id="saveExpenseBtn">저장</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 삭제 확인 모달 -->
+      <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">삭제 확인</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <p id="deleteMessage">이 거래를 삭제하시겠습니까?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-dark btn-sm" id="confirmDeleteBtn">삭제</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 납부 모달 (개선) -->
+      <div class="modal fade" id="paymentModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">납부 등록</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <p class="mb-2"><strong id="paymentMemberName"></strong>님</p>
+              <div class="d-flex justify-content-between small text-body-secondary mb-3">
+                <span>현재 납부액: <span id="paymentCurrentPaid">0원</span></span>
+                <span>남은 금액: <strong id="paymentRemaining" class="text-danger">0원</strong></span>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small text-body-secondary">빠른 선택</label>
+                <div class="d-flex gap-2 flex-wrap" id="paymentQuickBtns"></div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">납부 금액</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="paymentAmount" min="0" step="1000" placeholder="금액 입력">
+                  <span class="input-group-text">원</span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">메모 <span class="text-body-secondary small">(선택)</span></label>
+                <input type="text" class="form-control" id="paymentNote" placeholder="예: 1~6월분, 연납 등">
+              </div>
+              <div>
+                <label class="form-label small text-body-secondary">납부 이력</label>
+                <div class="payment-history" id="paymentHistoryList">
+                  <div class="payment-history-empty">납부 이력 없음</div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-dark" onclick="confirmPayment()">납부 확인</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 특별납부 항목 추가 모달 -->
+      <div class="modal fade" id="addItemModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">납부 항목 추가</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">항목명</label>
+                <input type="text" class="form-control" id="newItemName" placeholder="예: 단복 구매">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">1인당 금액 <span class="text-body-secondary small">(0이면 개별 설정)</span></label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="newItemAmount" min="0" step="1000" value="0">
+                  <span class="input-group-text">원</span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-dark" onclick="addPaymentItem()">추가</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 결산 보고서 모달 -->
+      <div class="modal fade" id="reportModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">수입·지출 결산서</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+              <div class="text-center border-bottom pb-3 mb-4">
+                <h4 class="mb-1" id="reportTitle">2025년도 수입·지출 결산서</h4>
+                <p class="text-body-secondary mb-0">민족통일청년회 영동군 지부</p>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <h6 class="text-uppercase text-body-secondary mb-3">수입부</h6>
+                  <table class="table table-sm">
+                    <tbody id="reportIncomeBody"></tbody>
+                    <tfoot>
+                      <tr class="table-light">
+                        <th>수입합계</th>
+                        <th class="text-end" id="reportIncomeTotalSum">0원</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                  <h6 class="text-uppercase text-body-secondary mb-3">지출부</h6>
+                  <table class="table table-sm">
+                    <tbody id="reportExpenseBody"></tbody>
+                    <tfoot>
+                      <tr class="table-light">
+                        <th>지출합계</th>
+                        <th class="text-end" id="reportExpenseTotalSum">0원</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+
+              <div class="p-3 bg-light text-center">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="text-body-secondary small">수입합계</div>
+                    <div class="fs-5" id="reportFinalIncome">0원</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="text-body-secondary small">지출합계</div>
+                    <div class="fs-5" id="reportFinalExpense">0원</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="text-body-secondary small">차기이월금</div>
+                    <div class="fs-5 fw-bold" id="reportFinalBalance">0원</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-end mt-3 text-body-secondary small">
+                작성일: <span id="reportDate"></span>
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" id="reportExcelBtn">엑셀 저장</button>
+              <button type="button" class="btn btn-outline-secondary" id="reportPrintBtn">인쇄</button>
+              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+
+    <footer class="footer bg-black text-body-secondary py-4 font-secondary text-center overflow-hidden">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-4 order-lg-2 position-relative"><a class="indicator indicator-up" href="#top"><span class="indicator-arrow indicator-arrow-one" data-zanim-xs='{"from":{"opacity":0,"y":15},"to":{"opacity":1,"y":-5,"scale":1},"ease":"Back.easeOut","duration":0.4,"delay":0.9}'></span><span class="indicator-arrow indicator-arrow-two" data-zanim-xs='{"from":{"opacity":0,"y":15},"to":{"opacity":1,"y":-5,"scale":1},"ease":"Back.easeOut","duration":0.4,"delay":1.05}'></span></a></div>
+          <div class="col-lg-4 text-lg-start mt-4 mt-lg-0">
+            <p class="fs-10 ls fw-bold mb-0">Copyright &copy; 2025 민족통일청년회 영동군</p>
+            <p class="fs-10 mb-0 mt-2"><a href="http://www.mintong.or.kr/mt/main" target="_blank" class="text-body-secondary">민족통일협의회</a></p>
+          </div>
+          <div class="col-lg-4 text-lg-end order-lg-2 mt-2 mt-lg-0">
+            <p class="fs-10 mb-0">충청북도 영동군 | 문의: conexus25@conexus.co.kr</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+    <script src="vendors/popper/popper.min.js"></script>
+    <script src="vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="vendors/anchorjs/anchor.min.js"></script>
+    <script src="vendors/is/is.min.js"></script>
+    <script src="vendors/fontawesome/all.min.js"></script>
+    <script src="vendors/lodash/lodash.min.js"></script>
+    <script src="vendors/imagesloaded/imagesloaded.pkgd.js"></script>
+    <script src="vendors/gsap/gsap.js"></script>
+    <script src="vendors/gsap/customEase.js"></script>
+    <script src="vendors/gsap/drawSVGPlugin.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/members-auto.js"></script>
+
+    <script>
+      // ========================================
+      // 회계 관리 시스템 v2.0
+      // 회비 누적 관리 + 특별납부 지원
+      // ========================================
+
+      const STORAGE_KEY = 'mintong_accounting';
+      const PAYMENT_DATA_KEY = 'mintong_payments_v2';
+      const INITIAL_BALANCE = 1691319; // 2025년 첫 거래 전 잔액
+      const ANNUAL_DUES = 240000;
+
+      let currentYear = 2026;
+
+      // ========================================
+      // 2025년 확정 거래 데이터 (통장 내역 기준)
+      // ========================================
+      const DEFAULT_2025_TRANSACTIONS = [
+        {id:25001,date:'2025-01-10',type:'income',amount:1908,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25002,date:'2025-01-25',type:'income',amount:119,description:'입출금통장 이자',category:'이자'},
+        {id:25003,date:'2025-02-07',type:'expense',amount:183880,description:'영동농협하나로마트',category:'행사비'},
+        {id:25004,date:'2025-02-07',type:'expense',amount:34000,description:'새벽닭엣날통닭',category:'행사비'},
+        {id:25005,date:'2025-02-07',type:'expense',amount:19000,description:'이츠마트 영동점',category:'행사비'},
+        {id:25006,date:'2025-02-08',type:'expense',amount:60000,description:'김밥천국',category:'행사비'},
+        {id:25007,date:'2025-02-08',type:'expense',amount:13400,description:'이마트24의성(영덕방)',category:'행사비'},
+        {id:25008,date:'2025-02-08',type:'expense',amount:250000,description:'대원호',category:'행사비'},
+        {id:25009,date:'2025-02-08',type:'expense',amount:36000,description:'해맞이공원 등대포차',category:'행사비'},
+        {id:25010,date:'2025-02-08',type:'expense',amount:35000,description:'동광슈퍼',category:'행사비'},
+        {id:25011,date:'2025-02-08',type:'expense',amount:19100,description:'이마트24 강구해파랑',category:'행사비'},
+        {id:25012,date:'2025-02-08',type:'expense',amount:212500,description:'순호프(SooN HOF)',category:'행사비'},
+        {id:25013,date:'2025-02-09',type:'income',amount:500000,description:'박경하부회장님찬조',category:'찬조금'},
+        {id:25014,date:'2025-02-09',type:'income',amount:300000,description:'최원호회원님찬조',category:'찬조금'},
+        {id:25015,date:'2025-02-09',type:'income',amount:50000,description:'이정진부회장님찬조',category:'찬조금'},
+        {id:25016,date:'2025-02-09',type:'income',amount:200000,description:'홍영근부회장님찬조',category:'찬조금'},
+        {id:25017,date:'2025-02-09',type:'income',amount:240000,description:'임진석',category:'회비'},
+        {id:25018,date:'2025-02-09',type:'income',amount:240000,description:'김종원',category:'회비'},
+        {id:25019,date:'2025-02-09',type:'income',amount:240000,description:'이재룡',category:'회비'},
+        {id:25020,date:'2025-02-09',type:'income',amount:400000,description:'조훈희',category:'회비'},
+        {id:25021,date:'2025-02-09',type:'income',amount:240000,description:'윤용수',category:'회비'},
+        {id:25022,date:'2025-02-09',type:'income',amount:240000,description:'이종만',category:'회비'},
+        {id:25023,date:'2025-02-10',type:'income',amount:240000,description:'최두호',category:'회비'},
+        {id:25024,date:'2025-02-10',type:'income',amount:240000,description:'박성현(길인당)',category:'회비'},
+        {id:25025,date:'2025-02-10',type:'income',amount:220000,description:'정성용',category:'회비'},
+        {id:25026,date:'2025-02-10',type:'income',amount:420000,description:'오명택',category:'회비'},
+        {id:25027,date:'2025-02-11',type:'income',amount:240000,description:'김영균',category:'회비'},
+        {id:25028,date:'2025-02-25',type:'income',amount:380000,description:'이경환',category:'회비'},
+        {id:25029,date:'2025-02-28',type:'income',amount:240000,description:'한상욱',category:'회비'},
+        {id:25030,date:'2025-03-01',type:'income',amount:292,description:'입출금통장 이자',category:'이자'},
+        {id:25031,date:'2025-03-10',type:'income',amount:2979,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25032,date:'2025-03-29',type:'income',amount:369,description:'입출금통장 이자',category:'이자'},
+        {id:25033,date:'2025-04-21',type:'expense',amount:389700,description:'양촌리 직화 쭈꾸미',category:'행사비'},
+        {id:25034,date:'2025-04-24',type:'income',amount:340000,description:'이재룡',category:'회비'},
+        {id:25035,date:'2025-04-24',type:'income',amount:100000,description:'정성용',category:'회비'},
+        {id:25036,date:'2025-04-25',type:'income',amount:340000,description:'여형구',category:'회비'},
+        {id:25037,date:'2025-04-25',type:'income',amount:100000,description:'이종만',category:'회비'},
+        {id:25038,date:'2025-04-26',type:'income',amount:367,description:'입출금통장 이자',category:'이자'},
+        {id:25039,date:'2025-04-28',type:'income',amount:200000,description:'김영균',category:'회비'},
+        {id:25040,date:'2025-04-28',type:'income',amount:50000,description:'박성현',category:'회비'},
+        {id:25041,date:'2025-04-28',type:'income',amount:100000,description:'최두호',category:'회비'},
+        {id:25042,date:'2025-04-28',type:'income',amount:340000,description:'이기돈',category:'회비'},
+        {id:25043,date:'2025-04-28',type:'income',amount:680000,description:'최원호',category:'회비'},
+        {id:25044,date:'2025-04-28',type:'income',amount:100000,description:'한상욱',category:'회비'},
+        {id:25045,date:'2025-04-28',type:'income',amount:100000,description:'조훈희',category:'회비'},
+        {id:25046,date:'2025-04-29',type:'income',amount:440000,description:'임동기',category:'회비'},
+        {id:25047,date:'2025-04-29',type:'income',amount:760000,description:'박수용',category:'회비'},
+        {id:25048,date:'2025-05-03',type:'income',amount:340000,description:'윤진한',category:'회비'},
+        {id:25049,date:'2025-05-09',type:'income',amount:680000,description:'여수원',category:'회비'},
+        {id:25050,date:'2025-05-09',type:'income',amount:100000,description:'윤용수',category:'회비'},
+        {id:25051,date:'2025-05-12',type:'income',amount:780,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25052,date:'2025-05-12',type:'income',amount:340000,description:'이정희',category:'회비'},
+        {id:25053,date:'2025-05-16',type:'income',amount:340000,description:'채흥열',category:'회비'},
+        {id:25054,date:'2025-05-19',type:'income',amount:100000,description:'이경환',category:'회비'},
+        {id:25055,date:'2025-05-19',type:'income',amount:200000,description:'임진석',category:'회비'},
+        {id:25056,date:'2025-05-19',type:'expense',amount:3000000,description:'영동세계국악엑스포조',category:'사업비'},
+        {id:25057,date:'2025-05-19',type:'income',amount:300000,description:'김종원',category:'회비'},
+        {id:25058,date:'2025-05-22',type:'income',amount:290000,description:'배명호',category:'회비'},
+        {id:25059,date:'2025-05-24',type:'income',amount:599,description:'입출금통장 이자',category:'이자'},
+        {id:25060,date:'2025-06-18',type:'expense',amount:739000,description:'남해활어회',category:'행사비'},
+        {id:25061,date:'2025-06-18',type:'expense',amount:140000,description:'남해활어회',category:'행사비'},
+        {id:25062,date:'2025-06-28',type:'income',amount:672,description:'입출금통장 이자',category:'이자'},
+        {id:25063,date:'2025-07-10',type:'income',amount:1758,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25064,date:'2025-07-16',type:'expense',amount:216000,description:'비어앤쿡',category:'행사비'},
+        {id:25065,date:'2025-07-23',type:'income',amount:500000,description:'수원용수',category:'회비'},
+        {id:25066,date:'2025-07-26',type:'income',amount:496,description:'입출금통장 이자',category:'이자'},
+        {id:25067,date:'2025-08-11',type:'income',amount:432,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25068,date:'2025-08-20',type:'expense',amount:502000,description:'토담 누룽지백숙 영',category:'행사비'},
+        {id:25069,date:'2025-08-23',type:'income',amount:516,description:'입출금통장 이자',category:'이자'},
+        {id:25070,date:'2025-08-28',type:'income',amount:440000,description:'김용국',category:'회비'},
+        {id:25071,date:'2025-09-10',type:'income',amount:1004,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25072,date:'2025-09-27',type:'income',amount:628,description:'입출금통장 이자',category:'이자'},
+        {id:25073,date:'2025-10-15',type:'expense',amount:990000,description:'우리집장어',category:'행사비'},
+        {id:25074,date:'2025-10-25',type:'income',amount:498,description:'입출금통장 이자',category:'이자'},
+        {id:25075,date:'2025-10-30',type:'expense',amount:1460000,description:'임진석',category:'기타'},
+        {id:25076,date:'2025-11-10',type:'income',amount:1980,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25077,date:'2025-11-26',type:'expense',amount:90000,description:'행복꽃집',category:'행사비'},
+        {id:25078,date:'2025-11-29',type:'income',amount:459,description:'입출금통장 이자',category:'이자'},
+        {id:25079,date:'2025-12-10',type:'income',amount:180,description:'프렌즈 체크카드 캐시백',category:'캐시백'},
+        {id:25080,date:'2025-12-14',type:'expense',amount:37600,description:'신탄진(상)휴게소',category:'행사비'},
+        {id:25081,date:'2025-12-14',type:'expense',amount:17500,description:'신탄진(상)휴게소',category:'행사비'},
+        {id:25082,date:'2025-12-14',type:'expense',amount:10300,description:'지에스25 삽교함상공',category:'행사비'},
+        {id:25083,date:'2025-12-14',type:'expense',amount:1176000,description:'다미횟집,모텔',category:'행사비'},
+        {id:25084,date:'2025-12-14',type:'expense',amount:895000,description:'오케이수산',category:'행사비'},
+        {id:25085,date:'2025-12-14',type:'expense',amount:66100,description:'(주)선인상사 예산',category:'행사비'},
+        {id:25086,date:'2025-12-14',type:'income',amount:500000,description:'김종원',category:'찬조금'},
+        {id:25087,date:'2025-12-15',type:'income',amount:200000,description:'김춘호찬조금',category:'찬조금'},
+        {id:25088,date:'2025-12-27',type:'income',amount:306,description:'입출금통장 이자',category:'이자'}
+      ];
+      let currentPaymentItem = 'dues';
+      let deleteTargetId = null;
+      let paymentTargetMember = null;
+
+      // ========================================
+      // 잠금 기능 (총무 인증)
+      // ========================================
+      const ADMIN_PASSWORD = '0801';
+      let isUnlocked = sessionStorage.getItem('mintong_unlocked') === 'true';
+
+      function toggleLock() {
+        if (isUnlocked) {
+          // 잠금
+          isUnlocked = false;
+          sessionStorage.removeItem('mintong_unlocked');
+          updateLockUI();
+          showToast('잠금 상태로 변경되었습니다.', 'info');
+        } else {
+          // 잠금 해제 시도
+          document.getElementById('passwordInput').value = '';
+          new bootstrap.Modal(document.getElementById('passwordModal')).show();
+          setTimeout(function() {
+            document.getElementById('passwordInput').focus();
+          }, 500);
+        }
+      }
+
+      function verifyPassword() {
+        const input = document.getElementById('passwordInput').value;
+        if (input === ADMIN_PASSWORD) {
+          isUnlocked = true;
+          sessionStorage.setItem('mintong_unlocked', 'true');
+          bootstrap.Modal.getInstance(document.getElementById('passwordModal')).hide();
+          updateLockUI();
+          showToast('잠금이 해제되었습니다. 이제 수정할 수 있습니다.', 'success');
+        } else {
+          showToast('비밀번호가 틀렸습니다.', 'error');
+          document.getElementById('passwordInput').value = '';
+          document.getElementById('passwordInput').focus();
+        }
+      }
+
+      function updateLockUI() {
+        const btn = document.getElementById('lockToggleBtn');
+        const text = document.getElementById('lockStatusText');
+        const actionArea = document.getElementById('actionButtons');
+        const unpaidSummary = document.getElementById('unpaidSummary');
+        const dataManagement = document.querySelector('.data-management');
+
+        if (isUnlocked) {
+          btn.classList.remove('btn-outline-secondary');
+          btn.classList.add('unlocked');
+          btn.querySelector('.fas').classList.remove('fa-lock');
+          btn.querySelector('.fas').classList.add('fa-unlock');
+          text.textContent = '잠금 해제됨 (수정 가능)';
+
+          // 액션 버튼 활성화
+          if (actionArea) actionArea.classList.remove('locked-overlay');
+          if (unpaidSummary) unpaidSummary.classList.remove('locked-overlay');
+          if (dataManagement) dataManagement.classList.remove('locked-overlay');
+        } else {
+          btn.classList.add('btn-outline-secondary');
+          btn.classList.remove('unlocked');
+          btn.querySelector('.fas').classList.add('fa-lock');
+          btn.querySelector('.fas').classList.remove('fa-unlock');
+          text.textContent = '잠금 상태 (보기 전용)';
+
+          // 액션 버튼 비활성화
+          if (actionArea) actionArea.classList.add('locked-overlay');
+          if (unpaidSummary) unpaidSummary.classList.add('locked-overlay');
+          if (dataManagement) dataManagement.classList.add('locked-overlay');
+        }
+      }
+
+      function checkLock(action) {
+        if (!isUnlocked) {
+          showToast('잠금을 해제해야 ' + action + ' 수 있습니다.', 'warning');
+          return false;
+        }
+        return true;
+      }
+
+      // ========================================
+      // 납부 항목 정의
+      // ========================================
+      function getDefaultPaymentItems() {
+        return {
+          '2024': [
+            { id: 'dues', name: '연회비', amount: 240000, type: 'annual' }
+          ],
+          '2025': [
+            { id: 'dues', name: '연회비', amount: 240000, type: 'annual' },
+            { id: 'expo-ticket', name: '엑스포 티켓', amount: 0, type: 'special' }
+          ],
+          '2026': [
+            { id: 'dues', name: '연회비', amount: 240000, type: 'annual' }
+          ]
+        };
+      }
+
+      // ========================================
+      // 초기 미납 데이터 (2025년 기준)
+      // ========================================
+      function getInitialUnpaidData() {
+        return {
+          // 2024년 미납자 (회비 0원 납부)
+          '2024': {
+            '연규영': { 'dues': { totalPaid: 0, payments: [] } },
+            '전동민': { 'dues': { totalPaid: 0, payments: [] } }
+          },
+          // 2025년 미납자
+          '2025': {
+            '연규영': { 
+              'dues': { totalPaid: 0, payments: [] },
+              'expo-ticket': { totalPaid: 0, targetAmount: 100000, payments: [] }
+            },
+            '전동민': { 
+              'dues': { totalPaid: 0, payments: [] },
+              'expo-ticket': { totalPaid: 0, targetAmount: 50000, payments: [] }
+            },
+            '이정희': { 
+              'dues': { totalPaid: 40000, payments: [{ date: '2025-01-01', amount: 40000, note: '일부납부' }] }
+            },
+            '오명택': { 
+              'expo-ticket': { totalPaid: 0, targetAmount: 50000, payments: [] }
+            }
+          },
+          // 2026년
+          '2026': {
+            '이재룡': { 
+              'dues': { totalPaid: 240000, payments: [{ date: '2026-01-01', amount: 240000, note: '연납' }] }
+            }
+          }
+        };
+      }
+
+      // ========================================
+      // 데이터 로드/저장
+      // ========================================
+      function loadAccountingData() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          const data = JSON.parse(stored);
+          // 기존 거래에 ID가 없으면 부여
+          let maxId = 0;
+          let needsSave = false;
+          data.transactions.forEach(function(t) {
+            if (t.id && t.id > maxId) maxId = t.id;
+          });
+          data.transactions.forEach(function(t, index) {
+            if (!t.id) {
+              t.id = maxId + index + 1;
+              needsSave = true;
+            }
+          });
+          // ID가 새로 부여됐으면 저장
+          if (needsSave) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          }
+          return data;
+        }
+        return { initialBalance: INITIAL_BALANCE, transactions: [] };
+      }
+
+      function saveAccountingData(data) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      }
+
+      function loadPaymentData() {
+        const stored = localStorage.getItem(PAYMENT_DATA_KEY);
+        if (stored) return JSON.parse(stored);
+        // 초기 데이터 반환
+        return {
+          items: getDefaultPaymentItems(),
+          members: getInitialUnpaidData()
+        };
+      }
+
+      function savePaymentData(data) {
+        localStorage.setItem(PAYMENT_DATA_KEY, JSON.stringify(data));
+      }
+
+      let accountingData = loadAccountingData();
+      let paymentData = loadPaymentData();
+
+      // ========================================
+      // 토스트 메시지
+      // ========================================
+      function showToast(message, type) {
+        type = type || 'info';
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+
+        const icons = {
+          success: 'fa-check-circle',
+          error: 'fa-exclamation-circle',
+          warning: 'fa-exclamation-triangle',
+          info: 'fa-info-circle'
+        };
+
+        const toast = document.createElement('div');
+        toast.className = 'toast-message ' + type;
+        toast.innerHTML = '<i class="fas ' + icons[type] + '"></i><span>' + message + '</span>';
+        container.appendChild(toast);
+
+        setTimeout(function() {
+          toast.style.animation = 'slideOut 0.3s ease';
+          setTimeout(function() {
+            toast.remove();
+          }, 300);
+        }, 3000);
+      }
+
+      // ========================================
+      // 데이터 백업/복원
+      // ========================================
+      function backupData() {
+        const backup = {
+          version: '2.0',
+          date: new Date().toISOString(),
+          accounting: accountingData,
+          payments: paymentData
+        };
+
+        const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = '회계데이터_백업_' + new Date().toISOString().split('T')[0] + '.json';
+        link.click();
+
+        showToast('백업 파일이 다운로드됩니다.', 'success');
+      }
+
+      function restoreData() {
+        document.getElementById('restoreFileInput').click();
+      }
+
+      function handleRestoreFile(event) {
+        if (!checkLock('데이터를 복원할')) {
+          event.target.value = '';
+          return;
+        }
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const backup = JSON.parse(e.target.result);
+
+            if (!backup.accounting || !backup.payments) {
+              showToast('올바른 백업 파일이 아닙니다.', 'error');
+              return;
+            }
+
+            if (!confirm('현재 데이터를 백업 파일로 복원하시겠습니까?\n\n기존 데이터는 덮어씌워집니다.')) return;
+
+            accountingData = backup.accounting;
+            paymentData = backup.payments;
+            saveAccountingData(accountingData);
+            savePaymentData(paymentData);
+
+            loadAll(currentYear);
+            renderDuesAccordions();
+            updateCurrentBalance();
+
+            showToast('데이터가 복원되었습니다. (백업일: ' + backup.date.split('T')[0] + ')', 'success');
+          } catch (err) {
+            showToast('파일을 읽는 중 오류가 발생했습니다.', 'error');
+          }
+        };
+        reader.readAsText(file);
+        event.target.value = '';
+      }
+
+      // ========================================
+      // 유틸리티 함수
+      // ========================================
+      function formatMoney(amount) {
+        return new Intl.NumberFormat('ko-KR').format(amount) + '원';
+      }
+
+      function formatMoneyShort(amount) {
+        if (amount >= 10000) {
+          return Math.floor(amount / 10000) + '만';
+        }
+        return new Intl.NumberFormat('ko-KR').format(amount);
+      }
+
+      function getNextId() {
+        if (accountingData.transactions.length === 0) return 1;
+        return Math.max(...accountingData.transactions.map(t => t.id)) + 1;
+      }
+
+      // ========================================
+      // 회원 납부 상태 계산
+      // ========================================
+      function getMemberPaymentStatus(memberName, year, itemId) {
+        const yearStr = year.toString();
+        const items = paymentData.items[yearStr] || [];
+        const item = items.find(function(i) { return i.id === itemId; });
+        if (!item) return { status: 'none', paid: 0, target: 0, remaining: 0 };
+
+        const memberData = paymentData.members[yearStr] ? paymentData.members[yearStr][memberName] : null;
+        const itemData = memberData ? memberData[itemId] : null;
+        const paid = itemData ? itemData.totalPaid : 0;
+
+        // 특별납부는 회원별 목표금액이 다를 수 있음
+        var target = item.amount;
+        if (item.type === 'special' && itemData && itemData.targetAmount !== undefined) {
+          target = itemData.targetAmount;
+        }
+
+        // 특별납부에 목표금액이 없고 데이터도 없으면 해당 없음
+        if (item.type === 'special' && target === 0 && !itemData) {
+          return { status: 'none', paid: 0, target: 0, remaining: 0 };
+        }
+
+        // 2024, 2025년 연회비: 미납자 목록에 없으면 완납으로 간주
+        if ((year === 2024 || year === 2025) && itemId === 'dues') {
+          // 미납자 목록에 있는지 확인
+          if (!memberData || !itemData) {
+            // 데이터가 없으면 완납으로 간주
+            return { status: 'paid', paid: 240000, target: 240000, remaining: 0, payments: [] };
+          }
+        }
+
+        // 2026년: 데이터가 없으면 미납
+        if (year === 2026 && itemId === 'dues' && !itemData) {
+          return { status: 'unpaid', paid: 0, target: 240000, remaining: 240000, payments: [] };
+        }
+
+        var remaining = Math.max(0, target - paid);
+        var status = 'unpaid';
+        if (paid >= target && target > 0) status = 'paid';
+        else if (paid > 0) status = 'partial';
+
+        return { status: status, paid: paid, target: target, remaining: remaining, payments: itemData ? itemData.payments : [] };
+      }
+
+      // ========================================
+      // 연도별 납부 항목별 현황 계산
+      // ========================================
+      function getYearItemStats(year, itemId) {
+        const yearStr = year.toString();
+        const paidMembers = [];
+        const partialMembers = [];
+        const unpaidMembers = [];
+        let totalCollected = 0;
+        let totalTarget = 0;
+
+        if (typeof membersData === 'undefined' || membersData.length === 0) {
+          return { paidMembers, partialMembers, unpaidMembers, totalCollected, totalTarget };
+        }
+
+        for (const member of membersData) {
+          const ps = getMemberPaymentStatus(member.name, year, itemId);
+          if (ps.status === 'none') continue;
+
+          totalCollected += ps.paid;
+          totalTarget += ps.target;
+
+          if (ps.status === 'paid') {
+            paidMembers.push(member.name);
+          } else if (ps.status === 'partial') {
+            partialMembers.push({ name: member.name, paid: ps.paid, target: ps.target });
+          } else {
+            unpaidMembers.push({ name: member.name, remaining: ps.remaining });
+          }
+        }
+
+        return { paidMembers, partialMembers, unpaidMembers, totalCollected, totalTarget };
+      }
+
+      // ========================================
+      // 연도별 아코디언 렌더링
+      // ========================================
+      function renderDuesAccordions() {
+        const container = document.getElementById('duesAccordionContainer');
+        if (!container) return;
+
+        if (typeof membersData === 'undefined' || membersData.length === 0) {
+          container.innerHTML = '<div class="empty-state">회원 데이터를 불러올 수 없습니다.</div>';
+          return;
+        }
+
+        const years = [2026, 2025, 2024];
+        let html = '';
+
+        years.forEach((year, idx) => {
+          const yearStr = year.toString();
+          const items = paymentData.items[yearStr] || [];
+          const openClass = idx === 0 ? 'open' : '';
+
+          html += '<div class="year-accordion ' + openClass + '" data-accordion-year="' + year + '">';
+
+          // 헤더
+          html += '<div class="year-accordion-header" onclick="toggleYearAccordion(' + year + ')">';
+          html += '<div class="year-title">';
+          html += '<span class="toggle-icon fas fa-chevron-right"></span>';
+          html += '<span>' + year + '년</span>';
+          html += '</div>';
+          html += '<div class="year-stats">';
+          // 연회비 기준 요약 배지
+          const duesStats = getYearItemStats(year, 'dues');
+          if (duesStats.paidMembers.length > 0) {
+            html += '<span class="stat-badge paid">완납 ' + duesStats.paidMembers.length + '명</span>';
+          }
+          if (duesStats.partialMembers.length > 0) {
+            html += '<span class="stat-badge partial">일부 ' + duesStats.partialMembers.length + '명</span>';
+          }
+          if (duesStats.unpaidMembers.length > 0) {
+            html += '<span class="stat-badge unpaid">미납 ' + duesStats.unpaidMembers.length + '명</span>';
+          }
+          html += '</div>';
+          html += '</div>';
+
+          // 요약 (납부 항목별)
+          html += '<div class="year-accordion-summary">';
+
+          items.forEach(function(item) {
+            const stats = getYearItemStats(year, item.id);
+            const totalCount = stats.paidMembers.length + stats.partialMembers.length + stats.unpaidMembers.length;
+            if (totalCount === 0) return;
+
+            const unpaidAmount = stats.totalTarget - stats.totalCollected;
+            const pct = stats.totalTarget > 0 ? Math.round((stats.totalCollected / stats.totalTarget) * 100) : 0;
+
+            html += '<div class="mb-3 pb-2 border-bottom">';
+            html += '<div class="d-flex justify-content-between align-items-center mb-2">';
+            html += '<strong>' + item.name + '</strong>';
+            html += '<div>';
+            if (item.type === 'special') {
+              html += '<span class="small text-muted me-2">특별회비</span>';
+              html += '<button class="btn btn-sm btn-outline-danger py-0 px-1" onclick="deletePaymentItem(' + year + ', \'' + item.id + '\')" title="삭제"><i class="fas fa-times"></i></button>';
+            }
+            html += '</div>';
+            html += '</div>';
+
+            if (stats.paidMembers.length > 0) {
+              html += '<div class="summary-row">';
+              html += '<span class="summary-label paid">완납:</span>';
+              html += '<span class="member-names">' + stats.paidMembers.join(', ') + '</span>';
+              html += '</div>';
+            }
+            if (stats.partialMembers.length > 0) {
+              html += '<div class="summary-row">';
+              html += '<span class="summary-label partial">일부:</span>';
+              html += '<span class="member-names">' + stats.partialMembers.map(function(m) {
+                const remaining = m.target - m.paid;
+                return m.name + '(<span style="color:#2e7d32">' + formatMoneyShort(m.paid) + '납</span>/<span style="color:#c62828">' + formatMoneyShort(remaining) + '미납</span>)';
+              }).join(', ') + '</span>';
+              html += '</div>';
+            }
+            if (stats.unpaidMembers.length > 0) {
+              html += '<div class="summary-row">';
+              html += '<span class="summary-label unpaid">미납:</span>';
+              html += '<span class="member-names">' + stats.unpaidMembers.map(function(m) {
+                return m.name + '(<span style="color:#c62828">' + formatMoneyShort(m.remaining) + '</span>)';
+              }).join(', ') + '</span>';
+              html += '</div>';
+            }
+
+            // 납부/미납 금액
+            html += '<div class="year-accordion-total mt-2">';
+            html += '<div class="d-flex gap-3 flex-wrap">';
+            html += '<span><strong style="color:#2e7d32">납부:</strong> ' + formatMoney(stats.totalCollected) + '</span>';
+            html += '<span><strong style="color:#c62828">미납:</strong> ' + formatMoney(unpaidAmount) + '</span>';
+            html += '<span class="text-muted">(' + pct + '%)</span>';
+            html += '</div>';
+            html += '<div class="total-progress"><div class="total-progress-fill" style="width:' + pct + '%"></div></div>';
+            html += '</div>';
+            html += '</div>';
+          });
+
+          // 특별회비 추가 버튼
+          html += '<div class="text-center mt-2">';
+          html += '<button class="btn btn-sm btn-outline-secondary" onclick="showAddItemModalForYear(' + year + ')">';
+          html += '<i class="fas fa-plus me-1"></i>특별회비 추가';
+          html += '</button>';
+          html += '</div>';
+
+          html += '</div>';
+
+          // 상세 바디 (펼쳤을 때 보임)
+          html += '<div class="year-accordion-body">';
+          html += renderDuesListForYear(year);
+          html += '</div>';
+
+          html += '</div>';
+        });
+
+        container.innerHTML = html;
+      }
+
+      // ========================================
+      // 특정 연도에 특별회비 추가 모달
+      // ========================================
+      function showAddItemModalForYear(year) {
+        currentYear = year;
+        document.getElementById('newItemName').value = '';
+        document.getElementById('newItemAmount').value = '';
+        new bootstrap.Modal(document.getElementById('addItemModal')).show();
+      }
+
+      // ========================================
+      // 특별회비 삭제
+      // ========================================
+      function deletePaymentItem(year, itemId) {
+        if (!checkLock('항목을 삭제할')) return;
+
+        const yearStr = year.toString();
+        const items = paymentData.items[yearStr] || [];
+        const item = items.find(function(i) { return i.id === itemId; });
+
+        if (!item) return;
+
+        if (!confirm('"' + item.name + '" 특별회비를 삭제하시겠습니까?\n\n관련 납부 기록도 함께 삭제됩니다.')) return;
+
+        // 항목 삭제
+        paymentData.items[yearStr] = items.filter(function(i) { return i.id !== itemId; });
+
+        // 해당 항목의 회원 납부 데이터도 삭제
+        if (paymentData.members[yearStr]) {
+          for (var memberName in paymentData.members[yearStr]) {
+            if (paymentData.members[yearStr][memberName][itemId]) {
+              delete paymentData.members[yearStr][memberName][itemId];
+            }
+          }
+        }
+
+        savePaymentData(paymentData);
+        renderDuesAccordions();
+        renderUnpaidSummary();
+        showToast('특별회비가 삭제되었습니다.', 'success');
+      }
+
+      // ========================================
+      // 특정 연도 회비 리스트 렌더링 (상세)
+      // ========================================
+      function renderDuesListForYear(year) {
+        const yearStr = year.toString();
+        const items = paymentData.items[yearStr] || [];
+        let html = '<div class="dues-list">';
+
+        // 납부 항목 탭
+        html += '<div class="utility-bar p-3 border-bottom">';
+        html += '<div class="payment-item-tabs">';
+        items.forEach(function(item, idx) {
+          const activeClass = idx === 0 ? 'active' : '';
+          html += '<button class="btn btn-sm btn-outline-dark ' + activeClass + '" data-item-id="' + item.id + '" data-year="' + year + '">' + item.name + '</button>';
+        });
+        html += '</div>';
+        html += '<div class="d-flex gap-2">';
+        html += '<div class="filter-buttons">';
+        html += '<button class="btn btn-outline-secondary btn-filter active" data-filter="all" data-year="' + year + '">전체</button>';
+        html += '<button class="btn btn-outline-secondary btn-filter" data-filter="unpaid" data-year="' + year + '">미납</button>';
+        html += '<button class="btn btn-outline-secondary btn-filter" data-filter="partial" data-year="' + year + '">일부</button>';
+        html += '<button class="btn btn-outline-secondary btn-filter" data-filter="paid" data-year="' + year + '">완납</button>';
+        html += '</div>';
+        html += '<button class="btn btn-sm btn-outline-secondary" onclick="exportYearDuesToExcel(' + year + ')">엑셀</button>';
+        html += '</div>';
+        html += '</div>';
+
+        const firstItemId = items.length > 0 ? items[0].id : 'dues';
+        html += '<div class="dues-list-items" data-list-year="' + year + '" data-current-item="' + firstItemId + '">';
+        html += renderDuesItems(year, 'all', firstItemId);
+        html += '</div>';
+        html += '</div>';
+
+        return html;
+      }
+
+      // ========================================
+      // 회비 항목들 렌더링
+      // ========================================
+      function renderDuesItems(year, filter, itemId) {
+        itemId = itemId || 'dues';
+        let html = '';
+
+        for (const member of membersData) {
+          const ps = getMemberPaymentStatus(member.name, year, itemId);
+          if (ps.status === 'none') continue;
+          if (filter !== 'all' && ps.status !== filter) continue;
+
+          const statusClass = ps.status;
+          const statusText = ps.status === 'paid' ? '완납' : ps.status === 'partial' ? '일부' : '미납';
+          const progressPct = ps.target > 0 ? Math.min(100, (ps.paid / ps.target) * 100) : 0;
+          const progressClass = ps.status === 'paid' ? 'full' : 'partial';
+          const paymentInfoText = ps.target > 0 ? formatMoneyShort(ps.paid) + '/' + formatMoneyShort(ps.target) : '-';
+
+          html += '<div class="dues-item">';
+          html += '<div class="member-name">' + member.name + '</div>';
+          html += '<div class="member-role">' + (member.role || '') + '</div>';
+          html += '<div class="payment-info">' + paymentInfoText;
+          html += '<span class="progress-mini"><span class="progress-mini-fill ' + progressClass + '" style="width:' + progressPct + '%"></span></span>';
+          html += '</div>';
+          html += '<span class="status ' + statusClass + '">' + statusText + '</span>';
+          if (ps.status !== 'paid') {
+            html += '<button class="btn btn-sm btn-dark action-btn" onclick="openPaymentModalForYearItem(\'' + member.name + '\', ' + year + ', \'' + itemId + '\')">납부</button>';
+          } else {
+            html += '<button class="btn btn-sm btn-outline-secondary action-btn" onclick="showPaymentHistoryForYearItem(\'' + member.name + '\', ' + year + ', \'' + itemId + '\')">이력</button>';
+          }
+          html += '</div>';
+        }
+
+        if (html === '') {
+          html = '<div class="empty-state">해당하는 회원이 없습니다.</div>';
+        }
+
+        return html;
+      }
+
+      // ========================================
+      // 아코디언 토글
+      // ========================================
+      function toggleYearAccordion(year) {
+        const accordion = document.querySelector('[data-accordion-year="' + year + '"]');
+        if (accordion) {
+          accordion.classList.toggle('open');
+        }
+      }
+
+      // ========================================
+      // 연도별 필터 적용
+      // ========================================
+      function applyYearFilter(year, filter) {
+        const listContainer = document.querySelector('[data-list-year="' + year + '"]');
+        if (listContainer) {
+          const currentItemId = listContainer.dataset.currentItem || 'dues';
+          listContainer.innerHTML = renderDuesItems(year, filter, currentItemId);
+        }
+
+        // 필터 버튼 활성화 상태 업데이트
+        const accordion = document.querySelector('[data-accordion-year="' + year + '"]');
+        if (accordion) {
+          accordion.querySelectorAll('.btn-filter').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.filter === filter);
+          });
+        }
+      }
+
+      // ========================================
+      // 납부 항목 탭 전환
+      // ========================================
+      function switchPaymentItemTab(year, itemId) {
+        const listContainer = document.querySelector('[data-list-year="' + year + '"]');
+        if (listContainer) {
+          listContainer.dataset.currentItem = itemId;
+          listContainer.innerHTML = renderDuesItems(year, 'all', itemId);
+        }
+
+        // 탭 버튼 활성화 상태 업데이트
+        const accordion = document.querySelector('[data-accordion-year="' + year + '"]');
+        if (accordion) {
+          accordion.querySelectorAll('.payment-item-tabs .btn').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.itemId === itemId);
+          });
+          // 필터 초기화
+          accordion.querySelectorAll('.btn-filter').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.filter === 'all');
+          });
+        }
+      }
+
+      // ========================================
+      // 연도/항목 지정 납부 모달
+      // ========================================
+      function openPaymentModalForYearItem(memberName, year, itemId) {
+        currentYear = year;
+        currentPaymentItem = itemId;
+        openPaymentModal(memberName);
+      }
+
+      // ========================================
+      // 미납현황에서 빠른 납부
+      // ========================================
+      function quickPayment(memberName, year, itemId) {
+        if (!checkLock('납부 처리를 할')) return;
+        currentYear = year;
+        currentPaymentItem = itemId;
+        openPaymentModal(memberName);
+      }
+
+      function showPaymentHistoryForYearItem(memberName, year, itemId) {
+        currentYear = year;
+        currentPaymentItem = itemId;
+        showPaymentHistory(memberName);
+      }
+
+      function openPaymentModalForYear(memberName, year) {
+        openPaymentModalForYearItem(memberName, year, 'dues');
+      }
+
+      function showPaymentHistoryForYear(memberName, year) {
+        showPaymentHistoryForYearItem(memberName, year, 'dues');
+      }
+
+      // ========================================
+      // 연도별 엑셀 내보내기
+      // ========================================
+      function exportYearDuesToExcel(year) {
+        currentYear = year;
+        currentPaymentItem = 'dues';
+        exportDuesToExcel();
+      }
+
+      // ========================================
+      // 전체 연도 엑셀 내보내기
+      // ========================================
+      function exportAllDuesToExcel() {
+        const years = [2026, 2025, 2024];
+        let csv = '\uFEFF';
+        csv += '연회비 납부현황 (전체)\n';
+        csv += '민족통일청년회 영동군 지부\n\n';
+
+        years.forEach(function(year) {
+          const stats = getYearDuesStats(year);
+          csv += year + '년\n';
+          csv += '회원명,납부액,목표액,상태\n';
+
+          for (const member of membersData) {
+            const ps = getMemberPaymentStatus(member.name, year, 'dues');
+            if (ps.status === 'none') continue;
+            const statusText = ps.status === 'paid' ? '완납' : ps.status === 'partial' ? '일부납부' : '미납';
+            csv += member.name + ',' + ps.paid + ',' + ps.target + ',' + statusText + '\n';
+          }
+
+          csv += '총 수납액,' + stats.totalCollected + ',' + stats.totalTarget + '\n';
+          csv += '\n';
+        });
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = '연회비납부현황_전체.csv';
+        link.click();
+      }
+
+      // ========================================
+      // 납부 모달
+      // ========================================
+      function openPaymentModal(memberName) {
+        if (!checkLock('납부 처리를 할')) return;
+        paymentTargetMember = memberName;
+        const ps = getMemberPaymentStatus(memberName, currentYear, currentPaymentItem);
+
+        // 현재 항목 이름 가져오기
+        const yearStr = currentYear.toString();
+        const items = paymentData.items[yearStr] || [];
+        const currentItem = items.find(function(i) { return i.id === currentPaymentItem; });
+        const itemName = currentItem ? currentItem.name : '회비';
+
+        document.getElementById('paymentMemberName').textContent = memberName + ' (' + currentYear + '년 ' + itemName + ')';
+        document.getElementById('paymentCurrentPaid').textContent = formatMoney(ps.paid);
+        document.getElementById('paymentRemaining').textContent = formatMoney(ps.remaining);
+        document.getElementById('paymentAmount').value = '';
+        document.getElementById('paymentNote').value = '';
+
+        const quickBtns = document.getElementById('paymentQuickBtns');
+        let btnHtml = '';
+        if (ps.remaining > 0) {
+          btnHtml += '<button type="button" class="btn btn-outline-primary btn-sm" onclick="setPaymentAmount(' + ps.remaining + ')">잔액 ' + formatMoneyShort(ps.remaining) + '</button>';
+        }
+        if (currentPaymentItem === 'dues') {
+          btnHtml += '<button type="button" class="btn btn-outline-primary btn-sm" onclick="setPaymentAmount(240000)">연납 24만</button>';
+          btnHtml += '<button type="button" class="btn btn-outline-primary btn-sm" onclick="setPaymentAmount(120000)">반기 12만</button>';
+          btnHtml += '<button type="button" class="btn btn-outline-primary btn-sm" onclick="setPaymentAmount(20000)">월납 2만</button>';
+        }
+        quickBtns.innerHTML = btnHtml;
+
+        const historyContainer = document.getElementById('paymentHistoryList');
+        if (ps.payments && ps.payments.length > 0) {
+          let historyHtml = '';
+          ps.payments.forEach(function(p) {
+            historyHtml += '<div class="payment-history-item"><span>' + p.date + '</span><span>' + formatMoney(p.amount) + '</span><span>' + (p.note || '') + '</span></div>';
+          });
+          historyContainer.innerHTML = historyHtml;
+        } else {
+          historyContainer.innerHTML = '<div class="payment-history-empty">납부 이력 없음</div>';
+        }
+
+        new bootstrap.Modal(document.getElementById('paymentModal')).show();
+      }
+
+      function setPaymentAmount(amount) {
+        document.getElementById('paymentAmount').value = amount;
+      }
+
+      function confirmPayment() {
+        if (!checkLock('납부 처리를 할')) return;
+
+        const amount = parseInt(document.getElementById('paymentAmount').value);
+        const note = document.getElementById('paymentNote').value;
+
+        if (!amount || amount <= 0) {
+          alert('납부 금액을 입력해주세요.');
+          return;
+        }
+
+        const yearStr = currentYear.toString();
+        const today = new Date().toISOString().split('T')[0];
+
+        if (!paymentData.members[yearStr]) paymentData.members[yearStr] = {};
+        if (!paymentData.members[yearStr][paymentTargetMember]) paymentData.members[yearStr][paymentTargetMember] = {};
+        if (!paymentData.members[yearStr][paymentTargetMember][currentPaymentItem]) {
+          paymentData.members[yearStr][paymentTargetMember][currentPaymentItem] = { totalPaid: 0, payments: [] };
+        }
+
+        const memberItem = paymentData.members[yearStr][paymentTargetMember][currentPaymentItem];
+        memberItem.totalPaid += amount;
+        memberItem.payments.push({ date: today, amount: amount, note: note || '' });
+        savePaymentData(paymentData);
+
+        const items = paymentData.items[yearStr] || [];
+        const currentItem = items.find(function(i) { return i.id === currentPaymentItem; });
+        const categoryName = currentItem ? currentItem.name : '회비';
+
+        accountingData.transactions.push({
+          id: getNextId(),
+          date: today,
+          type: 'income',
+          category: categoryName,
+          description: paymentTargetMember + ' ' + categoryName + ' 납부',
+          amount: amount,
+          note: note || currentYear + '년',
+          duesYear: currentYear,  // 납부 대상 연도 명시
+          duesItem: currentPaymentItem  // 납부 항목 명시
+        });
+        saveAccountingData(accountingData);
+
+        bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+
+        showToast(paymentTargetMember + '님 ' + formatMoney(amount) + ' 납부 완료', 'success');
+        paymentTargetMember = null;
+
+        // 거래는 오늘 날짜(2026)로 기록되므로 2026년 기준으로 표시
+        var txYear = parseInt(today.substring(0, 4));
+        renderDuesAccordions();
+        renderUnpaidSummary();
+        updateCurrentBalance();
+        loadAll(txYear);
+      }
+
+      function showPaymentHistory(memberName) {
+        const ps = getMemberPaymentStatus(memberName, currentYear, currentPaymentItem);
+        let msg = memberName + '님 납부 이력\n\n';
+        if (ps.payments && ps.payments.length > 0) {
+          ps.payments.forEach(function(p) {
+            msg += p.date + ': ' + formatMoney(p.amount) + (p.note ? ' (' + p.note + ')' : '') + '\n';
+          });
+          msg += '\n총 납부액: ' + formatMoney(ps.paid);
+        } else {
+          msg += '납부 이력이 없습니다.';
+        }
+        alert(msg);
+      }
+
+      function cancelPayment(memberName) {
+        if (!checkLock('납부를 취소할')) return;
+        if (!confirm(memberName + '님의 마지막 납부를 취소하시겠습니까?')) return;
+
+        const yearStr = currentYear.toString();
+        const memberItem = paymentData.members[yearStr]?.[memberName]?.[currentPaymentItem];
+
+        if (memberItem && memberItem.payments.length > 0) {
+          const lastPayment = memberItem.payments.pop();
+          memberItem.totalPaid -= lastPayment.amount;
+          savePaymentData(paymentData);
+
+          // 해당 거래 찾아서 삭제
+          const idx = accountingData.transactions.findIndex(function(t) {
+            return t.description.includes(memberName) && t.amount === lastPayment.amount && t.type === 'income';
+          });
+          if (idx !== -1) {
+            accountingData.transactions.splice(idx, 1);
+            saveAccountingData(accountingData);
+          }
+
+          renderDuesAccordions();
+          renderUnpaidSummary();
+          updateCurrentBalance();
+          loadAll(currentYear);
+
+          showToast(memberName + '님 ' + formatMoney(lastPayment.amount) + ' 납부 취소됨', 'warning');
+        }
+      }
+
+      // 현재 잔고 업데이트 (항상 최신 연도 기준)
+      function updateCurrentBalance() {
+        const balance2025 = calculateBalance(2025);
+        const balance2026 = calculateBalance(2026);
+        document.getElementById('settledBalance').textContent = formatMoney(balance2025);
+        document.getElementById('currentBalance').textContent = formatMoney(balance2026);
+      }
+
+      // ========================================
+      // 특별납부 항목 추가
+      // ========================================
+      function showAddItemModal() {
+        document.getElementById('newItemName').value = '';
+        document.getElementById('newItemAmount').value = '';
+        new bootstrap.Modal(document.getElementById('addItemModal')).show();
+      }
+
+      function addPaymentItem() {
+        if (!checkLock('항목을 추가할')) return;
+
+        const name = document.getElementById('newItemName').value.trim();
+        const amount = parseInt(document.getElementById('newItemAmount').value) || 0;
+
+        if (!name) {
+          alert('항목명을 입력해주세요.');
+          return;
+        }
+
+        const yearStr = currentYear.toString();
+        if (!paymentData.items[yearStr]) paymentData.items[yearStr] = [];
+
+        const id = name.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+        paymentData.items[yearStr].push({
+          id: id,
+          name: name,
+          amount: amount,
+          type: 'special'
+        });
+
+        savePaymentData(paymentData);
+        bootstrap.Modal.getInstance(document.getElementById('addItemModal')).hide();
+
+        currentPaymentItem = id;
+        renderDuesAccordions();
+        renderUnpaidSummary();
+        showToast(currentYear + '년 "' + name + '" 특별회비가 추가되었습니다.', 'success');
+      }
+
+      // ========================================
+      // 거래 내역 관련 (기존 유지)
+      // ========================================
+      function getTransactionsByYear(year) {
+        var hardcoded = DEFAULT_2025_TRANSACTIONS.filter(function(t) { return t.date.startsWith(year.toString()); });
+        var stored = accountingData.transactions.filter(function(t) { return t.date.startsWith(year.toString()); });
+        return hardcoded.concat(stored).sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+      }
+
+      function calculateBalance(upToYear) {
+        let balance = INITIAL_BALANCE;
+        var all = DEFAULT_2025_TRANSACTIONS.concat(accountingData.transactions).sort(function(a, b) {
+          return new Date(a.date) - new Date(b.date);
+        });
+        for (var i = 0; i < all.length; i++) {
+          var t = all[i];
+          var txYear = parseInt(t.date.substring(0, 4));
+          if (txYear <= upToYear) {
+            balance += t.type === 'income' ? t.amount : -t.amount;
+          }
+        }
+        return balance;
+      }
+
+      function calculateYearSummary(year) {
+        const transactions = getTransactionsByYear(year);
+        let income = 0, expense = 0;
+        for (var i = 0; i < transactions.length; i++) {
+          var t = transactions[i];
+          if (t.type === 'income') income += t.amount;
+          else expense += t.amount;
+        }
+        return { income: income, expense: expense };
+      }
+
+      function renderTransactions(year) {
+        const list = document.getElementById('transactionList');
+        const transactions = getTransactionsByYear(year);
+        const isReadonly = (year === 2025);
+
+        if (transactions.length === 0) {
+          list.innerHTML = '<div class="empty-state">거래 내역이 없습니다.</div>';
+          document.getElementById('transactionCount').textContent = '0건';
+          return;
+        }
+
+        let html = '';
+        for (var i = 0; i < transactions.length; i++) {
+          var t = transactions[i];
+          var typeClass = t.type === 'income' ? 'income' : 'expense';
+          var prefix = t.type === 'income' ? '+' : '-';
+
+          html += '<div class="transaction-item">';
+          html += '<div class="info">';
+          html += '<div class="date">' + t.date + ' · ' + t.category + '</div>';
+          html += '<div class="desc">' + t.description + '</div>';
+          if (t.note) html += '<div class="category">' + t.note + '</div>';
+          html += '</div>';
+          html += '<div class="amount ' + typeClass + '">' + prefix + formatMoney(t.amount) + '</div>';
+          if (!isReadonly) {
+            html += '<button class="btn btn-sm btn-outline-secondary delete-btn" onclick="confirmDelete(' + t.id + ', \'' + t.description.replace(/'/g, "\\'") + '\')"><span class="fas fa-trash-alt"></span></button>';
+          }
+          html += '</div>';
+        }
+
+        list.innerHTML = html;
+        document.getElementById('transactionCount').textContent = transactions.length + '건';
+      }
+
+      function updateSummary(year) {
+        const summary = calculateYearSummary(year);
+
+        document.getElementById('totalIncome').textContent = formatMoney(summary.income);
+        document.getElementById('totalExpense').textContent = formatMoney(summary.expense);
+
+        // 현재 잔고는 항상 최신 연도(2026) 기준으로 표시
+        updateCurrentBalance();
+      }
+
+      // ========================================
+      // 찬조금 표시
+      // ========================================
+      function renderDonations() {
+        var allTx = DEFAULT_2025_TRANSACTIONS.concat(accountingData.transactions);
+        var donations = allTx.filter(function(t) {
+          return t.category === '찬조금' && t.type === 'income';
+        });
+
+        var totalDonation = 0;
+        var listHtml = '';
+
+        if (donations.length === 0) {
+          listHtml = '<span class="text-muted small">찬조금 내역이 없습니다.</span>';
+        } else {
+          donations.forEach(function(d) {
+            totalDonation += d.amount;
+            var name = d.description.replace(' 찬조금', '').replace(' 납부', '');
+            listHtml += '<div class="donation-item">';
+            listHtml += '<span class="name">' + name + '</span>';
+            listHtml += '<span class="amount">' + formatMoney(d.amount) + '</span>';
+            listHtml += '</div>';
+          });
+        }
+
+        document.getElementById('donationTotal').textContent = formatMoney(totalDonation);
+        document.getElementById('donationList').innerHTML = listHtml;
+        
+        // 찬조금이 없으면 섹션 숨김
+        document.getElementById('donationSection').style.display = donations.length > 0 ? 'block' : 'none';
+      }
+
+      function loadAll(year) {
+        renderTransactions(year);
+        updateSummary(year);
+        renderDonations();
+        renderUnpaidSummary();
+      }
+
+      // 거래내역 탭 연도 전환
+      function switchTransactionYear(year) {
+        currentYear = year;
+        // 버튼 활성화 토글
+        document.querySelectorAll('.tx-year-btn').forEach(function(btn) {
+          if (parseInt(btn.dataset.year) === year) {
+            btn.classList.remove('btn-outline-dark');
+            btn.classList.add('btn-dark');
+          } else {
+            btn.classList.remove('btn-dark');
+            btn.classList.add('btn-outline-dark');
+          }
+        });
+        // 2025년이면 추가 버튼 숨김
+        var actionBtns = document.getElementById('actionButtons');
+        if (actionBtns) {
+          actionBtns.style.display = (year === 2025) ? 'none' : 'flex';
+        }
+        loadAll(year);
+        updateCurrentBalance();
+      }
+
+      // ========================================
+      // 미납현황 요약 렌더링 (회원별)
+      // ========================================
+      function renderUnpaidSummary() {
+        const container = document.getElementById('unpaidSummary');
+        const totalUnpaidEl = document.getElementById('totalUnpaidAmount');
+        if (!container) return;
+
+        if (typeof membersData === 'undefined' || membersData.length === 0) {
+          container.innerHTML = '<div class="text-center text-muted small">회원 데이터 로딩 중...</div>';
+          return;
+        }
+
+        const years = [2024, 2025, 2026];
+        let memberUnpaidMap = {};
+        let grandTotalUnpaid = 0;
+
+        // 회원별 미납 내역 수집
+        membersData.forEach(function(member) {
+          let memberTotal = 0;
+          let memberDetails = [];
+
+          years.forEach(function(year) {
+            const yearStr = year.toString();
+            const items = paymentData.items[yearStr] || [];
+
+            items.forEach(function(item) {
+              const ps = getMemberPaymentStatus(member.name, year, item.id);
+              if (ps.status === 'none') return;
+
+              const remaining = ps.remaining;
+              if (remaining > 0) {
+                memberTotal += remaining;
+                memberDetails.push({
+                  year: year,
+                  item: item.name,
+                  itemId: item.id,
+                  amount: remaining,
+                  isSpecial: item.type === 'special'
+                });
+              }
+            });
+          });
+
+          if (memberTotal > 0) {
+            memberUnpaidMap[member.name] = {
+              total: memberTotal,
+              details: memberDetails
+            };
+            grandTotalUnpaid += memberTotal;
+          }
+        });
+
+        // 미납액 기준 내림차순 정렬
+        const sortedMembers = Object.keys(memberUnpaidMap).sort(function(a, b) {
+          return memberUnpaidMap[b].total - memberUnpaidMap[a].total;
+        });
+
+        let html = '<div class="unpaid-summary-title">미납 회원 현황 (' + sortedMembers.length + '명)</div>';
+
+        if (sortedMembers.length === 0) {
+          html += '<div class="text-center text-success py-2"><i class="fas fa-check-circle me-1"></i>미납 없음</div>';
+        } else {
+          sortedMembers.forEach(function(name) {
+            const data = memberUnpaidMap[name];
+            html += '<div class="unpaid-member-row">';
+            html += '<div class="unpaid-member-name">' + name + '</div>';
+            html += '<div class="unpaid-member-details">';
+            data.details.forEach(function(d) {
+              const badgeClass = d.isSpecial ? 'special' : 'dues';
+              html += '<span class="unpaid-badge ' + badgeClass + ' clickable" onclick="quickPayment(\'' + name + '\', ' + d.year + ', \'' + d.itemId + '\')" title="클릭하여 납부 처리">';
+              html += d.year + ' ' + d.item + ' ' + formatMoneyShort(d.amount);
+              html += '</span>';
+            });
+            html += '</div>';
+            html += '<div class="unpaid-member-amount">' + formatMoney(data.total) + '</div>';
+            html += '</div>';
+          });
+          html += '<div class="unpaid-click-hint"><i class="fas fa-hand-pointer me-1"></i>항목을 클릭하면 바로 납부 처리할 수 있습니다</div>';
+        }
+
+        container.innerHTML = html;
+        totalUnpaidEl.textContent = formatMoney(grandTotalUnpaid);
+      }
+      function saveIncome() {
+        if (!checkLock('수입을 추가할')) return;
+
+        var date = document.getElementById('incomeDate').value;
+        var category = document.getElementById('incomeCategory').value;
+        var description = document.getElementById('incomeDescription').value;
+        var amount = parseInt(document.getElementById('incomeAmount').value);
+        var note = document.getElementById('incomeNote').value;
+
+        if (!date || !category || !description || !amount) {
+          alert('필수 항목을 입력해주세요.');
+          return;
+        }
+
+        accountingData.transactions.push({
+          id: getNextId(), date: date, type: 'income', category: category, description: description, amount: amount, note: note
+        });
+        saveAccountingData(accountingData);
+        bootstrap.Modal.getInstance(document.getElementById('incomeModal')).hide();
+        document.getElementById('incomeForm').reset();
+
+        var txYear = parseInt(date.substring(0, 4));
+        if (txYear !== currentYear) {
+          currentYear = txYear;
+        }
+        loadAll(currentYear);
+        updateCurrentBalance();
+        showToast('수입 ' + formatMoney(amount) + ' 추가됨', 'success');
+      }
+
+      function saveExpense() {
+        if (!checkLock('지출을 추가할')) return;
+
+        var date = document.getElementById('expenseDate').value;
+        var category = document.getElementById('expenseCategory').value;
+        var description = document.getElementById('expenseDescription').value;
+        var amount = parseInt(document.getElementById('expenseAmount').value);
+        var note = document.getElementById('expenseNote').value;
+
+        if (!date || !category || !description || !amount) {
+          alert('필수 항목을 입력해주세요.');
+          return;
+        }
+
+        accountingData.transactions.push({
+          id: getNextId(), date: date, type: 'expense', category: category, description: description, amount: amount, note: note
+        });
+        saveAccountingData(accountingData);
+        bootstrap.Modal.getInstance(document.getElementById('expenseModal')).hide();
+        document.getElementById('expenseForm').reset();
+
+        var txYear = parseInt(date.substring(0, 4));
+        if (txYear !== currentYear) {
+          currentYear = txYear;
+        }
+        loadAll(currentYear);
+        updateCurrentBalance();
+        showToast('지출 ' + formatMoney(amount) + ' 추가됨', 'info');
+      }
+
+      function confirmDelete(id, description) {
+        deleteTargetId = id;
+        document.getElementById('deleteMessage').textContent = '"' + description + '"을(를) 삭제하시겠습니까?';
+        new bootstrap.Modal(document.getElementById('deleteModal')).show();
+      }
+
+      function executeDelete() {
+        if (!checkLock('삭제할')) return;
+        if (deleteTargetId === null || deleteTargetId === undefined) return;
+
+        // 삭제할 거래 찾기
+        const txToDelete = accountingData.transactions.find(function(t) { return t.id === deleteTargetId; });
+
+        // 회비 납부 거래인 경우 paymentData도 업데이트
+        if (txToDelete && txToDelete.type === 'income' && txToDelete.description && txToDelete.description.includes('납부')) {
+          const amount = txToDelete.amount;
+          const desc = txToDelete.description;
+
+          // 회원명 추출 (예: "연규영 연회비 납부" -> "연규영")
+          const memberName = desc.split(' ')[0];
+
+          // 납부 대상 연도와 항목 (새 필드 우선, 없으면 기존 방식)
+          let duesYear, duesItem;
+
+          if (txToDelete.duesYear) {
+            // 새로운 방식: 거래에 저장된 정보 사용
+            duesYear = txToDelete.duesYear.toString();
+            duesItem = txToDelete.duesItem;
+          } else {
+            // 기존 방식: note에서 연도 추출
+            duesYear = txToDelete.date.substring(0, 4);
+            if (txToDelete.note && txToDelete.note.includes('년')) {
+              const yearMatch = txToDelete.note.match(/(\d{4})년/);
+              if (yearMatch) duesYear = yearMatch[1];
+            }
+            duesItem = null; // 항목 모름, 전체 검색
+          }
+
+          // 해당 연도/회원의 납부 기록에서 삭제
+          if (paymentData.members[duesYear] && paymentData.members[duesYear][memberName]) {
+            // 특정 항목이 지정된 경우
+            if (duesItem && paymentData.members[duesYear][memberName][duesItem]) {
+              var itemData = paymentData.members[duesYear][memberName][duesItem];
+              if (itemData.payments && itemData.payments.length > 0) {
+                for (var i = itemData.payments.length - 1; i >= 0; i--) {
+                  if (itemData.payments[i].amount === amount) {
+                    itemData.payments.splice(i, 1);
+                    itemData.totalPaid -= amount;
+                    savePaymentData(paymentData);
+                    break;
+                  }
+                }
+              }
+            } else {
+              // 항목 미지정: 모든 항목에서 검색
+              for (var itemId in paymentData.members[duesYear][memberName]) {
+                var itemData = paymentData.members[duesYear][memberName][itemId];
+                if (itemData.payments && itemData.payments.length > 0) {
+                  var found = false;
+                  for (var i = itemData.payments.length - 1; i >= 0; i--) {
+                    if (itemData.payments[i].amount === amount) {
+                      itemData.payments.splice(i, 1);
+                      itemData.totalPaid -= amount;
+                      savePaymentData(paymentData);
+                      found = true;
+                      break;
+                    }
+                  }
+                  if (found) break;
+                }
+              }
+            }
+          }
+        }
+
+        // 삭제할 거래의 연도 저장 (화면 갱신용)
+        var txYear = txToDelete ? parseInt(txToDelete.date.substring(0, 4)) : 2026;
+
+        accountingData.transactions = accountingData.transactions.filter(function(t) { return t.id !== deleteTargetId; });
+        saveAccountingData(accountingData);
+        bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
+        deleteTargetId = null;
+
+        renderDuesAccordions();
+        renderUnpaidSummary();
+        updateCurrentBalance();
+        loadAll(txYear);
+        showToast('거래 내역이 삭제되었습니다.', 'info');
+      }
+
+      function exportToExcel() {
+        var transactions = getTransactionsByYear(currentYear);
+        if (transactions.length === 0) {
+          alert('내보낼 거래 내역이 없습니다.');
+          return;
+        }
+
+        var csv = '\uFEFF';
+        csv += '민족통일청년회 영동군 지부 회계장부\n';
+        csv += currentYear + '년 거래 내역\n\n';
+        csv += '날짜,구분,분류,내용,금액,비고\n';
+
+        for (var i = 0; i < transactions.length; i++) {
+          var t = transactions[i];
+          var type = t.type === 'income' ? '수입' : '지출';
+          var amount = t.type === 'income' ? t.amount : -t.amount;
+          csv += t.date + ',' + type + ',' + t.category + ',"' + t.description + '",' + amount + ',"' + (t.note || '') + '"\n';
+        }
+
+        var summary = calculateYearSummary(currentYear);
+        csv += '\n,,,수입합계,' + summary.income + ',\n';
+        csv += ',,,지출합계,' + summary.expense + ',\n';
+
+        var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = '회계장부_' + currentYear + '년.csv';
+        link.click();
+      }
+
+      function exportDuesToExcel() {
+        var yearStr = currentYear.toString();
+        var items = paymentData.items[yearStr] || [];
+        var currentItem = items.find(function(i) { return i.id === currentPaymentItem; });
+        var itemName = currentItem ? currentItem.name : '회비';
+
+        var csv = '\uFEFF';
+        csv += currentYear + '년 ' + itemName + ' 납부현황\n';
+        csv += '민족통일청년회 영동군 지부\n\n';
+        csv += '회원명,직책,납부액,목표액,상태\n';
+
+        var totalPaid = 0;
+        for (var i = 0; i < membersData.length; i++) {
+          var member = membersData[i];
+          var ps = getMemberPaymentStatus(member.name, currentYear, currentPaymentItem);
+          if (ps.status === 'none') continue;
+          var statusText = ps.status === 'paid' ? '완납' : ps.status === 'partial' ? '일부납부' : '미납';
+          csv += member.name + ',' + (member.role || '') + ',' + ps.paid + ',' + ps.target + ',' + statusText + '\n';
+          totalPaid += ps.paid;
+        }
+
+        csv += '\n총 수납액,' + totalPaid + '\n';
+
+        var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = itemName + '납부현황_' + currentYear + '년.csv';
+        link.click();
+      }
+
+      function generateReport() {
+        var year = currentYear;
+        var transactions = getTransactionsByYear(year);
+
+        document.getElementById('reportTitle').textContent = year + '년도 수입·지출 결산서';
+
+        var carryOver = INITIAL_BALANCE;
+        var allTransactions = DEFAULT_2025_TRANSACTIONS.concat(accountingData.transactions).sort(function(a, b) {
+          return new Date(a.date) - new Date(b.date);
+        });
+        for (var i = 0; i < allTransactions.length; i++) {
+          var t = allTransactions[i];
+          if (parseInt(t.date.substring(0, 4)) < year) {
+            carryOver += t.type === 'income' ? t.amount : -t.amount;
+          }
+        }
+
+        var incomeByCategory = { '전기이월금': carryOver };
+        var expenseByCategory = {};
+
+        for (var i = 0; i < transactions.length; i++) {
+          var t = transactions[i];
+          if (t.type === 'income') {
+            var cat = t.category + '수입';
+            incomeByCategory[cat] = (incomeByCategory[cat] || 0) + t.amount;
+          } else {
+            expenseByCategory[t.category] = (expenseByCategory[t.category] || 0) + t.amount;
+          }
+        }
+
+        var incomeHtml = '', incomeTotal = 0;
+        for (var cat in incomeByCategory) {
+          var amount = incomeByCategory[cat];
+          incomeTotal += amount;
+          incomeHtml += '<tr><td>' + cat + '</td><td class="text-end">' + formatMoney(amount) + '</td></tr>';
+        }
+        document.getElementById('reportIncomeBody').innerHTML = incomeHtml;
+        document.getElementById('reportIncomeTotalSum').textContent = formatMoney(incomeTotal);
+
+        var expenseHtml = '', expenseTotal = 0;
+        for (var cat in expenseByCategory) {
+          var amount = expenseByCategory[cat];
+          expenseTotal += amount;
+          expenseHtml += '<tr><td>' + cat + '</td><td class="text-end">' + formatMoney(amount) + '</td></tr>';
+        }
+        if (Object.keys(expenseByCategory).length === 0) {
+          expenseHtml = '<tr><td colspan="2" class="text-center text-body-secondary">지출 내역 없음</td></tr>';
+        }
+        document.getElementById('reportExpenseBody').innerHTML = expenseHtml;
+        document.getElementById('reportExpenseTotalSum').textContent = formatMoney(expenseTotal);
+
+        document.getElementById('reportFinalIncome').textContent = formatMoney(incomeTotal);
+        document.getElementById('reportFinalExpense').textContent = formatMoney(expenseTotal);
+        document.getElementById('reportFinalBalance').textContent = formatMoney(incomeTotal - expenseTotal);
+        document.getElementById('reportDate').textContent = new Date().toLocaleDateString('ko-KR');
+
+        new bootstrap.Modal(document.getElementById('reportModal')).show();
+      }
+
+      function printReport() {
+        var modalBody = document.querySelector('#reportModal .modal-body').innerHTML;
+        var printWindow = window.open('', '_blank');
+        printWindow.document.write('<!DOCTYPE html><html><head><title>결산서</title>');
+        printWindow.document.write('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">');
+        printWindow.document.write('<style>body{padding:20px}</style></head>');
+        printWindow.document.write('<body>' + modalBody + '<script>window.onload=function(){window.print();}<\/script></body></html>');
+        printWindow.document.close();
+      }
+
+      function exportReportToExcel() {
+        // 기존 로직 유지
+        alert('결산서 엑셀 내보내기');
+      }
+
+      function resetAllData() {
+        if (!checkLock('초기화할')) return;
+        if (!confirm('모든 데이터를 초기화하시겠습니까?\n\n· 2026년 거래 내역: 초기화\n· 회비 납부: 초기 상태로\n· 2025년 데이터는 유지됩니다')) return;
+
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(PAYMENT_DATA_KEY);
+
+        accountingData = loadAccountingData();
+        paymentData = loadPaymentData();
+
+        loadAll(currentYear);
+        renderDuesAccordions();
+        updateCurrentBalance();
+        showToast('데이터가 초기화되었습니다.', 'warning');
+      }
+
+      // ========================================
+      // 이벤트 리스너
+      // ========================================
+      document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('incomeDate').value = today;
+        document.getElementById('expenseDate').value = today;
+
+        loadAll(currentYear);
+        renderDuesAccordions();
+        updateCurrentBalance();
+        updateLockUI();  // 잠금 상태 초기화
+
+        // 거래내역 연도 전환 버튼
+        document.querySelectorAll('.tx-year-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            switchTransactionYear(parseInt(this.dataset.year));
+          });
+        });
+
+        // 탭 전환
+        document.querySelectorAll('.view-tabs .tab-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            document.querySelectorAll('.view-tabs .tab-btn').forEach(function(b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            document.querySelectorAll('.tab-content-area').forEach(function(area) { area.classList.remove('active'); });
+            document.getElementById(this.dataset.tab + 'Tab').classList.add('active');
+          });
+        });
+
+        // 아코디언 내 버튼 (이벤트 위임)
+        document.getElementById('duesAccordionContainer').addEventListener('click', function(e) {
+          // 필터 버튼
+          if (e.target.classList.contains('btn-filter')) {
+            var filter = e.target.dataset.filter;
+            var year = parseInt(e.target.dataset.year);
+            applyYearFilter(year, filter);
+          }
+          // 납부 항목 탭
+          if (e.target.dataset.itemId && e.target.closest('.payment-item-tabs')) {
+            var itemId = e.target.dataset.itemId;
+            var year = parseInt(e.target.dataset.year);
+            switchPaymentItemTab(year, itemId);
+          }
+        });
+
+        // 버튼들
+        document.getElementById('addIncomeBtn').addEventListener('click', function() {
+          document.getElementById('incomeForm').reset();
+          document.getElementById('incomeDate').value = new Date().toISOString().split('T')[0];
+          new bootstrap.Modal(document.getElementById('incomeModal')).show();
+        });
+
+        document.getElementById('addExpenseBtn').addEventListener('click', function() {
+          document.getElementById('expenseForm').reset();
+          document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
+          new bootstrap.Modal(document.getElementById('expenseModal')).show();
+        });
+
+        document.getElementById('saveIncomeBtn').addEventListener('click', saveIncome);
+        document.getElementById('saveExpenseBtn').addEventListener('click', saveExpense);
+        document.getElementById('confirmDeleteBtn').addEventListener('click', executeDelete);
+        document.getElementById('excelBtn').addEventListener('click', exportToExcel);
+        document.getElementById('reportBtn').addEventListener('click', generateReport);
+        document.getElementById('reportPrintBtn').addEventListener('click', printReport);
+        document.getElementById('duesExcelBtn').addEventListener('click', exportAllDuesToExcel);
+        document.getElementById('resetDataBtn').addEventListener('click', resetAllData);
+        document.getElementById('backupDataBtn').addEventListener('click', backupData);
+        document.getElementById('restoreDataBtn').addEventListener('click', restoreData);
+        document.getElementById('restoreFileInput').addEventListener('change', handleRestoreFile);
+      });
+    </script>
+
+    <!-- 플로팅 행사 버튼 -->
+    <script src="assets/js/floating-events.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="has-sidemenu" lang="ko-KR" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="민족통일청년회 영동군 지부 - 뉴스 작성">
+
+    <title>뉴스 작성 | 민족통일청년회 영동군</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico">
+    <link rel="manifest" href="assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="vendors/loaders.css/loaders.min.css" rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=PT+Mono%7cPT+Serif:400,400i%7cLato:100,300,400,700,800,900" rel="stylesheet">
+    <link href="assets/css/theme.css" rel="stylesheet" />
+    <link href="assets/css/user.css" rel="stylesheet" />
+  </head>
+
+  <body class="overflow-hidden-x">
+
+    <nav class="fancynavbar fancynavbar-expand-lg">
+      <div class="fancynavbar-togglerbar"><a class="fancynavbar-brand" href="index.html"><img class="fancynavbar-brand-img" src="assets/img/logo-sparrow-invert.svg" alt="" width="30" height="30" /></a>
+        <div class="fancynavbar-toggler">
+          <svg class="fancynavbar-toggler-icon" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
+            <path id="path-top" d="M20,25c0,0,22,0,30,0c16,0,18.89,40.71-.15,21.75C38.7,35.65,19.9,16.8,19.9,16.8"></path>
+            <path id="path-middle" d="M20,32h30"></path>
+            <path id="path-bottom" d="M19.9,46.98c0,0,18.8-18.85,29.95-29.95C68.89-1.92,66,38.78,50,38.78c-8,0-30,0-30,0"></path>
+          </svg>
+        </div>
+        <div class="fancynavbar-addon fancynavbar-addon-height"><a class="fancynavbar-addon-item" href="http://www.mintong.or.kr/mt/main" target="_blank" rel="noopener" title="민족통일협의회"><span class="fas fa-globe"></span></a><a class="fancynavbar-addon-item" href="contact.html" title="연락처"><span class="fas fa-envelope"></span></a>
+        </div>
+      </div>
+      <div class="fancynavbar-collapse">
+        <ul class="fancynavbar-nav">
+          <li class="fancynav-item"><a class="fancynav-link" href="index.html"><span class="fancynav-link-content">홈</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="about.html"><span class="fancynav-link-content">협의회 소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="services.html"><span class="fancynav-link-content">회계</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="members.html"><span class="fancynav-link-content">회원소개</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link active" href="news.html"><span class="fancynav-link-content">활동 소식</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="events.html"><span class="fancynav-link-content">행사&사진</span></a></li>
+          <li class="fancynav-item"><a class="fancynav-link" href="contact.html"><span class="fancynav-link-content">연락처</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="main min-vh-100" id="top">
+
+      <div class="preloader" id="preloader">
+        <div class="loader">
+          <div class="line-scale-pulse-out-rapid">
+            <div> </div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div> </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="py-9 py-lg-10">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+              <div class="mb-5">
+                <h1 class="display-6 mb-2">뉴스 작성</h1>
+                <p class="text-body-secondary">민족통일청년회 영동군 지부의 새로운 소식을 작성해주세요.</p>
+              </div>
+
+              <form id="newsForm">
+
+                <div class="mb-4">
+                  <label for="title" class="form-label fw-bold">제목 <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="title" name="title" required placeholder="뉴스 제목을 입력하세요">
+                </div>
+
+                <div class="mb-4">
+                  <label for="category" class="form-label fw-bold">카테고리 <span class="text-danger">*</span></label>
+                  <select class="form-select" id="category" name="category" required>
+                    <option value="">선택하세요</option>
+                    <option value="공지사항">공지사항</option>
+                    <option value="행사안내">행사안내</option>
+                    <option value="기타">기타</option>
+                  </select>
+                </div>
+
+                <!-- 행사안내 선택 시에만 표시되는 필드 -->
+                <div id="eventFields" style="display: none;">
+                  <div class="mb-4">
+                    <label for="event_date" class="form-label fw-bold">행사 날짜 <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="event_date" name="event_date">
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="location" class="form-label fw-bold">장소</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="행사 장소를 입력하세요">
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="content" class="form-label fw-bold">내용 <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="content" name="content" rows="12" required placeholder="뉴스 내용을 입력하세요"></textarea>
+                  <small class="text-body-secondary">줄바꿈은 자동으로 반영됩니다.</small>
+                </div>
+
+                <div class="mb-4">
+                  <label for="image" class="form-label fw-bold">이미지</label>
+                  <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                  <small class="text-body-secondary">JPG, PNG, GIF 형식 (최대 5MB)</small>
+                  <div id="imagePreview" class="mt-2" style="display:none;">
+                    <img id="previewImg" src="" alt="미리보기" class="img-thumbnail" style="max-height: 200px;">
+                    <button type="button" class="btn btn-sm btn-outline-danger ms-2" onclick="clearImagePreview()">
+                      <span class="fas fa-times"></span> 제거
+                    </button>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="author_name" class="form-label fw-bold">작성자</label>
+                  <input type="text" class="form-control" id="author_name" name="author_name" placeholder="작성자 이름 (비어있으면 '관리자')">
+                </div>
+
+                <div class="mb-4">
+                  <label for="password" class="form-label fw-bold">비밀번호 <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="password" name="password" autocomplete="new-password" required placeholder="수정 시 필요한 비밀번호를 입력하세요" minlength="4">
+                  <small class="text-body-secondary">이 비밀번호로 나중에 글을 수정할 수 있습니다. (최소 4자)</small>
+                </div>
+
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn btn-primary px-5">
+                    <span class="fas fa-check me-2"></span>등록하기
+                  </button>
+                  <a href="news.html" class="btn btn-outline-secondary px-5">
+                    <span class="fas fa-times me-2"></span>취소
+                  </a>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer bg-black text-body-secondary py-4 font-secondary text-center overflow-hidden">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-4 order-lg-2 position-relative"><a class="indicator indicator-up" href="#top"><span class="indicator-arrow indicator-arrow-one"></span><span class="indicator-arrow indicator-arrow-two"></span></a></div>
+          <div class="col-lg-4 text-lg-start mt-4 mt-lg-0">
+            <p class="fs-10 ls fw-bold mb-0">Copyright &copy; 2025 민족통일청년회 영동군</p>
+            <p class="fs-10 mb-0 mt-2"><a href="http://www.mintong.or.kr/mt/main" target="_blank" class="text-body-secondary">민족통일협의회</a></p>
+          </div>
+          <div class="col-lg-4 text-lg-end order-lg-2 mt-2 mt-lg-0">
+            <p class="fs-10 mb-0">충청북도 영동군 | 문의: conexus25@conexus.co.kr</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="vendors/popper/popper.min.js"></script>
+    <script src="vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="vendors/anchorjs/anchor.min.js"></script>
+    <script src="vendors/is/is.min.js"></script>
+    <script src="vendors/fontawesome/all.min.js"></script>
+    <script src="vendors/lodash/lodash.min.js"></script>
+    <script src="vendors/imagesloaded/imagesloaded.pkgd.js"></script>
+    <script src="vendors/gsap/gsap.js"></script>
+    <script src="vendors/gsap/customEase.js"></script>
+    <script src="vendors/gsap/drawSVGPlugin.js"></script>
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-config.js"></script>
+    <script src="assets/js/news.js"></script>
+
+    <script>
+      // 카테고리 선택 시 행사 필드 표시/숨김
+      document.getElementById('category').addEventListener('change', function() {
+        const eventFields = document.getElementById('eventFields');
+        const eventDateInput = document.getElementById('event_date');
+
+        if (this.value === '행사안내') {
+          eventFields.style.display = 'block';
+          eventDateInput.setAttribute('required', 'required');
+        } else {
+          eventFields.style.display = 'none';
+          eventDateInput.removeAttribute('required');
+          eventDateInput.value = '';
+          document.getElementById('location').value = '';
+        }
+      });
+
+      // 이미지 미리보기
+      document.getElementById('image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          // 파일 크기 체크 (5MB)
+          if (file.size > 5 * 1024 * 1024) {
+            alert('이미지 크기는 5MB 이하여야 합니다.');
+            this.value = '';
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById('previewImg').src = e.target.result;
+            document.getElementById('imagePreview').style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // 이미지 미리보기 제거
+      function clearImagePreview() {
+        document.getElementById('image').value = '';
+        document.getElementById('imagePreview').style.display = 'none';
+        document.getElementById('previewImg').src = '';
+      }
+    </script>
+
+  </body>
+
+</html>
