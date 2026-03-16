@@ -65,7 +65,7 @@ INSERT INTO board_posts (category, title, content, author_name, author_img, pass
 
 예산은 대략 3000만원 정도 생각하고 있고, 면적은 약 30평입니다.
 
-연락 부탁드립니다!', '한성욱', 'assets/img/team/6.jpg', '1234', 24, 2),
+연락 부탁드립니다!', '한상욱', 'assets/img/team/6.jpg', '1234', 24, 2),
 
 ('info', '2025년 건설업 동향 정보 공유', '올해 건설업계 전망과 주요 정책 변화에 대해 정리했습니다.
 
