@@ -49,6 +49,7 @@ export async function fetchMembers(): Promise<Member[]> {
       company: (r.company as string) || null,
       position: (r.position as string) || null,
       industry: (r.field as string) || null,
+      title: (r.title as string) || null,
       birth_year: birthDigits ? Number(birthDigits) : null,
       address: (r.address as string) || null,
       phone: (r.phone as string) || null,
@@ -219,6 +220,7 @@ export type Member = {
   company: string | null
   position: string | null
   industry: string | null
+  title: string | null // 주요 직함 (예: "현 영동로타리 클럽 회장")
   birth_year: number | null
   address: string | null
   phone: string | null
@@ -331,6 +333,7 @@ export async function createMember(member: Omit<Member, 'id' | 'branch_id'>): Pr
       field: member.industry,
       phone: member.phone,
       position: member.position,
+      title: member.title,
       birth: member.birth_year ? String(member.birth_year) : null,
       address: member.address,
       category: CATEGORY_SLUGS[member.category] || 'service',
@@ -354,6 +357,7 @@ export async function updateMember(id: string, member: Partial<Member>): Promise
   if (member.industry !== undefined) updateData.field = member.industry
   if (member.phone !== undefined) updateData.phone = member.phone
   if (member.position !== undefined) updateData.position = member.position
+  if (member.title !== undefined) updateData.title = member.title
   if (member.birth_year !== undefined) updateData.birth = member.birth_year ? String(member.birth_year) : null
   if (member.address !== undefined) updateData.address = member.address
   if (member.category !== undefined) updateData.category = CATEGORY_SLUGS[member.category] || member.category

@@ -50,6 +50,11 @@ function MemberModal({ member, branch, onClose }: { member: Member; branch: Retu
           )}
           <p className="text-xl font-bold text-gray-900">{member.name}</p>
           <p className="text-sm text-gray-400 mt-0.5">{member.role}</p>
+          {member.title && (
+            <p className="text-sm font-semibold mt-1.5 px-3 py-1 rounded-full bg-gray-50" style={{ color: branch?.color }}>
+              {member.title}
+            </p>
+          )}
         </div>
 
         <hr className="border-gray-100 mx-5" />
@@ -283,6 +288,11 @@ export default function MembersPage() {
                     </span>
                   </div>
                   {member.company && <p className="text-sm text-gray-500 truncate">{member.company}{member.position ? ` · ${member.position}` : ''}</p>}
+                  {member.title && (
+                    <p className="text-xs font-semibold truncate mt-1" style={{ color: branch?.color }}>
+                      {member.title}
+                    </p>
+                  )}
                   {member.industry && (
                     <span className="inline-block mt-2 text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">
                       {member.industry}

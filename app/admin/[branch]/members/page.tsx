@@ -18,6 +18,7 @@ const emptyForm = {
   company: '',
   position: '',
   industry: '',
+  title: '',
   birth_year: '',
   address: '',
   phone: '',
@@ -64,6 +65,7 @@ export default function AdminMembersPage() {
       company: member.company || '',
       position: member.position || '',
       industry: member.industry || '',
+      title: member.title || '',
       birth_year: member.birth_year ? String(member.birth_year) : '',
       address: member.address || '',
       phone: member.phone || '',
@@ -112,6 +114,7 @@ export default function AdminMembersPage() {
           company: form.company || null,
           position: form.position || null,
           industry: form.industry || null,
+          title: form.title || null,
           birth_year: form.birth_year ? Number(form.birth_year) : null,
           address: form.address || null,
           phone: form.phone || null,
@@ -135,6 +138,7 @@ export default function AdminMembersPage() {
           company: form.company || null,
           position: form.position || null,
           industry: form.industry || null,
+          title: form.title || null,
           birth_year: form.birth_year ? Number(form.birth_year) : null,
           address: form.address || null,
           phone: form.phone || null,
@@ -265,6 +269,11 @@ export default function AdminMembersPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">출생연도</label>
                 <input type="number" value={form.birth_year} onChange={(e) => setForm({ ...form, birth_year: e.target.value })}
                   placeholder="1990" min="1940" max="2010" className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">주요 직함 (타이틀)</label>
+                <input type="text" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })}
+                  placeholder="예: 현 영동로타리 클럽 회장" className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
             </div>
             <div>
