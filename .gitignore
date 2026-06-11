@@ -1,0 +1,18 @@
+# dependencies
+node_modules/
+
+# next.js build
+.next/
+out/
+
+# 환경변수 — 절대 커밋 금지 (Supabase 키 포함)
+.env.local
+.env*.local
+
+# netlify CLI 로컬 상태
+.netlify/
+
+# misc
+*.tsbuildinfo
+dev.log
+.DS_Store

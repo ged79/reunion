@@ -1,0 +1,9 @@
+# 민족통일청년회 영동군 홈페이지 (Next.js 14)
+# 환경변수(NEXT_PUBLIC_SUPABASE_URL 등)는 Netlify 대시보드에서 관리
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
