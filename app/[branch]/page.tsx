@@ -15,12 +15,18 @@ export default async function BranchHomePage({ params }: { params: { branch: str
   const branch = getBranch(params.branch)
   if (!branch) notFound()
 
-  const photos = (await getBranchPhotos(branch.id)).slice(0, 6)
-  // fetchEvents가 행사일 내림차순으로 반환 → 가장 최근 행사가 맨 앞
-  const recentEvents = (await getBranchEvents(branch.id)).slice(0, 3)
+  // 공지·행사·사진을 동시에 조회 (순차 → 병렬, 첫화면 로딩 단축)
+  const [allPhotos, allEvents, allNotices] = await Promise.all([
+    getBranchPhotos(branch.id),
+    getBranchEvents(branch.id),
+    getBranchNotices(branch.id),
+  ])
 
-  // 공지 최신 5개
-  const allNotices = await getBranchNotices(branch.id)
+  const photos = allPhotos.slice(0, 6)
+  // fetchEvents가 행사일 내림차순으로 반환 → 가장 최근 행사가 맨 앞
+  const recentEvents = allEvents.slice(0, 3)
+
+  // 공지 최신 3개
   const recentFeed = allNotices
     .map((n) => ({ type: '공지' as const, date: n.created_at, title: n.title, important: n.important, id: n.id }))
     .sort((a, b) => b.date.localeCompare(a.date))
