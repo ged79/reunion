@@ -46,10 +46,10 @@ export default function BranchNav({ branch }: BranchNavProps) {
           <div className="flex items-center justify-between h-14">
             {/* Brand */}
             <Link href={`/${branch.slug}`} className="flex items-center flex-shrink-0">
-              <span className="font-black text-base tracking-tight" style={{ color: branch.color }}>
+              <span className="font-black text-xl tracking-tight" style={{ color: branch.color }}>
                 민통
               </span>
-              <span className="font-black text-base tracking-tight text-gray-900 ml-1">
+              <span className="font-black text-xl tracking-tight text-gray-900 ml-1">
                 {branch.name.replace('민족통일청년회', '').trim()}
               </span>
             </Link>
@@ -131,8 +131,8 @@ export default function BranchNav({ branch }: BranchNavProps) {
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
               <div>
-                <span className="font-black text-base" style={{ color: branch.color }}>민통</span>
-                <span className="font-black text-base text-gray-900 ml-1">
+                <span className="font-black text-xl" style={{ color: branch.color }}>민통</span>
+                <span className="font-black text-xl text-gray-900 ml-1">
                   {branch.name.replace('민족통일청년회', '').trim()}
                 </span>
               </div>
@@ -153,7 +153,7 @@ export default function BranchNav({ branch }: BranchNavProps) {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-semibold transition-colors"
+                  className="flex items-center justify-between px-4 py-3.5 rounded-xl text-lg font-semibold transition-colors"
                   style={
                     isActive(link.href)
                       ? { backgroundColor: branch.color, color: 'white' }
