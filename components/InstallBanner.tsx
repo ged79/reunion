@@ -67,15 +67,25 @@ export default function InstallBanner({ color }: { color: string }) {
             </p>
           )}
         </div>
-        {deferredPrompt && (
-          <button
-            onClick={handleInstall}
-            className="flex-shrink-0 px-4 py-2 rounded-lg text-white text-sm font-semibold transition-colors"
-            style={{ backgroundColor: color }}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {deferredPrompt && (
+            <button
+              onClick={handleInstall}
+              className="px-4 py-2 rounded-lg text-white text-sm font-semibold transition-colors"
+              style={{ backgroundColor: color }}
+            >
+              설치
+            </button>
+          )}
+          <a
+            href="/mintong-yeongdong.apk"
+            download
+            className="px-4 py-2 rounded-lg text-sm font-semibold border-2 transition-colors hover:opacity-80"
+            style={{ borderColor: color, color }}
           >
-            설치
-          </button>
-        )}
+            APK 다운로드
+          </a>
+        </div>
         <button
           onClick={handleDismiss}
           className="absolute top-2 right-2 p-1 text-gray-300 hover:text-gray-500 transition-colors"

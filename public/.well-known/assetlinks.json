@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.netlify.mintong.twa",
+    "sha256_cert_fingerprints": ["6D:BD:8F:E7:28:52:01:F7:1A:FF:10:90:94:B5:A8:B0:9D:D1:E8:B2:1D:C1:C9:14:0E:CB:6A:0F:33:4C:12:76"]
+  }
+}]
