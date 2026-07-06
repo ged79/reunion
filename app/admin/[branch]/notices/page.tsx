@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { getBranch } from '@/lib/mockData'
-import { fetchNotices, createNewsItem, updateNewsItem, deleteNewsItem, moveNoticeToEvent, isAdminLoggedIn, type Notice } from '@/lib/supabase'
+import { fetchNotices, createNewsItem, updateNewsItem, deleteNewsItem, moveNoticeToEvent, verifyAdmin, type Notice } from '@/lib/supabase'
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('ko-KR', {
@@ -64,7 +64,7 @@ export default function AdminNoticesPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!isAdminLoggedIn()) { showToast('error', '관리자 로그인이 필요합니다.'); return }
+    if (!(await verifyAdmin())) { showToast('error', '관리자 로그인이 필요합니다.'); return }
     setSubmitting(true)
     try {
       if (editingId) {
@@ -81,12 +81,12 @@ export default function AdminNoticesPage() {
         } else showToast('error', '등록에 실패했습니다.')
       }
       cancelForm()
-    } catch { showToast('error', '오류가 발생했습니다.') }
+    } catch (err) { console.error('공지 저장 오류:', err); showToast('error', '오류가 발생했습니다.') }
     setSubmitting(false)
   }
 
   async function handleMoveToEvent(item: Notice) {
-    if (!isAdminLoggedIn()) { showToast('error', '관리자 로그인이 필요합니다.'); return }
+    if (!(await verifyAdmin())) { showToast('error', '관리자 로그인이 필요합니다.'); return }
     // 작성일을 행사일로 사용
     const ok = await moveNoticeToEvent(item.id, item.created_at.slice(0, 10))
     if (ok) {
@@ -96,7 +96,7 @@ export default function AdminNoticesPage() {
   }
 
   async function handleDelete(id: string) {
-    if (!isAdminLoggedIn()) { showToast('error', '관리자 로그인이 필요합니다.'); return }
+    if (!(await verifyAdmin())) { showToast('error', '관리자 로그인이 필요합니다.'); return }
     const ok = await deleteNewsItem(id)
     if (ok) {
       showToast('success', '공지사항이 삭제되었습니다.')

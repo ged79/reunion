@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { getBranch } from '@/lib/mockData'
-import { fetchEvents, createEvent, updateEvent, deleteEvent, type Event } from '@/lib/supabase'
+import { fetchEvents, createEvent, updateEvent, deleteEvent, verifyAdmin, type Event } from '@/lib/supabase'
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('ko-KR', {
@@ -66,6 +66,7 @@ export default function AdminEventsPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (!(await verifyAdmin())) { showToast('error', '관리자 로그인이 필요합니다.'); return }
     setSubmitting(true)
 
     const payload = {
@@ -88,6 +89,7 @@ export default function AdminEventsPage() {
   }
 
   async function handleDelete(id: string) {
+    if (!(await verifyAdmin())) { showToast('error', '관리자 로그인이 필요합니다.'); return }
     const ok = await deleteEvent(id)
     if (ok) {
       setEvents((prev) => prev.filter((ev) => ev.id !== id))

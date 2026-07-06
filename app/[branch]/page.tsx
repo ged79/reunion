@@ -1,5 +1,6 @@
 import { getBranch, getBranchPhotos, getBranchNotices, getBranchEvents } from '@/lib/mockData'
 import NoticePopup from '@/components/NoticePopup'
+import InstallBanner from '@/components/InstallBanner'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -206,6 +207,8 @@ export default async function BranchHomePage({ params }: { params: { branch: str
         </div>
       </section>
 
+      {/* PWA Install Banner */}
+      <InstallBanner color={branch.color} />
 
     </div>
   )

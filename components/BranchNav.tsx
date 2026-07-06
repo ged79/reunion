@@ -16,6 +16,7 @@ export default function BranchNav({ branch }: BranchNavProps) {
 
   useEffect(() => {
     getSessionUser().then(setUser)
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js')
   }, [currentPath])
 
   async function handleLogout() {

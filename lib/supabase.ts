@@ -286,17 +286,16 @@ export async function adminLogin(password: string): Promise<boolean> {
     password,
   })
   if (error || (data.user?.app_metadata?.role as string) !== 'admin') return false
-  if (typeof window !== 'undefined') sessionStorage.setItem('mintong_admin', 'true')
   return true
 }
 
-export function isAdminLoggedIn(): boolean {
-  if (typeof window === 'undefined') return false
-  return sessionStorage.getItem('mintong_admin') === 'true'
+export async function verifyAdmin(): Promise<boolean> {
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) return false
+  return (session.user.app_metadata?.role as string) === 'admin'
 }
 
 export async function adminLogout(): Promise<void> {
-  if (typeof window !== 'undefined') sessionStorage.removeItem('mintong_admin')
   await supabase.auth.signOut()
 }
 

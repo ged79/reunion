@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Image from 'next/image'
 import { getBranch } from '@/lib/mockData'
-import { fetchPhotos, fetchEvents, fetchNotices, uploadPhoto, deletePhoto, type Photo, type Event, type Notice } from '@/lib/supabase'
+import { fetchPhotos, fetchEvents, fetchNotices, uploadPhoto, deletePhoto, verifyAdmin, type Photo, type Event, type Notice } from '@/lib/supabase'
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 const MAX_FILES = 4 // 한 번에 올릴 수 있는 최대 장수
@@ -98,6 +98,7 @@ export default function AdminPhotosPage() {
       showToast('error', '사진을 연결할 글(행사/공지)을 선택해주세요.')
       return
     }
+    if (!(await verifyAdmin())) { showToast('error', '관리자 로그인이 필요합니다.'); return }
     setUploading(true)
 
     let success = 0
@@ -121,6 +122,7 @@ export default function AdminPhotosPage() {
   }
 
   async function handleDelete(photoId: string) {
+    if (!(await verifyAdmin())) { showToast('error', '관리자 로그인이 필요합니다.'); return }
     const ok = await deletePhoto(photoId)
     if (ok) {
       setPhotos((prev) => prev.filter((p) => p.id !== photoId))

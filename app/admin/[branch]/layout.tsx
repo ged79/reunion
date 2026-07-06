@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { usePathname, useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { getBranch } from '@/lib/mockData'
-import { isAdminLoggedIn, adminLogout } from '@/lib/supabase'
+import { verifyAdmin, adminLogout } from '@/lib/supabase'
 
 export default function AdminLayout({
   children,
@@ -19,11 +19,10 @@ export default function AdminLayout({
   const [authChecked, setAuthChecked] = useState(false)
 
   useEffect(() => {
-    if (!isAdminLoggedIn()) {
-      router.replace('/admin/login')
-    } else {
-      setAuthChecked(true)
-    }
+    verifyAdmin().then(ok => {
+      if (!ok) router.replace('/admin/login')
+      else setAuthChecked(true)
+    })
   }, [router])
 
   const branch = getBranch(branchSlug)

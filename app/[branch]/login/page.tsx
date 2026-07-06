@@ -29,12 +29,17 @@ export default function MemberLoginPage() {
     setLoading(true)
     setError('')
 
-    const err = await memberLogin(code)
-    if (err) {
-      setError(err)
+    try {
+      const err = await memberLogin(code)
+      if (err) {
+        setError(err)
+        setLoading(false)
+      } else {
+        router.push(`/${branchSlug}/members`)
+      }
+    } catch {
+      setError('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
       setLoading(false)
-    } else {
-      router.push(`/${branchSlug}/members`)
     }
   }
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { adminLogin, isAdminLoggedIn } from '@/lib/supabase'
+import { adminLogin, verifyAdmin } from '@/lib/supabase'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -12,9 +12,9 @@ export default function AdminLoginPage() {
 
   // 이미 로그인된 상태면 바로 관리자 페이지로
   useEffect(() => {
-    if (isAdminLoggedIn()) {
-      router.replace('/admin/yeongdong')
-    }
+    verifyAdmin().then(ok => {
+      if (ok) router.replace('/admin/yeongdong')
+    })
   }, [router])
 
   async function handleLogin(e: React.FormEvent) {

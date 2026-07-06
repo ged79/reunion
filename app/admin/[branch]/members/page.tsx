@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { getBranch } from '@/lib/mockData'
 import Image from 'next/image'
-import { fetchMembers, createMember, updateMember, deleteMember, uploadMemberPhoto, isAdminLoggedIn, type Member } from '@/lib/supabase'
+import { fetchMembers, createMember, updateMember, deleteMember, uploadMemberPhoto, verifyAdmin, type Member } from '@/lib/supabase'
 import { supabase } from '@/lib/supabase'
 
 // 소속(division): 현재는 청년부만. 향후 민족통일협의회 등으로 확대 예정
@@ -92,7 +92,7 @@ export default function AdminMembersPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!isAdminLoggedIn()) { showToast('error', '관리자 로그인이 필요합니다.'); return }
+    if (!(await verifyAdmin())) { showToast('error', '관리자 로그인이 필요합니다.'); return }
     setSubmitting(true)
     try {
       // 사진 업로드 — 실패하면 저장 진행하지 않고 알림
@@ -156,12 +156,12 @@ export default function AdminMembersPage() {
         }
       }
       cancelForm()
-    } catch { showToast('error', '오류가 발생했습니다.') }
+    } catch (err) { console.error('회원 저장 오류:', err); showToast('error', '오류가 발생했습니다.') }
     setSubmitting(false)
   }
 
   async function handleDelete(id: string) {
-    if (!isAdminLoggedIn()) { showToast('error', '관리자 로그인이 필요합니다.'); return }
+    if (!(await verifyAdmin())) { showToast('error', '관리자 로그인이 필요합니다.'); return }
     const ok = await deleteMember(id)
     if (ok) {
       showToast('success', '회원이 삭제되었습니다.')
