@@ -69,25 +69,28 @@ export default function InstallBanner({ color }: { color: string }) {
               )}
             </div>
           </div>
-          <div className="flex items-center gap-2 flex-shrink-0">
-            {deferredPrompt && (
-              <button
-                onClick={handleInstall}
-                className="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-white text-sm font-semibold transition-colors"
-                style={{ backgroundColor: color }}
+          {/* iOS는 APK 설치 불가 — 안내 문구만 표시하고 버튼 숨김 */}
+          {!isIos && (
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {deferredPrompt && (
+                <button
+                  onClick={handleInstall}
+                  className="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-white text-sm font-semibold transition-colors"
+                  style={{ backgroundColor: color }}
+                >
+                  설치
+                </button>
+              )}
+              <a
+                href="/mintong-yeongdong.apk"
+                download
+                className="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-sm font-semibold border-2 text-center transition-colors hover:opacity-80"
+                style={{ borderColor: color, color }}
               >
-                설치
-              </button>
-            )}
-            <a
-              href="/mintong-yeongdong.apk"
-              download
-              className="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-sm font-semibold border-2 text-center transition-colors hover:opacity-80"
-              style={{ borderColor: color, color }}
-            >
-              APK 다운로드
-            </a>
-          </div>
+                APK 다운로드
+              </a>
+            </div>
+          )}
         </div>
         <button
           onClick={handleDismiss}
