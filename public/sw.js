@@ -1,6 +1,8 @@
-const CACHE = 'mintong-branch-v1';
+// 캐시 버전 — 정책 변경 시 반드시 올릴 것 (구버전 캐시 자동 삭제됨)
+const CACHE = 'mintong-branch-v2';
 
-const SKIP_CACHE = ['/api/', '/admin/login', '/login'];
+// SW가 관여하지 않는 경로 (인증·API·관리자 — 항상 네트워크 직행)
+const NETWORK_ONLY = ['/api/', '/admin'];
 
 self.addEventListener('install', () => self.skipWaiting());
 
@@ -13,22 +15,42 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET') return;
-  const url = new URL(e.request.url);
-  if (SKIP_CACHE.some(p => url.pathname.startsWith(p))) return;
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
 
-  e.respondWith(
-    caches.open(CACHE).then(async cache => {
-      const cached = await cache.match(e.request);
-      const fetchPromise = fetch(e.request).then(res => {
-        if (res.ok) cache.put(e.request, res.clone());
+  // 외부 도메인(Supabase 등)은 관여하지 않음 — 데이터는 항상 최신
+  if (url.origin !== self.location.origin) return;
+  if (NETWORK_ONLY.some(p => url.pathname.startsWith(p))) return;
+
+  // 정적 자산(콘텐츠 해시 포함 파일)만 캐시 우선 — 내용이 바뀌면 파일명도 바뀌므로 안전
+  const isStatic =
+    url.pathname.startsWith('/_next/static/') ||
+    url.pathname.startsWith('/_next/image') ||
+    /\.(png|jpg|jpeg|webp|svg|ico|woff2?|apk)$/.test(url.pathname);
+
+  if (isStatic) {
+    e.respondWith(
+      caches.open(CACHE).then(async cache => {
+        const cached = await cache.match(req);
+        if (cached) return cached;
+        const res = await fetch(req);
+        if (res.ok) cache.put(req, res.clone());
         return res;
-      });
-      if (cached) {
-        fetchPromise.catch(() => {});
-        return cached;
-      }
-      return fetchPromise;
-    })
+      })
+    );
+    return;
+  }
+
+  // 페이지(HTML) 등 나머지: 네트워크 우선 — 온라인이면 항상 최신, 오프라인일 때만 캐시
+  e.respondWith(
+    caches.open(CACHE).then(cache =>
+      fetch(req)
+        .then(res => {
+          if (res.ok) cache.put(req, res.clone());
+          return res;
+        })
+        .catch(async () => (await cache.match(req)) || Response.error())
+    )
   );
 });
