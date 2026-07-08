@@ -49,40 +49,45 @@ export default function InstallBanner({ color }: { color: string }) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
-      <div className="relative rounded-2xl border border-gray-100 bg-white shadow-sm p-5 flex items-center gap-4">
-        <div className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-white text-lg font-black" style={{ backgroundColor: color }}>
-          앱
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="font-bold text-gray-900 text-sm">앱으로 설치하기</p>
-          {isIos ? (
-            <p className="text-xs text-gray-500 mt-0.5">
-              Safari 하단 <b>공유 버튼(↑)</b> → <b>&quot;홈 화면에 추가&quot;</b>를 눌러 설치하세요.
-            </p>
-          ) : (
-            <p className="text-xs text-gray-500 mt-0.5">
-              홈 화면에 추가하면 앱처럼 빠르게 이용할 수 있습니다.
-            </p>
-          )}
-        </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
-          {deferredPrompt && (
-            <button
-              onClick={handleInstall}
-              className="px-4 py-2 rounded-lg text-white text-sm font-semibold transition-colors"
-              style={{ backgroundColor: color }}
+      <div className="relative rounded-2xl border border-gray-100 bg-white shadow-sm p-5">
+        {/* 모바일: 세로 쌓임 / 넓은 화면: 한 줄 */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 pr-6 sm:pr-8">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-white text-lg font-black" style={{ backgroundColor: color }}>
+              앱
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-gray-900 text-sm">앱으로 설치하기</p>
+              {isIos ? (
+                <p className="text-xs text-gray-500 mt-0.5">
+                  Safari 하단 <b>공유 버튼(↑)</b> → <b>&quot;홈 화면에 추가&quot;</b>를 눌러 설치하세요.
+                </p>
+              ) : (
+                <p className="text-xs text-gray-500 mt-0.5">
+                  홈 화면에 추가하면 앱처럼 빠르게 이용할 수 있습니다.
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {deferredPrompt && (
+              <button
+                onClick={handleInstall}
+                className="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-white text-sm font-semibold transition-colors"
+                style={{ backgroundColor: color }}
+              >
+                설치
+              </button>
+            )}
+            <a
+              href="/mintong-yeongdong.apk"
+              download
+              className="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-sm font-semibold border-2 text-center transition-colors hover:opacity-80"
+              style={{ borderColor: color, color }}
             >
-              설치
-            </button>
-          )}
-          <a
-            href="/mintong-yeongdong.apk"
-            download
-            className="px-4 py-2 rounded-lg text-sm font-semibold border-2 transition-colors hover:opacity-80"
-            style={{ borderColor: color, color }}
-          >
-            APK 다운로드
-          </a>
+              APK 다운로드
+            </a>
+          </div>
         </div>
         <button
           onClick={handleDismiss}
