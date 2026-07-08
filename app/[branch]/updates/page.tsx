@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { getBranch } from '@/lib/mockData'
-import { fetchNotices, fetchEvents, type Notice, type Event } from '@/lib/supabase'
+import { fetchNotices, fetchEvents, fetchPhotos, type Notice, type Event, type Photo } from '@/lib/supabase'
 
 type Tab = '전체' | '공지' | '행사'
 
@@ -13,6 +13,63 @@ function formatDate(dateStr: string) {
   })
 }
 
+// 사진 큰 화면 보기 (라이트박스)
+function Lightbox({
+  photos, index, onClose, onIndex,
+}: { photos: Photo[]; index: number; onClose: () => void; onIndex: (i: number) => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowLeft') onIndex((index - 1 + photos.length) % photos.length)
+      if (e.key === 'ArrowRight') onIndex((index + 1) % photos.length)
+    }
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', onKey)
+    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey) }
+  }, [index, photos.length, onClose, onIndex])
+
+  const photo = photos[index]
+  return (
+    <div className="fixed inset-0 bg-black z-[100] flex items-center justify-center p-4" onClick={onClose} style={{ transform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}>
+      <button onClick={onClose} className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center z-10">
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+      {photos.length > 1 && (
+        <>
+          <button onClick={(e) => { e.stopPropagation(); onIndex((index - 1 + photos.length) % photos.length) }} className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center z-10">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <button onClick={(e) => { e.stopPropagation(); onIndex((index + 1) % photos.length) }} className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center z-10">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </button>
+        </>
+      )}
+      <div className="relative max-w-4xl w-full mx-14" onClick={(e) => e.stopPropagation()}>
+        <img src={photo.image_url} alt={photo.caption || '사진'} className="max-w-full max-h-[80vh] mx-auto rounded-xl object-contain shadow-2xl" style={{ transform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }} />
+        {photo.caption && <p className="text-white/80 text-center mt-4 text-sm font-medium">{photo.caption}</p>}
+        <p className="text-white/40 text-center mt-1 text-xs">{index + 1} / {photos.length}</p>
+      </div>
+    </div>
+  )
+}
+
+// 사진 썸네일 펼침 영역 (행사 카드 안에서 공통 사용)
+function PhotoStrip({ photos, onOpen }: { photos: Photo[]; onOpen: (i: number) => void }) {
+  return (
+    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 px-5 pb-5 pt-3 border-t border-gray-100" onClick={(e) => e.stopPropagation()}>
+      {photos.map((p, i) => (
+        <button
+          key={p.id}
+          onClick={() => onOpen(i)}
+          className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 group"
+        >
+          <img src={p.image_url} alt={p.caption || '사진'} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export default function UpdatesPage() {
   const params = useParams()
   const branchSlug = params.branch as string
@@ -20,16 +77,29 @@ export default function UpdatesPage() {
 
   const [allNotices, setAllNotices] = useState<Notice[]>([])
   const [allEvents, setAllEvents] = useState<Event[]>([])
+  const [allPhotos, setAllPhotos] = useState<Photo[]>([])
 
   useEffect(() => {
     fetchNotices().then(setAllNotices)
     fetchEvents().then(setAllEvents)
+    fetchPhotos().then(setAllPhotos)
   }, [])
 
   const today = new Date().toISOString().split('T')[0]
 
   const [activeTab, setActiveTab] = useState<Tab>('전체')
   const [expandedNoticeId, setExpandedNoticeId] = useState<string | null>(null)
+  const [expandedEventId, setExpandedEventId] = useState<string | null>(null)
+  const [lightbox, setLightbox] = useState<{ photos: Photo[]; index: number } | null>(null)
+
+  // 행사별 사진 묶기
+  const photosByEvent = new Map<string, Photo[]>()
+  for (const p of allPhotos) {
+    if (!p.event_id) continue
+    const arr = photosByEvent.get(p.event_id) || []
+    arr.push(p)
+    photosByEvent.set(p.event_id, arr)
+  }
 
   // Unified feed for 전체 tab — mix everything sorted by date desc
   const allItems = [
@@ -44,6 +114,67 @@ export default function UpdatesPage() {
     { key: '공지', count: allNotices.length },
     { key: '행사', count: allEvents.length },
   ]
+
+  // 행사 카드 렌더링 (전체/행사 탭 공용) — variant로 크기 구분
+  function renderEvent(event: Event, variant: 'feed' | 'full') {
+    const photos = photosByEvent.get(event.id) || []
+    const hasPhotos = photos.length > 0
+    const isPast = event.date < today
+    const dim = isPast && !hasPhotos // 사진 있는 지난 행사는 흐리게 하지 않음
+    const expanded = expandedEventId === event.id
+    const d = new Date(event.date)
+    const big = variant === 'full'
+
+    return (
+      <div
+        key={`event-${event.id}`}
+        className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+          dim ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-white border-gray-100 shadow-sm hover:shadow-md'
+        } ${hasPhotos ? 'cursor-pointer' : ''}`}
+        onClick={hasPhotos ? () => setExpandedEventId((p) => (p === event.id ? null : event.id)) : undefined}
+      >
+        <div className={`flex gap-4 ${big ? 'p-6 gap-5' : 'p-5'}`}>
+          <div
+            className={`flex-shrink-0 rounded-xl flex flex-col items-center justify-center ${big ? 'w-16 h-16' : 'w-12 h-12'}`}
+            style={{ backgroundColor: isPast ? (dim ? '#d1d5db' : '#9ca3af') : branch?.color, color: 'white' }}
+          >
+            <span className={`font-black leading-none ${big ? 'text-2xl' : 'text-lg'}`}>{d.getDate()}</span>
+            <span className="text-xs opacity-80 mt-0.5">{d.toLocaleDateString('ko-KR', { month: 'short' })}</span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">행사</span>
+              <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${isPast ? 'bg-gray-200 text-gray-500' : 'text-white'}`} style={!isPast ? { backgroundColor: branch?.color } : {}}>
+                {isPast ? '종료' : '예정'}
+              </span>
+              {hasPhotos && (
+                <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full text-white" style={{ backgroundColor: branch?.color }}>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                  사진 {photos.length}장
+                </span>
+              )}
+            </div>
+            <div className="flex items-start justify-between gap-3">
+              <h3 className={`font-bold leading-snug ${big ? 'text-base' : 'text-sm'} ${isPast && !hasPhotos ? 'text-gray-500' : 'text-gray-900'}`}>{event.title}</h3>
+              {hasPhotos && (
+                <svg className={`w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              )}
+            </div>
+            <p className="text-xs text-gray-400 mt-0.5">
+              {event.location}
+              {big && <> · {d.getFullYear()}년 {d.toLocaleDateString('ko-KR', { month: 'long' })} {d.getDate()}일</>}
+            </p>
+            {big && event.description && <p className="text-sm text-gray-500 mt-1">{event.description}</p>}
+          </div>
+        </div>
+        {expanded && hasPhotos && (
+          <PhotoStrip photos={photos} onOpen={(i) => setLightbox({ photos, index: i })} />
+        )}
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -128,27 +259,7 @@ export default function UpdatesPage() {
                 )
               }
               // 행사 (event)
-              const event = item.data as typeof allEvents[0]
-              const isPast = event.date < today
-              const d = new Date(event.date)
-              return (
-                <div key={`event-${event.id}`} className={`flex gap-4 rounded-2xl border p-5 ${isPast ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-white border-gray-100 shadow-sm hover:shadow-md'}`}>
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl flex flex-col items-center justify-center text-white" style={{ backgroundColor: isPast ? '#d1d5db' : branch?.color }}>
-                    <span className="text-lg font-black leading-none">{d.getDate()}</span>
-                    <span className="text-xs opacity-80">{d.toLocaleDateString('ko-KR', { month: 'short' })}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">행사</span>
-                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${isPast ? 'bg-gray-200 text-gray-500' : 'text-white'}`} style={!isPast ? { backgroundColor: branch?.color } : {}}>
-                        {isPast ? '종료' : '예정'}
-                      </span>
-                    </div>
-                    <h3 className={`font-bold text-sm leading-snug ${isPast ? 'text-gray-500' : 'text-gray-900'}`}>{event.title}</h3>
-                    <p className="text-xs text-gray-400 mt-0.5">{event.location}</p>
-                  </div>
-                </div>
-              )
+              return renderEvent(item.data as Event, 'feed')
             })}
           </div>
         )}
@@ -197,39 +308,19 @@ export default function UpdatesPage() {
           <div className="space-y-4">
             {allEvents.length === 0 ? (
               <div className="text-center py-20 text-gray-400">등록된 행사가 없습니다.</div>
-            ) : allEvents.map((event) => {
-              const isPast = event.date < today
-              const d = new Date(event.date)
-              return (
-                <div key={event.id} className={`flex gap-5 rounded-2xl border p-6 transition-all duration-200 ${isPast ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-white border-gray-100 shadow-sm hover:shadow-md'}`}>
-                  <div className="flex-shrink-0 w-16 h-16 rounded-xl flex flex-col items-center justify-center" style={{ backgroundColor: isPast ? '#e5e7eb' : branch?.color, color: isPast ? '#9ca3af' : 'white' }}>
-                    <span className="text-2xl font-black leading-none">{d.getDate()}</span>
-                    <span className="text-xs opacity-80 mt-0.5">{d.toLocaleDateString('ko-KR', { month: 'short' })}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-3 mb-1">
-                      <h3 className={`font-bold leading-snug text-base ${isPast ? 'text-gray-500' : 'text-gray-900'}`}>{event.title}</h3>
-                      <span className={`flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full ${isPast ? 'bg-gray-200 text-gray-500' : 'text-white'}`} style={!isPast ? { backgroundColor: branch?.color } : {}}>
-                        {isPast ? '종료' : '예정'}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <span>{event.location}</span>
-                      <span className="mx-1 text-gray-300">·</span>
-                      <span>{d.getFullYear()}년 {d.toLocaleDateString('ko-KR', { month: 'long' })} {d.getDate()}일</span>
-                    </div>
-                    {event.description && <p className="text-sm text-gray-500">{event.description}</p>}
-                  </div>
-                </div>
-              )
-            })}
+            ) : allEvents.map((event) => renderEvent(event, 'full'))}
           </div>
         )}
       </div>
+
+      {lightbox && (
+        <Lightbox
+          photos={lightbox.photos}
+          index={lightbox.index}
+          onClose={() => setLightbox(null)}
+          onIndex={(i) => setLightbox((lb) => (lb ? { ...lb, index: i } : lb))}
+        />
+      )}
     </div>
   )
 }

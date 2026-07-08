@@ -157,9 +157,9 @@ export default function PhotosPage() {
       {/* Lightbox */}
       {currentPhoto && lightboxIndex !== null && (
         <div
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
           onClick={closeLightbox}
-          style={{ animation: 'fadeIn 0.2s ease' }}
+          style={{ transform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}
         >
           {/* Close */}
           <button
@@ -203,6 +203,7 @@ export default function PhotosPage() {
               src={currentPhoto.image_url}
               alt={currentPhoto.caption || '사진'}
               className="max-w-full max-h-[80vh] mx-auto rounded-xl object-contain shadow-2xl"
+              style={{ transform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}
             />
             {currentPhoto.caption && (
               <p className="text-white/80 text-center mt-4 text-sm font-medium">
@@ -216,12 +217,6 @@ export default function PhotosPage() {
         </div>
       )}
 
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-      `}</style>
     </div>
   )
 }
