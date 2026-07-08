@@ -59,10 +59,23 @@ export default function PhotosPage() {
       if (e.key === 'ArrowRight') nextPhoto()
     }
     window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
+    // 라이트박스 열림 동안 배경 스크롤 잠금 (모바일 주소창 요동/배경 스크롤 방지)
+    if (lightboxIndex !== null) document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', handleKey)
+      document.body.style.overflow = ''
+    }
   }, [lightboxIndex])
 
   const currentPhoto = lightboxIndex !== null ? visiblePhotos[lightboxIndex] : null
+  // 이전/다음 사진 미리 로드 → 넘길 때 깜빡임 방지
+  const neighborPhotos =
+    lightboxIndex !== null && visiblePhotos.length > 1
+      ? [
+          visiblePhotos[(lightboxIndex - 1 + visiblePhotos.length) % visiblePhotos.length],
+          visiblePhotos[(lightboxIndex + 1) % visiblePhotos.length],
+        ]
+      : []
 
   return (
     <div>
@@ -199,12 +212,23 @@ export default function PhotosPage() {
             className="relative max-w-4xl w-full mx-14"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
+            {/* next/image 최적화 서빙 — 원본(수 MB) 대신 리사이즈본 로드로 모바일 깜빡임 해소 */}
+            <Image
               src={currentPhoto.image_url}
               alt={currentPhoto.caption || '사진'}
-              className="max-w-full max-h-[80vh] mx-auto rounded-xl object-contain shadow-2xl"
-              style={{ transform: 'translateZ(0)', WebkitBackfaceVisibility: 'hidden' }}
+              width={1280}
+              height={960}
+              quality={80}
+              sizes="100vw"
+              priority
+              className="max-w-full max-h-[80vh] w-auto h-auto mx-auto rounded-xl object-contain shadow-2xl"
             />
+            {/* 이웃 사진 프리로드 (숨김) */}
+            <div className="absolute w-0 h-0 overflow-hidden" aria-hidden="true">
+              {neighborPhotos.map((p) => (
+                <Image key={p.id} src={p.image_url} alt="" width={1280} height={960} quality={80} sizes="100vw" loading="eager" />
+              ))}
+            </div>
             {currentPhoto.caption && (
               <p className="text-white/80 text-center mt-4 text-sm font-medium">
                 {currentPhoto.caption}

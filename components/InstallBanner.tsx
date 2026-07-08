@@ -20,14 +20,12 @@ export default function InstallBanner({ color }: { color: string }) {
     const handler = (e: Event) => {
       e.preventDefault()
       setDeferredPrompt(e as BeforeInstallPromptEvent)
-      setDismissed(false)
     }
     window.addEventListener('beforeinstallprompt', handler)
 
-    // iOS는 beforeinstallprompt 미지원 → 수동 안내 표시
-    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent)
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
-    if (isIos && !isStandalone) setDismissed(false)
+    // 미설치 상태면 항상 배너 표시 — APK 다운로드는 beforeinstallprompt와 무관하게 노출
+    // (이미 앱 설치됨/브라우저 조건에 따라 이벤트가 아예 안 오는 경우가 많음)
+    setDismissed(false)
 
     return () => window.removeEventListener('beforeinstallprompt', handler)
   }, [])
