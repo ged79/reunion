@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Noto_Sans_KR } from 'next/font/google'
 import './globals.css'
 
@@ -13,7 +13,6 @@ export const metadata: Metadata = {
   keywords: ['민족통일청년회', '민통', '평화통일', '지회', '통일운동'],
   icons: { icon: '/icon-192.png', apple: '/icon-192.png' },
   manifest: '/manifest.json',
-  themeColor: '#1e40af',
   appleWebApp: { capable: true, statusBarStyle: 'black-translucent' },
   openGraph: {
     title: '민통 지회 사이트',
@@ -21,6 +20,11 @@ export const metadata: Metadata = {
     locale: 'ko_KR',
     type: 'website',
   },
+}
+
+// Next.js 14: themeColor는 metadata가 아닌 viewport export로 분리
+export const viewport: Viewport = {
+  themeColor: '#1e40af',
 }
 
 export default function RootLayout({

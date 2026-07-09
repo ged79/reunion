@@ -1,6 +1,8 @@
 import { getBranch, getBranchPhotos, getBranchNotices, getBranchEvents } from '@/lib/mockData'
 import NoticePopup from '@/components/NoticePopup'
 import InstallBanner from '@/components/InstallBanner'
+import HomeGallery from '@/components/HomeGallery'
+import FeaturedVideo from '@/components/FeaturedVideo'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -23,7 +25,10 @@ export default async function BranchHomePage({ params }: { params: { branch: str
     getBranchNotices(branch.id),
   ])
 
-  const photos = allPhotos.slice(0, 6)
+  // 가장 최근 등록된 영상 1개 — 메인 "최신 영상" 섹션용 (fetchPhotos가 최신순 정렬)
+  const featuredVideo = allPhotos.find((p) => p.media_type === 'video' && p.youtube_id) ?? null
+  // 대표 영상은 아래 갤러리 그리드에서 제외 (같은 화면 중복 방지)
+  const photos = allPhotos.filter((p) => p.id !== featuredVideo?.id).slice(0, 6)
   // fetchEvents가 행사일 내림차순으로 반환 → 가장 최근 행사가 맨 앞
   const recentEvents = allEvents.slice(0, 3)
 
@@ -155,6 +160,15 @@ export default async function BranchHomePage({ params }: { params: { branch: str
         )}
       </section>
 
+      {/* 최신 영상 — 등록된 영상이 있을 때만 표시 */}
+      {featuredVideo && featuredVideo.youtube_id && (
+        <FeaturedVideo
+          youtubeId={featuredVideo.youtube_id}
+          caption={featuredVideo.caption}
+          color={branch.color}
+        />
+      )}
+
       {/* Photo Gallery */}
       <section className="bg-gray-50 py-16">
         <div className="max-w-6xl mx-auto px-4">
@@ -171,39 +185,7 @@ export default async function BranchHomePage({ params }: { params: { branch: str
               더보기 →
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {photos.map((photo) => (
-              <div
-                key={photo.id}
-                className="rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer"
-              >
-                <div className="relative aspect-square bg-gray-200">
-                  <Image
-                    src={photo.image_url}
-                    alt={photo.caption || '사진'}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-                    <svg
-                      className="w-10 h-10 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </div>
-                  {photo.caption && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <p className="text-xs text-white font-medium truncate">{photo.caption}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+          <HomeGallery photos={photos} branchSlug={branch.slug} />
         </div>
       </section>
 

@@ -86,7 +86,7 @@ export default function PhotosPage() {
             <div className="w-1 h-8 rounded-full" style={{ backgroundColor: branch?.color }} />
             <h1 className="text-3xl font-black text-gray-900">사진 갤러리</h1>
           </div>
-          <p className="text-gray-500 ml-4">{branch?.name}의 활동 사진을 확인하세요.</p>
+          <p className="text-gray-500 ml-4">{branch?.name}의 활동 사진과 영상을 확인하세요.</p>
         </div>
       </div>
 
@@ -148,6 +148,16 @@ export default function PhotosPage() {
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 50vw, 33vw"
                   />
+                  {/* 영상 표시: 상시 재생 버튼 오버레이 */}
+                  {photo.media_type === 'video' && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-14 h-14 rounded-full bg-black/55 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
                     <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -213,16 +223,29 @@ export default function PhotosPage() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* next/image 최적화 서빙 — 원본(수 MB) 대신 리사이즈본 로드로 모바일 깜빡임 해소 */}
-            <Image
-              src={currentPhoto.image_url}
-              alt={currentPhoto.caption || '사진'}
-              width={1280}
-              height={960}
-              quality={80}
-              sizes="100vw"
-              priority
-              className="max-w-full max-h-[80vh] w-auto h-auto mx-auto rounded-xl object-contain shadow-2xl"
-            />
+            {currentPhoto.media_type === 'video' && currentPhoto.youtube_id ? (
+              /* 영상: 라이트박스 안에서 유튜브 플레이어로 재생 */
+              <div className="w-full" style={{ aspectRatio: '16 / 9' }}>
+                <iframe
+                  src={`https://www.youtube.com/embed/${currentPhoto.youtube_id}?autoplay=1&rel=0`}
+                  title={currentPhoto.caption || '영상'}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full rounded-xl shadow-2xl border-0"
+                />
+              </div>
+            ) : (
+              <Image
+                src={currentPhoto.image_url}
+                alt={currentPhoto.caption || '사진'}
+                width={1280}
+                height={960}
+                quality={80}
+                sizes="100vw"
+                priority
+                className="max-w-full max-h-[80vh] w-auto h-auto mx-auto rounded-xl object-contain shadow-2xl"
+              />
+            )}
             {/* 이웃 사진 프리로드 (숨김) */}
             <div className="absolute w-0 h-0 overflow-hidden" aria-hidden="true">
               {neighborPhotos.map((p) => (

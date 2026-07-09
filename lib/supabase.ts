@@ -96,6 +96,8 @@ export async function fetchPhotos(): Promise<Photo[]> {
     image_url: (r.image_url as string) ?? '',
     caption: (r.caption as string) || null,
     created_at: (r.created_at as string) ?? '',
+    media_type: (r.media_type as string) === 'video' ? 'video' : 'photo',
+    youtube_id: (r.youtube_id as string) || null,
   }))
 }
 
@@ -188,6 +190,8 @@ export type Photo = {
   image_url: string
   caption: string | null
   created_at: string
+  media_type: 'photo' | 'video'
+  youtube_id: string | null
 }
 
 export type Transaction = {
@@ -507,6 +511,43 @@ export async function uploadMemberPhoto(file: File, _memberName?: string): Promi
     .getPublicUrl(fileName)
 
   return urlData.publicUrl
+}
+
+// ========================================
+// 유튜브 영상 등록 (event_photos에 media_type='video' 행으로 저장)
+// ========================================
+// 지원 형식: youtu.be/ID, youtube.com/watch?v=ID, youtube.com/shorts/ID, youtube.com/embed/ID
+export function extractYoutubeId(url: string): string | null {
+  const trimmed = url.trim()
+  // 주소 없이 11자리 ID만 붙여넣은 경우
+  if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed
+  const patterns = [
+    /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+    /youtube\.com\/watch\?(?:.*&)?v=([a-zA-Z0-9_-]{11})/,
+    /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
+    /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+  ]
+  for (const p of patterns) {
+    const m = trimmed.match(p)
+    if (m) return m[1]
+  }
+  return null
+}
+
+export async function addVideo(youtubeUrl: string, newsId: string, caption?: string): Promise<boolean> {
+  const youtubeId = extractYoutubeId(youtubeUrl)
+  if (!youtubeId) return false
+
+  const { error } = await supabase.from('event_photos').insert({
+    event_id: newsId,
+    // 그리드 표시용 썸네일 — 유튜브 제공 이미지를 그대로 사용 (별도 업로드 불필요)
+    image_url: `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`,
+    caption: caption || null,
+    media_type: 'video',
+    youtube_id: youtubeId,
+  })
+
+  return !error
 }
 
 export async function deletePhoto(id: string): Promise<boolean> {
