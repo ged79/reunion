@@ -120,6 +120,33 @@ export default function UpdatesPage() {
   const [expandedEventId, setExpandedEventId] = useState<string | null>(null)
   const [lightbox, setLightbox] = useState<{ photos: Photo[]; index: number } | null>(null)
 
+  // 메인 페이지 소식 클릭 → 해당 항목으로 바로 이동 (?notice=<id> / ?event=<id>)
+  // useSearchParams는 Suspense 요구가 있어 window.location으로 읽음.
+  // 데이터가 순차 로드돼 레이아웃이 계속 밀리므로, 요소가 생길 때까지 반복 시도 후
+  // 두 번 보정 스크롤하고 종료한다.
+  useEffect(() => {
+    const sp = new URLSearchParams(window.location.search)
+    const noticeId = sp.get('notice')
+    const eventId = sp.get('event')
+    if (!noticeId && !eventId) return
+    if (noticeId) setExpandedNoticeId(noticeId)
+    if (eventId) setExpandedEventId(eventId)
+    const targetId = noticeId ? `notice-${noticeId}` : `event-${eventId}`
+    let hits = 0
+    let tries = 0
+    const timer = setInterval(() => {
+      const el = document.getElementById(targetId)
+      if (el) {
+        // 전역 scroll-behavior:smooth 때문에 기본 스크롤은 렌더 중 애니메이션이 끊겨
+        // 도달하지 못한다 — instant로 즉시 이동
+        el.scrollIntoView({ behavior: 'instant', block: 'center' })
+        hits++
+      }
+      if (hits >= 2 || ++tries > 25) clearInterval(timer)
+    }, 400)
+    return () => clearInterval(timer)
+  }, [allNotices, allEvents])
+
   // 행사별 사진 묶기
   const photosByEvent = new Map<string, Photo[]>()
   for (const p of allPhotos) {
@@ -156,6 +183,7 @@ export default function UpdatesPage() {
     return (
       <div
         key={`event-${event.id}`}
+        id={`event-${event.id}`}
         className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
           dim ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-white border-gray-100 shadow-sm hover:shadow-md'
         } ${hasPhotos ? 'cursor-pointer' : ''}`}
@@ -267,6 +295,7 @@ export default function UpdatesPage() {
                 return (
                   <div
                     key={`notice-${notice.id}`}
+                    id={`notice-${notice.id}`}
                     className={`rounded-2xl border transition-all duration-200 overflow-hidden cursor-pointer ${
                       notice.important ? 'border-red-200 bg-red-50/50 hover:border-red-300' : 'border-gray-100 bg-white hover:border-gray-200 hover:shadow-sm'
                     }`}
@@ -306,6 +335,7 @@ export default function UpdatesPage() {
               const isExpanded = expandedNoticeId === notice.id
               return (
                 <div key={notice.id}
+                  id={`notice-${notice.id}`}
                   className={`rounded-2xl border transition-all duration-200 overflow-hidden cursor-pointer ${
                     notice.important ? 'border-red-200 bg-red-50/50 hover:border-red-300 shadow-sm' : 'border-gray-100 bg-white hover:border-gray-200 hover:shadow-sm'
                   }`}

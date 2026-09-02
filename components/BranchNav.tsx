@@ -16,7 +16,9 @@ export default function BranchNav({ branch }: BranchNavProps) {
 
   useEffect(() => {
     getSessionUser().then(setUser)
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js')
+    // 개발(localhost)에서는 SW 미등록 — dev 서버 청크는 파일명이 고정이라 캐시 우선 정책과 충돌해 옛 코드가 서빙됨
+    if ('serviceWorker' in navigator && location.hostname !== 'localhost')
+      navigator.serviceWorker.register('/sw.js')
   }, [currentPath])
 
   async function handleLogout() {

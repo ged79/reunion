@@ -99,7 +99,7 @@ export default async function BranchHomePage({ params }: { params: { branch: str
           {recentFeed.map((item) => (
             <Link
               key={`${item.type}-${item.id}`}
-              href={`/${branch.slug}/updates`}
+              href={`/${branch.slug}/updates?notice=${item.id}`}
               className={`flex items-center gap-3 px-5 py-4 rounded-2xl border transition-all duration-200 hover:shadow-sm ${
                 item.important
                   ? 'bg-red-50/50 border-red-100 hover:border-red-200'
@@ -127,8 +127,9 @@ export default async function BranchHomePage({ params }: { params: { branch: str
                 const month = d.toLocaleDateString('ko-KR', { month: 'short' })
                 const day = d.getDate()
                 return (
-                  <div
+                  <Link
                     key={event.id}
+                    href={`/${branch.slug}/updates?event=${event.id}`}
                     className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6 flex gap-4"
                   >
                     <div
@@ -153,7 +154,7 @@ export default async function BranchHomePage({ params }: { params: { branch: str
                         <p className="text-xs text-gray-500 mt-1 line-clamp-2">{event.description}</p>
                       )}
                     </div>
-                  </div>
+                  </Link>
                 )
               })}
           </div>
