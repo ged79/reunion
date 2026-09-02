@@ -194,7 +194,10 @@ export default function UpdatesPage() {
               {event.location}
               {big && <> · {d.getFullYear()}년 {d.toLocaleDateString('ko-KR', { month: 'long' })} {d.getDate()}일</>}
             </p>
-            {big && event.description && <p className="text-sm text-gray-500 mt-1">{event.description}</p>}
+            {big && event.description && (
+              // 관리자 입력의 줄바꿈을 그대로 살려 일정표 형태 내용도 읽기 좋게 표시
+              <p className="text-sm text-gray-500 mt-2 leading-relaxed whitespace-pre-line">{event.description.trim()}</p>
+            )}
           </div>
         </div>
         {expanded && hasPhotos && (
