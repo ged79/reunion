@@ -95,6 +95,84 @@ export async function fetchLeaders(): Promise<Member[]> {
   })
 }
 
+// ========================================
+// 방문 기록 (visits 테이블)
+// 기록: 누구나 / 조회: 관리자만 (RLS)
+// ========================================
+export type Visit = {
+  id: string
+  path: string
+  visitor: string | null // 로그인 회원 이름, 비로그인은 null
+  session_id: string | null
+  device: string | null
+  region: string | null // IP 기반 추정 지역 (통신사 기준이라 참고용)
+  created_at: string
+}
+
+// 접속 지역 조회 — Netlify 엣지(/geo)가 IP로 추정. 세션당 1회만 조회해 재사용.
+// 로컬 개발 등 /geo가 없는 환경에서는 null.
+async function getRegion(): Promise<string | null> {
+  try {
+    const cached = sessionStorage.getItem('visit_region')
+    if (cached !== null) return cached || null
+    const res = await fetch('/geo', { cache: 'no-store' })
+    if (!res.ok) throw new Error()
+    const g = await res.json()
+    // "충청북도 영동군" / "서울특별시" 식으로 합침 (영문으로 올 수 있음)
+    const region = [g.subdivision, g.city].filter(Boolean).join(' ') || g.country || ''
+    sessionStorage.setItem('visit_region', region)
+    return region || null
+  } catch {
+    sessionStorage.setItem('visit_region', '')
+    return null
+  }
+}
+
+// 같은 경로 3초 내 중복 기록 방지 (React StrictMode 이중 실행 등)
+let lastVisitKey = ''
+
+export async function recordVisit(path: string): Promise<void> {
+  try {
+    const key = `${path}:${Math.floor(Date.now() / 3000)}`
+    if (key === lastVisitKey) return
+    lastVisitKey = key
+    const { data } = await supabase.auth.getSession()
+    const name = (data.session?.user?.user_metadata?.name as string) || null
+    // 같은 브라우저 세션은 같은 id — "방문자 수"는 세션 단위로 집계
+    let sid = sessionStorage.getItem('visit_session')
+    if (!sid) {
+      sid = Math.random().toString(36).slice(2, 12)
+      sessionStorage.setItem('visit_session', sid)
+    }
+    const device = /Mobi|Android/i.test(navigator.userAgent) ? '모바일' : 'PC'
+    const region = await getRegion()
+    await supabase.from('visits').insert({ path, visitor: name, session_id: sid, device, region })
+  } catch {
+    // 방문 집계 실패는 사용자 경험에 영향 주지 않도록 무시
+  }
+}
+
+export async function fetchVisits(sinceDays = 30): Promise<Visit[]> {
+  const since = new Date(Date.now() - sinceDays * 86400000).toISOString()
+  const { data, error } = await supabase
+    .from('visits')
+    .select('*')
+    .gte('created_at', since)
+    .order('created_at', { ascending: false })
+    .limit(3000)
+
+  if (error || !data) return []
+  return data.map((r: Record<string, unknown>): Visit => ({
+    id: String(r.id),
+    path: (r.path as string) ?? '',
+    visitor: (r.visitor as string) || null,
+    session_id: (r.session_id as string) || null,
+    device: (r.device as string) || null,
+    region: (r.region as string) || null,
+    created_at: (r.created_at as string) ?? '',
+  }))
+}
+
 // news 테이블 → Notice 변환
 // event_date 있는 글 = 행사(fetchEvents 담당) → 공지에서 제외해 중복 방지
 export async function fetchNotices(): Promise<Notice[]> {

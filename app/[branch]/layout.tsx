@@ -1,5 +1,6 @@
 import { getBranch } from '@/lib/mockData'
 import BranchNav from '@/components/BranchNav'
+import VisitTracker from '@/components/VisitTracker'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -30,6 +31,7 @@ export default async function BranchLayout({
 
   return (
     <div className="min-h-screen flex flex-col">
+      <VisitTracker />
       <BranchNav branch={branch} />
       <main className="flex-1">{children}</main>
       <footer className="bg-gray-900 text-gray-300 mt-16">
