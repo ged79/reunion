@@ -11,10 +11,17 @@ import { supabase } from '@/lib/supabase'
 const DIVISIONS = ['청년부']
 const INDUSTRIES = ['건설/건축', '전기/전자', '서비스업', '금융/보험', 'IT/정보통신', '농업', '기타']
 
+// 회원 구분 (DB member_type): youth=청년회원, council=협의회원
+const MEMBER_TYPES = [
+  { value: 'youth', label: '청년회원' },
+  { value: 'council', label: '협의회원' },
+] as const
+
 const emptyForm = {
   name: '',
   role: '회원',
   category: '청년부',
+  member_type: 'youth' as 'youth' | 'council',
   company: '',
   position: '',
   industry: '',
@@ -43,6 +50,7 @@ export default function AdminMembersPage() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
   const [filterCategory, setFilterCategory] = useState('전체')
+  const [filterType, setFilterType] = useState<'전체' | 'youth' | 'council'>('전체')
   const [query, setQuery] = useState('')
   const [photoFile, setPhotoFile] = useState<File | null>(null)
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
@@ -62,6 +70,7 @@ export default function AdminMembersPage() {
       name: member.name,
       role: member.role,
       category: member.category,
+      member_type: member.member_type,
       company: member.company || '',
       position: member.position || '',
       industry: member.industry || '',
@@ -111,6 +120,7 @@ export default function AdminMembersPage() {
           name: form.name,
           role: form.role,
           category: form.category,
+          member_type: form.member_type,
           company: form.company || null,
           position: form.position || null,
           industry: form.industry || null,
@@ -135,6 +145,7 @@ export default function AdminMembersPage() {
           name: form.name,
           role: form.role,
           category: form.category,
+          member_type: form.member_type,
           company: form.company || null,
           position: form.position || null,
           industry: form.industry || null,
@@ -183,6 +194,7 @@ export default function AdminMembersPage() {
   )
   const q = query.trim().toLowerCase()
   const filtered = members.filter((m) => {
+    if (filterType !== '전체' && m.member_type !== filterType) return false
     if (filterCategory !== '전체' && m.category !== filterCategory) return false
     if (!q) return true
     return [m.name, m.company, m.position, m.industry, m.category, m.phone]
@@ -239,6 +251,13 @@ export default function AdminMembersPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">역할</label>
                 <input type="text" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}
                   placeholder="회원, 지회장, 부회장 등" className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">회원 구분</label>
+                <select value={form.member_type} onChange={(e) => setForm({ ...form, member_type: e.target.value as 'youth' | 'council' })}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                  {MEMBER_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">소속</label>
@@ -339,8 +358,20 @@ export default function AdminMembersPage() {
         )}
       </div>
 
-      {/* 직업군 필터 드롭다운 */}
-      <div className="mb-4">
+      {/* 구분·직업군 필터 드롭다운 */}
+      <div className="mb-4 flex flex-col sm:flex-row gap-2">
+        <select
+          value={filterType}
+          onChange={(e) => setFilterType(e.target.value as '전체' | 'youth' | 'council')}
+          className="w-full sm:w-auto sm:min-w-[180px] px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="전체">전체 구분 ({members.length}명)</option>
+          {MEMBER_TYPES.map((t) => (
+            <option key={t.value} value={t.value}>
+              {t.label} ({members.filter((m) => m.member_type === t.value).length}명)
+            </option>
+          ))}
+        </select>
         <select
           value={filterCategory}
           onChange={(e) => setFilterCategory(e.target.value)}
@@ -382,6 +413,11 @@ export default function AdminMembersPage() {
                       <span className="font-medium text-gray-900 text-sm">{member.name}</span>
                       <span className="text-xs font-medium px-2 py-0.5 rounded-full text-white" style={{ backgroundColor: branchColor }}>
                         {member.role}
+                      </span>
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                        member.member_type === 'council' ? 'bg-amber-100 text-amber-700' : 'bg-blue-50 text-blue-600'
+                      }`}>
+                        {member.member_type === 'council' ? '협의회원' : '청년회원'}
                       </span>
                     </div>
                     <p className="text-xs text-gray-400 truncate">

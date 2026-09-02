@@ -28,11 +28,14 @@ const CATEGORY_LABELS: Record<string, string> = {
 // DB에 branch 개념이 없으므로 전체 데이터를 가져옴
 // ========================================
 
-export async function fetchMembers(): Promise<Member[]> {
-  const { data, error } = await supabase
+// type 지정 시 해당 구분(youth=청년회원, council=협의회원)만 조회, 미지정 시 전체
+export async function fetchMembers(type?: MemberType): Promise<Member[]> {
+  let query = supabase
     .from('members')
     .select('*')
     .order('sort_order', { ascending: true })
+  if (type) query = query.eq('member_type', type)
+  const { data, error } = await query
 
   if (error || !data) return []
 
@@ -53,7 +56,41 @@ export async function fetchMembers(): Promise<Member[]> {
       birth_year: birthDigits ? Number(birthDigits) : null,
       address: (r.address as string) || null,
       phone: (r.phone as string) || null,
-      photo_url: img ? (img.startsWith('http') ? img : `https://mintong.netlify.app/${img}`) : null,
+      // 상대 경로 사진(assets/...)은 public/ 에서 서빙 — 로컬·배포 어디서든 동작
+      photo_url: img ? (img.startsWith('http') ? img : `/${img}`) : null,
+      member_type: (r.member_type as string) === 'council' ? 'council' : 'youth',
+    }
+  })
+}
+
+// 단체소개(공개 페이지)용 임원 조회 — members는 로그인 전용(RLS)이라
+// 민감정보를 뺀 public_leaders 뷰를 익명으로 읽는다 (지도부 + 협의회장)
+export async function fetchLeaders(): Promise<Member[]> {
+  const { data, error } = await supabase
+    .from('public_leaders')
+    .select('*')
+    .order('sort_order', { ascending: true })
+
+  if (error || !data) return []
+
+  return data.map((r: Record<string, unknown>): Member => {
+    const img = (r.image_url as string) || ''
+    const cat = (r.category as string) || ''
+    return {
+      id: String(r.id),
+      branch_id: 'branch-yeongdong',
+      name: (r.name as string) ?? '',
+      role: (r.role as string) || '회원',
+      category: CATEGORY_LABELS[cat] || cat || '기타',
+      company: (r.company as string) || null,
+      position: (r.position as string) || null,
+      industry: null,
+      title: (r.title as string) || null,
+      birth_year: null,
+      address: null,
+      phone: null,
+      photo_url: img ? (img.startsWith('http') ? img : `/${img}`) : null,
+      member_type: (r.member_type as string) === 'council' ? 'council' : 'youth',
     }
   })
 }
@@ -215,6 +252,9 @@ export type Event = {
   created_at: string
 }
 
+// 회원 구분: 청년회원(기본) / 협의회원
+export type MemberType = 'youth' | 'council'
+
 export type Member = {
   id: string
   branch_id: string
@@ -229,6 +269,7 @@ export type Member = {
   address: string | null
   phone: string | null
   photo_url: string | null
+  member_type: MemberType
 }
 
 // ========================================
@@ -342,6 +383,7 @@ export async function createMember(member: Omit<Member, 'id' | 'branch_id'>): Pr
       category: CATEGORY_SLUGS[member.category] || 'service',
       image_url: null,
       sort_order: nextOrder,
+      member_type: member.member_type || 'youth',
     })
     .select()
     .single()
@@ -364,6 +406,7 @@ export async function updateMember(id: string, member: Partial<Member>): Promise
   if (member.birth_year !== undefined) updateData.birth = member.birth_year ? String(member.birth_year) : null
   if (member.address !== undefined) updateData.address = member.address
   if (member.category !== undefined) updateData.category = CATEGORY_SLUGS[member.category] || member.category
+  if (member.member_type !== undefined) updateData.member_type = member.member_type
 
   const { error } = await supabase
     .from('members')

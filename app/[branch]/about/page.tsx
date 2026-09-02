@@ -1,4 +1,5 @@
-import { getBranch, getBranchMembers } from '@/lib/mockData'
+import { getBranch } from '@/lib/mockData'
+import { fetchLeaders } from '@/lib/supabase'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -82,8 +83,14 @@ export default async function AboutPage({ params }: { params: { branch: string }
   const branch = getBranch(params.branch)
   if (!branch) notFound()
 
-  const members = await getBranchMembers(branch.id)
-  const leaders = members.filter((m) => m.category === '지도부')
+  // 임원 소개: 공개용 뷰(협의회장 + 청년회 지도부)에서 조회, 협의회장 → 청년회장 → 총무 순
+  const ROLE_ORDER = ['협의회장', '청년회장', '총무']
+  const leaders = (await fetchLeaders())
+    .sort((a, b) => {
+      const ia = ROLE_ORDER.indexOf(a.role)
+      const ib = ROLE_ORDER.indexOf(b.role)
+      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib)
+    })
 
   return (
     <div>
@@ -118,7 +125,7 @@ export default async function AboutPage({ params }: { params: { branch: string }
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4 text-gray-700 leading-relaxed">
             <p>
-              민족통일청년회는 <strong>1981년 창설</strong>된 초당적·범국민적 조직으로,
+              민족통일협의회는 <strong>1981년 창설</strong>된 초당적·범국민적 조직으로,
               평화통일을 향한 국민적 열망을 모아 실천적 통일 운동을 펼쳐 왔습니다.
             </p>
             <p>
@@ -126,14 +133,18 @@ export default async function AboutPage({ params }: { params: { branch: string }
               지역사회에 전달하고 통일 기반 조성을 위한 다양한 사업을 추진합니다.
             </p>
             <p>
-              {branch.name}은 충청북도 {branch.region}을 중심으로 지역민과 함께
-              통일의 꿈을 키워 나가고 있습니다.
+              {branch.name}은 <strong>2022년 창설</strong>되어 초기 회장 김종원,
+              초기 총무 임진석을 중심으로 조직의 기틀을 다졌으며,{' '}
+              {branch.region}을 중심으로 지역민과 함께 통일의 꿈을 키워 나가고 있습니다.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-4">
             {[
-              { label: '창설연도', value: '1981년' },
-              { label: '전국회원', value: '10만여 명' },
+              { label: '중앙회 창설', value: '1981년' },
+              { label: '영동군 청년회 지회 창설', value: '2022년' },
+              { label: '영동군 청년회 초기 회장', value: '김종원' },
+              { label: '영동군 청년회 초기 총무', value: '임진석' },
+              { label: '영동군 청년회원', value: '28명' },
               { label: '전국조직', value: '230개 시군구' },
             ].map((stat) => (
               <div
@@ -152,38 +163,10 @@ export default async function AboutPage({ params }: { params: { branch: string }
         </div>
       </section>
 
-      {/* 3. 주요 사업 */}
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-1 h-7 rounded-full" style={{ backgroundColor: branch.color }} />
-            <h2 className="text-2xl font-bold text-gray-900">주요 사업</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {businessAreas.map((area) => (
-              <div
-                key={area.title}
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col items-start gap-3 hover:shadow-md transition-shadow"
-              >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center"
-                  style={{ backgroundColor: `${branch.color}15`, color: branch.color }}
-                >
-                  {area.icon}
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 text-sm mb-1">{area.title}</h3>
-                  <p className="text-xs text-gray-500 leading-relaxed">{area.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. 지회 임원 */}
+      {/* 3. 지회 임원 — 사람이 먼저 보이도록 주요 사업 위에 배치 */}
       {leaders.length > 0 && (
-        <section className="max-w-5xl mx-auto px-4 py-16">
+        <section className="bg-gray-50 py-16">
+          <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-1 h-7 rounded-full" style={{ backgroundColor: branch.color }} />
             <h2 className="text-2xl font-bold text-gray-900">지회 임원</h2>
@@ -217,8 +200,36 @@ export default async function AboutPage({ params }: { params: { branch: string }
               )
             })}
           </div>
+          </div>
         </section>
       )}
+
+      {/* 4. 주요 사업 */}
+      <section className="max-w-5xl mx-auto px-4 py-16">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-1 h-7 rounded-full" style={{ backgroundColor: branch.color }} />
+          <h2 className="text-2xl font-bold text-gray-900">주요 사업</h2>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {businessAreas.map((area) => (
+            <div
+              key={area.title}
+              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col items-start gap-3 hover:shadow-md transition-shadow"
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center"
+                style={{ backgroundColor: `${branch.color}15`, color: branch.color }}
+              >
+                {area.icon}
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-900 text-sm mb-1">{area.title}</h3>
+                <p className="text-xs text-gray-500 leading-relaxed">{area.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* 5. CTA */}
       <section className="py-16">

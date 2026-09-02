@@ -29,7 +29,8 @@ export default function BranchNav({ branch }: BranchNavProps) {
   const navLinks = [
     { href: `/${branch.slug}`, label: '홈' },
     { href: `/${branch.slug}/about`, label: '단체소개' },
-    { href: `/${branch.slug}/members`, label: '회원' },
+    { href: `/${branch.slug}/members`, label: '청년회원' },
+    { href: `/${branch.slug}/council`, label: '협의회원' },
     { href: `/${branch.slug}/photos`, label: '갤러리' },
     { href: `/${branch.slug}/updates`, label: '소식' },
     { href: `/${branch.slug}/contact`, label: '연락처' },

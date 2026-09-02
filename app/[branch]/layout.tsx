@@ -45,7 +45,8 @@ export default async function BranchLayout({
             <div>
               <h4 className="font-semibold text-white text-sm mb-3">바로가기</h4>
               <ul className="space-y-1 text-sm">
-                <li><Link href={`/${branch.slug}/members`} className="hover:text-white transition-colors">회원</Link></li>
+                <li><Link href={`/${branch.slug}/members`} className="hover:text-white transition-colors">청년회원</Link></li>
+                <li><Link href={`/${branch.slug}/council`} className="hover:text-white transition-colors">협의회원</Link></li>
                 <li><Link href={`/${branch.slug}/photos`} className="hover:text-white transition-colors">갤러리</Link></li>
                 <li><Link href={`/${branch.slug}/updates`} className="hover:text-white transition-colors">소식</Link></li>
               </ul>
