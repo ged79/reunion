@@ -82,6 +82,18 @@ export default function AdminVisitorsPage() {
       .sort((a, b) => b[1] - a[1])
       .slice(0, 8)
 
+    // 유입 경로별 방문자 수 (세션 단위, 30일)
+    const byReferrer = new Map<string, Set<string>>()
+    for (const v of visits) {
+      const key = v.referrer || '기록 전'
+      if (!byReferrer.has(key)) byReferrer.set(key, new Set())
+      byReferrer.get(key)!.add(v.session_id || v.id)
+    }
+    const topReferrers = Array.from(byReferrer.entries())
+      .map(([label, set]): [string, number] => [label, set.size])
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8)
+
     return {
       todayVisitors: uniq(today),
       todayViews: today.length,
@@ -91,6 +103,7 @@ export default function AdminVisitorsPage() {
       topPages,
       topMembers,
       topRegions,
+      topReferrers,
     }
   }, [visits])
 
@@ -162,6 +175,30 @@ export default function AdminVisitorsPage() {
                         />
                       </div>
                       <span className="text-xs font-bold text-gray-500 w-10 text-right">{count}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* 유입 경로별 방문자 */}
+            <div className="bg-white rounded-xl border border-gray-100 p-5">
+              <h2 className="font-semibold text-gray-900 mb-1">유입 경로 (30일)</h2>
+              <p className="text-xs text-gray-400 mb-3">세션 첫 진입 기준 — 카카오톡 공유, 검색 등</p>
+              {stats.topReferrers.length === 0 ? (
+                <p className="text-sm text-gray-400 py-6 text-center">기록이 없습니다.</p>
+              ) : (
+                <div className="space-y-2">
+                  {stats.topReferrers.map(([label, count]) => (
+                    <div key={label} className="flex items-center gap-3">
+                      <span className="text-sm text-gray-700 flex-1 truncate">{label}</span>
+                      <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden flex-shrink-0">
+                        <div
+                          className="h-full rounded-full"
+                          style={{ width: `${(count / stats.topReferrers[0][1]) * 100}%`, backgroundColor: branchColor, opacity: 0.8 }}
+                        />
+                      </div>
+                      <span className="text-xs font-bold text-gray-500 w-10 text-right flex-shrink-0">{count}명</span>
                     </div>
                   ))}
                 </div>

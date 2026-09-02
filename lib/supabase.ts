@@ -106,7 +106,52 @@ export type Visit = {
   session_id: string | null
   device: string | null
   region: string | null // IP 기반 추정 지역 (통신사 기준이라 참고용)
+  referrer: string | null // 유입 경로 (세션 첫 진입 기준: 카카오톡/네이버/직접 방문 등)
   created_at: string
+}
+
+// 단말기 상세: OS + 브라우저 (기기 모델명까지는 브라우저가 제공하지 않음)
+function detectDevice(): string {
+  const ua = navigator.userAgent
+  const os = /iPhone/.test(ua) ? '아이폰'
+    : /iPad/.test(ua) ? '아이패드'
+    : /Android/.test(ua) ? '안드로이드'
+    : /Mobi/.test(ua) ? '모바일'
+    : 'PC'
+  const browser = /KAKAOTALK/i.test(ua) ? '카카오톡'
+    : /NAVER/i.test(ua) ? '네이버앱'
+    : /SamsungBrowser/i.test(ua) ? '삼성브라우저'
+    : /Edg\//.test(ua) ? '엣지'
+    : /Whale/i.test(ua) ? '웨일'
+    : /Chrome|CriOS/.test(ua) ? '크롬'
+    : /Safari/.test(ua) ? '사파리'
+    : '기타'
+  return `${os}·${browser}`
+}
+
+// 유입 경로: 세션 첫 진입의 외부 referrer를 분류해 세션 내내 재사용
+function detectReferrer(): string {
+  const cached = sessionStorage.getItem('visit_referrer')
+  if (cached) return cached
+  let label = '직접 방문'
+  try {
+    const ref = document.referrer
+    if (ref) {
+      const host = new URL(ref).hostname
+      if (host !== location.hostname) {
+        label = /kakao/i.test(host) ? '카카오톡'
+          : /naver/i.test(host) ? '네이버'
+          : /google/i.test(host) ? '구글'
+          : /daum/i.test(host) ? '다음'
+          : /instagram/i.test(host) ? '인스타그램'
+          : /facebook|fb\./i.test(host) ? '페이스북'
+          : /youtube/i.test(host) ? '유튜브'
+          : host
+      }
+    }
+  } catch { /* referrer 파싱 실패 시 직접 방문 처리 */ }
+  sessionStorage.setItem('visit_referrer', label)
+  return label
 }
 
 // 접속 지역 조회 — Netlify 엣지(/geo)가 IP로 추정. 세션당 1회만 조회해 재사용.
@@ -144,9 +189,10 @@ export async function recordVisit(path: string): Promise<void> {
       sid = Math.random().toString(36).slice(2, 12)
       sessionStorage.setItem('visit_session', sid)
     }
-    const device = /Mobi|Android/i.test(navigator.userAgent) ? '모바일' : 'PC'
+    const device = detectDevice()
+    const referrer = detectReferrer()
     const region = await getRegion()
-    await supabase.from('visits').insert({ path, visitor: name, session_id: sid, device, region })
+    await supabase.from('visits').insert({ path, visitor: name, session_id: sid, device, region, referrer })
   } catch {
     // 방문 집계 실패는 사용자 경험에 영향 주지 않도록 무시
   }
@@ -169,6 +215,7 @@ export async function fetchVisits(sinceDays = 30): Promise<Visit[]> {
     session_id: (r.session_id as string) || null,
     device: (r.device as string) || null,
     region: (r.region as string) || null,
+    referrer: (r.referrer as string) || null,
     created_at: (r.created_at as string) ?? '',
   }))
 }
